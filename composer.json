@@ -1,0 +1,27 @@
+{
+  "name": "mindbox/mindbox",
+  "description": "project mindbox",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "mhmd-bagha",
+      "email": "mabrahimibagha@gmail.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "src\\": "core"
+    },
+    "files": [
+      "core/Model.php",
+      "core/Controller.php",
+      "core/App.php",
+      "core/config.php",
+      "public/jdf/jdf.php",
+      "controller/Response.php"
+    ]
+  }
+}
