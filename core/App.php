@@ -14,6 +14,7 @@ class App_main
             $this->controller = $url[0];
             unset($url[0]);
             if (isset($url[1]))
+                $this->method = $url[1];
                 unset($url[1]);
             $this->params = array_values($url);
         }
@@ -26,7 +27,8 @@ class App_main
                 $arr = array($obj, $this->method);
                 call_user_func_array($arr, $this->params);
             }
-        }
+        } else
+            header('Location: errors/page404/');
     }
 
     function parseUrl($url)
@@ -37,4 +39,3 @@ class App_main
         return $url;
     }
 }
-//?>

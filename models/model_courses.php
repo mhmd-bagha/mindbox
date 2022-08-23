@@ -1,6 +1,6 @@
 <?php
 
-class model_course_details extends Model
+class model_courses extends Model
 {
     public function __construct()
     {

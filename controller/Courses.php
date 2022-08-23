@@ -1,7 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 
-class Course_details extends Controller
+class Courses extends Controller
 {
 
     public function __construct()
@@ -10,6 +10,11 @@ class Course_details extends Controller
     }
 
     public function index()
+    {
+        $this->view('courses/index');
+    }
+
+    public function course_details()
     {
         $this->view('courses/course-details');
     }

@@ -1,22 +1,5 @@
-<!DOCTYPE html>
-<html lang="fa">
+<main>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سبد خرید</title>
-    <!-- css -->
-    <link rel="stylesheet" href="../../public/css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../public/css/styles.css">
-</head>
-
-<body>
-    <!-- header -->
-    <?php
-    require_once("header.php");
-    ?>
     <!-- cart -->
     <div class="container-fluid py-5">
         <div class="container">
@@ -33,7 +16,9 @@
                                 </div>
                                 <div class="col-12 col-sm-5 col-md-6 col-lg-5 col-xl-7 fw-bold">
                                     <p class="fs-6 text-muted text-truncate">عادت های اتمی</p>
-                                    <p class="text-danger"><del>450,000 تومان</del></p>
+                                    <p class="text-danger">
+                                        <del>450,000 تومان</del>
+                                    </p>
                                     <p class="text-blue">150,000 تومان</p>
                                 </div>
                                 <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 text-end align-self-end">
@@ -68,11 +53,13 @@
                             <hr>
                             <div class="text-sm-center text-lg-start">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input shadow-none form-check-input-orange" type="radio" name="flexRadioDefault" checked>
+                                    <input class="form-check-input shadow-none form-check-input-orange" type="radio"
+                                           name="flexRadioDefault" checked>
                                     <label class="form-check-label">درگاه پرداخت آنلاین</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input shadow-none form-check-input-orange" type="radio" name="flexRadioDefault">
+                                    <input class="form-check-input shadow-none form-check-input-orange" type="radio"
+                                           name="flexRadioDefault">
                                     <label class="form-check-label">کیف پول (موجودی: 0 تومان)</label>
                                 </div>
                             </div>
@@ -103,16 +90,4 @@
             </div>
         </div>
     </div>
-    <!-- footer -->
-    <?php
-    require_once("footer.php");
-    ?>
-    <!-- js -->
-    <script src="../../public/js/jquery-3.6.0.min.js"></script>
-    <script src="../../public/js/popper.min.js"></script>
-    <script src="../../public/js/bootstrap.min.js"></script>
-    <!-- fontawesome js -->
-    <script src="../../public/js/fontawesome.js"></script>
-</body>
-
-</html>
+</main>

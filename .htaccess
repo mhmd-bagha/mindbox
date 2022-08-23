@@ -11,5 +11,5 @@ RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
 </IfModule>
 
 # Error Document
-ErrorDocument 404 http://localhost/mindbox?url=error_page_404
-ErrorDocument 500 http://localhost/mindbox?url=error_page_500
+ErrorDocument 404 http://localhost/mindbox/errors/page404
+ErrorDocument 500 http://localhost/mindbox/errors/page500

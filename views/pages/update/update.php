@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="fa">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بروزرسانی</title>
-    <!-- css -->
-    <link rel="stylesheet" href="../../../public/css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../../public/css/styles.css">
-</head>
-
-<body>
+<main>
     <!-- page update -->
     <div class="container-fluid bg-anti-flash-white">
         <div class="row min-vh-100">
@@ -32,12 +18,5 @@
             </div>
         </div>
     </div>
-    <!-- js -->
-    <script src="../../../public/js/jquery-3.6.0.min.js"></script>
-    <script src="../../../public/js/popper.min.js"></script>
-    <script src="../../../public/js/bootstrap.min.js"></script>
-    <!-- fontawesome js -->
-    <script src="../../../public/js/fontawesome.js"></script>
-</body>
 
-</html>
+</main>

@@ -1,3 +1,31 @@
+// search
+$(document).ready(() => {
+    let bg_matte = $(".bg-matte")
+    let search_card = $(".search-card")
+    let modal_search = $("#modal-search")
+    let search_input = $(".search-input")
+
+    $(".modal-close").click(() => {
+        bg_matte.hide()
+        search_card.hide()
+        search_input.removeClass("search-input-focus")
+    })
+    search_input.click(() => {
+        bg_matte.show()
+        search_card.show()
+        search_input.addClass("search-input-focus")
+    })
+    bg_matte.click(() => {
+        bg_matte.hide()
+        search_card.hide()
+        modal_search.hide()
+        search_input.removeClass("search-input-focus")
+    })
+})
+// back to top
+function backTop() {
+    document.documentElement.scrollTop = 0;
+}
 // owl
 $(document).ready(() => {
     $('#slider').owlCarousel({
@@ -117,7 +145,7 @@ $(document).ready(() => {
             }
         },
         icons: {
-            path: "public/Vondor/video-player/icons/"
+            path: "../public/vendor/video-player/icons/"
         }
     })
 })

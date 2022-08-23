@@ -8,12 +8,13 @@ class Controller
 
     function view($view, $header = 'require', $footer = 'require')
     {
+        require 'header_link.php';
         if ($header == 'require')
             require('header.php');
         require('views/' . $view . '.php');
+        require 'footer_script.php';
         if ($footer == 'require')
             require('footer.php');
-        return;
     }
 
 

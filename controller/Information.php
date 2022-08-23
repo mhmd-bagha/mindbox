@@ -14,12 +14,12 @@ class Information extends Controller
         $this->view('information/rules');
     }
 
-    public function contact_us()
+    public function contactUs()
     {
         $this->view('information/contact-us');
     }
 
-    public function about_us()
+    public function aboutUs()
     {
         $this->view('information/about-us');
     }

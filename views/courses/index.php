@@ -1,22 +1,4 @@
-<!DOCTYPE html>
-<html lang="fa">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دوره های آموزشی</title>
-    <!-- css -->
-    <link rel="stylesheet" href="../../public/css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../public/css/styles.css">
-</head>
-
-<body>
-    <!-- header -->
-    <?php
-    require_once("header.php");
-    ?>
+<main>
     <div class="container-fluid py-5">
         <div class="container">
             <h5 class="fw-bold pb-4">دوره های آموزشی مایندباکس</h5>
@@ -34,10 +16,8 @@
                                     <div class="btn-group btn-group-orange">
                                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked>
                                         <label class="shadow-none" for="btnradio1">همه</label>
-
                                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2">
-                                        <label class="shadow-none" for="btnradio2">خریدنی</label>
-
+                                        <label class="shadow-none label-center" for="btnradio2">خریدنی</label>
                                         <input type="radio" class="btn-check" name="btnradio" id="btnradio3">
                                         <label class="shadow-none" for="btnradio3">رایگان</label>
                                     </div>
@@ -64,7 +44,8 @@
                             <div class="card shadow-sm">
                                 <div class="card-body">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input shadow-none form-check-input-orange" type="checkbox">
+                                        <input class="form-check-input shadow-none form-check-input-orange"
+                                               type="checkbox">
                                         <label class="form-check-label">فقط محصولات تخفیف دار</label>
                                     </div>
                                 </div>
@@ -106,7 +87,8 @@
                                     <hr>
                                     <div class="d-flex justify-content-between mb-3">
                                         <span class="text-success">45,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">150,000<i class="fa-solid fa-dollar-sign ms-1"></i></span>
+                                        <span class="text-danger text-decoration-line-through">150,000<i
+                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
                                     </div>
                                     <div class="d-grid">
                                         <a href="" class="btn-blue">جزئیات دوره</a>
@@ -150,7 +132,8 @@
                                     <hr>
                                     <div class="d-flex justify-content-between mb-3">
                                         <span class="text-success">80,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">200,000<i class="fa-solid fa-dollar-sign ms-1"></i></span>
+                                        <span class="text-danger text-decoration-line-through">200,000<i
+                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
                                     </div>
                                     <div class="d-grid">
                                         <a href="" class="btn-blue">جزئیات دوره</a>
@@ -194,7 +177,8 @@
                                     <hr>
                                     <div class="d-flex justify-content-between mb-3">
                                         <span class="text-success">45,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">150,000<i class="fa-solid fa-dollar-sign ms-1"></i></span>
+                                        <span class="text-danger text-decoration-line-through">150,000<i
+                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
                                     </div>
                                     <div class="d-grid">
                                         <a href="" class="btn-blue">جزئیات دوره</a>
@@ -238,7 +222,8 @@
                                     <hr>
                                     <div class="d-flex justify-content-between mb-3">
                                         <span class="text-success">80,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">200,000<i class="fa-solid fa-dollar-sign ms-1"></i></span>
+                                        <span class="text-danger text-decoration-line-through">200,000<i
+                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
                                     </div>
                                     <div class="d-grid">
                                         <a href="" class="btn-blue">جزئیات دوره</a>
@@ -282,7 +267,8 @@
                                     <hr>
                                     <div class="d-flex justify-content-between mb-3">
                                         <span class="text-success">45,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">150,000<i class="fa-solid fa-dollar-sign ms-1"></i></span>
+                                        <span class="text-danger text-decoration-line-through">150,000<i
+                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
                                     </div>
                                     <div class="d-grid">
                                         <a href="" class="btn-blue">جزئیات دوره</a>
@@ -304,16 +290,4 @@
             </div>
         </div>
     </div>
-    <!-- footer -->
-    <?php
-    require_once("footer.php");
-    ?>
-    <!-- js -->
-    <script src="../../public/js/jquery-3.6.0.min.js"></script>
-    <script src="../../public/js/popper.min.js"></script>
-    <script src="../../public/js/bootstrap.min.js"></script>
-    <!-- fontawesome js -->
-    <script src="../../public/js/fontawesome.js"></script>
-</body>
-
-</html>
+</main>
