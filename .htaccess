@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+  <FilesMatch "(^#.*#|\.(core|DB|controller|models)|~)$">
+      Require all denied
+    </FilesMatch>
+</IfModule>
+
+# Error Document
+ErrorDocument 404 http://localhost/mindbox/errors/page404
+ErrorDocument 500 http://localhost/mindbox/errors/page500
