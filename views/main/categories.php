@@ -9,7 +9,7 @@
                 <div class="card bg-transparent border-0">
                     <div class="card-body">
                         <a href="<?php echo DOMAIN ?>/courses/category/<?php echo $category->id ?>">
-                            <img src="public/images/<?php echo $category->category_image ?>" alt="<?php echo $category->category_title ?>" class="img-fluid">
+                            <img data-src="public/images/<?php echo $category->category_image ?>" alt="<?php echo $category->category_title ?>" data-alt="<?php echo $course_offer->course_title ?>" class="img-fluid lozad">
                             <h6 class="fw-bold text-dark text-truncate"><?php echo $category->category_title ?></h6>
                         </a>
                     </div>

@@ -42,4 +42,24 @@ class model_courses extends Model
         $query = $this->Select("SELECT * FROM `course_files` WHERE `course_id` = ? AND `status_show` = ?", [$course_id, $status_show]);
         return ($query) ? $query : false;
     }
+
+    public function get_comments($course_id, $status_show = 'show')
+    {
+        $query = $this->Select("SELECT * FROM `comments` WHERE `reply_id` IS NULL AND `course_id` = ? AND `status_show` = ?", [$course_id, $status_show]);
+        return ($query) ? $query : false;
+    }
+
+    public function get_reply_comment($reply_id)
+    {
+        $status_show = 'show';
+        $query = $this->Select("SELECT * FROM `comments` WHERE `reply_id` = ? AND `status_show` = ?", [$reply_id, $status_show]);
+        return ($query) ? $query : false;
+    }
+
+    public function get_time_all_course($course_id)
+    {
+        $status_show = 'show';
+        $query = $this->Select("SELECT TIME_TO_SEC(course_time) FROM `course_files` WHERE `course_id` = ? AND `status_show` = ?", [$course_id, $status_show], 'fetchAll', PDO::FETCH_ASSOC);
+        return $query;
+    }
 }

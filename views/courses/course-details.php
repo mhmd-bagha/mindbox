@@ -73,13 +73,13 @@
                                 </li>
                                 <li class="pb-3 text-truncate">
                                     <span class="text-muted"><i class="fa-solid fa-clock text-blue me-3"></i>مدت زمان دوره:</span>
-                                    <span>04:24:45</span>
+                                    <span><?php echo($data['get_time_all_course']) ?></span>
                                 </li>
-                                <?php if ($course_details->update_time != null){ ?>
-                                <li class="pb-3 text-truncate">
-                                    <span class="text-muted"><i class="fa-solid fa-calendar-day text-blue me-3"></i>تاریخ آخرین بروزرسانی:</span>
-                                    <span><?php echo $course_details->update_time ?></span>
-                                </li>
+                                <?php if ($course_details->update_time != null) { ?>
+                                    <li class="pb-3 text-truncate">
+                                        <span class="text-muted"><i class="fa-solid fa-calendar-day text-blue me-3"></i>تاریخ آخرین بروزرسانی:</span>
+                                        <span><?php echo $course_details->update_time ?></span>
+                                    </li>
                                 <?php } ?>
                             </ul>
                             <hr>
@@ -157,92 +157,7 @@
                         </div>
                     </div>
                     <?php require 'course_files.php' ?>
-                    <!-- course comments -->
-                    <div class="card rounded-3 border-0 box-shadow">
-                        <div class="card-body content-comments hide-content">
-                            <!-- title -->
-                            <div class="course mb-2">
-                                <span class="right">نظرات کاربران</span>
-                                <a class="btn-orange btn-comment" data-bs-toggle="collapse" href="#form-comment"><i
-                                            class="fa-solid fa-pen-to-square me-2"></i>ثبت دیدگاه</a>
-                                <a class="btn btn-warning text-white btn-comment-icon" data-bs-toggle="collapse"
-                                   href="#form-comment"><i class="fa-solid fa-pen-to-square"></i></a>
-                            </div>
-                            <div class="collapse" id="form-comment">
-                                <!-- form comment -->
-                                <form action="" method="">
-                                    <div class="mb-3">
-                                    <textarea class="form-control" rows="4"
-                                              placeholder="نظر خود را بنویسید..."></textarea>
-                                    </div>
-                                    <div class="text-end">
-                                        <a href="#" class="btn-orange">ثبت</a>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- comment -->
-                            <div class="card bg-light border-0 box-shadow my-5 mx-sm-2 mx-md-4">
-                                <div class="card-body">
-                                    <div class="d-block d-sm-flex justify-content-sm-between align-items-sm-center text-center">
-                                        <p class="text-truncate"><i class="fa-solid fa-user-pen text-blue me-2"></i>محمد
-                                            ابراهیمی</p>
-                                        <p class="text-muted">1401/05/03</p>
-                                        <a class="btn-answer-comment" data-bs-toggle="collapse" href="#form-comment">ثبت
-                                            پاسخ</a>
-                                    </div>
-                                    <hr>
-                                    <span class="text-muted text-justify d-block">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.</span>
-                                    <!-- answer comment -->
-                                    <div class="card bg-light mt-3 ms-sm-2 ms-md-3 ms-lg-5">
-                                        <div class="card-body">
-                                            <div class="d-block d-sm-flex justify-content-sm-between align-items-sm-center text-center">
-                                                <p class="text-truncate"><i
-                                                            class="fa-solid fa-user-pen text-blue me-2"></i>جیمز
-                                                    کلیر (مدرس)</p>
-                                                <p class="text-muted">1401/05/04</p>
-                                            </div>
-                                            <hr>
-                                            <span class="text-muted text-justify d-block">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- comment -->
-                            <div class="card bg-light border-0 box-shadow my-5 mx-sm-2 mx-md-4">
-                                <div class="card-body">
-                                    <div class="d-block d-sm-flex justify-content-sm-between align-items-sm-center text-center">
-                                        <p class="text-truncate"><i class="fa-solid fa-user-pen text-blue me-2"></i>محمد
-                                            ابراهیمی</p>
-                                        <p class="text-muted">1401/05/03</p>
-                                        <a class="btn-answer-comment" data-bs-toggle="collapse" href="#form-comment">ثبت
-                                            پاسخ</a>
-                                    </div>
-                                    <hr>
-                                    <span class="text-muted text-justify d-block">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.</span>
-                                    <!-- answer comment -->
-                                    <div class="card bg-light mt-3 ms-sm-2 ms-md-3 ms-lg-5">
-                                        <div class="card-body">
-                                            <div class="d-block d-sm-flex justify-content-sm-between align-items-sm-center text-center">
-                                                <p class="text-truncate"><i
-                                                            class="fa-solid fa-user-pen text-blue me-2"></i>جیمز
-                                                    کلیر (مدرس)</p>
-                                                <p class="text-muted">1401/05/04</p>
-                                            </div>
-                                            <hr>
-                                            <span class="text-muted text-justify d-block">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- button show more -->
-                            <div class="show-more" id="content-comments">
-                                <button class="btn btn-blue mb-1"
-                                        onclick="ShowMore('content-comments','content-comments')"><i
-                                            class="fa-solid fa-angle-down me-2"></i>نمایش بیشتر
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <?php require 'comment.php' ?>
                 </div>
             </div>
         </div>
