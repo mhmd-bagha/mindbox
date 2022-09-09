@@ -33,6 +33,13 @@ $(document).ready(() => {
 function backTop() {
     document.documentElement.scrollTop = 0;
 }
+//price wallet charging
+function price_wallet(id, input) {
+    id = $("#" + id)
+    input = $("#" + input)
+    let price = id.attr("data-bs-price")
+    input.val(price)
+}
 // owl
 $(document).ready(() => {
     $('#slider').owlCarousel({

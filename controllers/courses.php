@@ -18,10 +18,10 @@ class courses extends Controller
 
     public function course_details($course_id = null)
     {
-        if ($course_id == null) Model::page404();
+        if ($course_id == null) Model::error404();
         $course_id = $this->model->security($course_id);
         $course_details = $this->model->getCourse($course_id);
-        if ($course_details == false) Model::page404();
+        if ($course_details == false) Model::error404();
 
         $course_details_name = $course_details[0]->course_title;
         $this->description = $course_details[0]->course_description;
@@ -36,7 +36,7 @@ class courses extends Controller
         $total_course_time_all = 0;
         foreach ($get_time_all_course as $time_all_course) {
             $total_course_time_all = $time_all_course['TIME_TO_SEC(course_time)'];
-            $total_course_time_all = $total_course_time_all + (int)$total_course_time_all;
+            $total_course_time_all = $total_course_time_all + $total_course_time_all;
         }
         $total_course_time_all = gmdate("H:i:s", $total_course_time_all);
         $data = ['course_details' => $course_details, 'count_course_files' => $count_course_files, 'get_course_file' => $get_course_file, 'get_course_comments' => $get_course_comments, 'get_time_all_course' => $total_course_time_all];
@@ -45,13 +45,18 @@ class courses extends Controller
 
     public function category($id = null)
     {
-        if ($id == null) Model::page404();
+        if ($id == null) Model::error404();
         $id = $this->model->security($id);
         $category = $this->model->category($id);
         $get_category = $this->model->get_category($id)[0];
-        if ($category == false) Model::page404();
+        if ($category == false) Model::error404();
         $this->title = "دوره های دسته بندی {$get_category->category_title}| مایندباکس";
         $data = ['courses' => $category];
         $this->view('courses/index', $data);
+    }
+
+    public function answered_admin($comment_id)
+    {
+        return $this->model->get_answered_admin($comment_id);
     }
 }

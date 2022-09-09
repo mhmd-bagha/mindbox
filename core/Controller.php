@@ -3,6 +3,7 @@
 class Controller
 {
     public $title = 'مایندباکس', $keywords = 'مایندباکس, فروش دوره, دوره انگیزشی, دوره آموزشی, دکتر چشمی, محمد چشمی,Mohammad Cheshmi, Cheshmi, mindbox, training course, Incentive period, Sale course', $description = '', $author = 'mindbox', $robots = 'index, follow';
+    protected $scripts_name, $scripts_path, $links_name, $links_path;
 
     function __construct()
     {
@@ -21,6 +22,17 @@ class Controller
             require('footer.php');
     }
 
+    public function scriptLoad($script_name, $script_path)
+    {
+        $this->scripts_name = $script_name;
+        $this->scripts_path = $script_path;
+    }
+
+    public function linkLoad($link_name, $link_path)
+    {
+        $this->links_name = $link_name;
+        $this->links_path = $link_path;
+    }
 
     function model($modelUrl)
     {

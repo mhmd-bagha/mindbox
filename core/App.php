@@ -28,7 +28,7 @@ class App_main
                 call_user_func_array($arr, $this->params);
             }
         } else
-            Model::page404();
+            Model::error404();
     }
 
     function parseUrl($url)

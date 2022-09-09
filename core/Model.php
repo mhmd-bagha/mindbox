@@ -9,6 +9,8 @@ class Model
     private static $SecretKey = "mindbox";
     private static $SecretIv = "mindbox";
 
+    protected $result;
+
     function __construct()
     {
         $servername = SERVERDB;
@@ -42,7 +44,7 @@ class Model
                 $result = $query->fetch($fetchStyle);
             else
                 $result = $query->rowCount();
-        return $result;
+        return $this->set_get($result);
     }
 
     function Query($sql, $values = [])
@@ -52,6 +54,16 @@ class Model
             $query->bindValue($key + 1, $value);
         $query->execute();
         return ($query) ? true : false;
+    }
+
+    private function set_get($value)
+    {
+        return $this->result = $value;
+    }
+
+    protected function get()
+    {
+        return $this->result;
     }
 
     function thumbnail($file, $pathToSave, $w, $h = '', $crop = false)
@@ -105,7 +117,7 @@ class Model
         $dst = imagecreatetruecolor($newwidth, $newheight);//the new image
         imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);//az function
 
-        imagejpeg($dst, $pathToSave, 95);//pish farz in tabe 75 darsad quality ast
+        imagejpeg($dst, $pathToSave, 95);
 
         return $dst;
 
@@ -135,7 +147,8 @@ class Model
         }
     }
 
-    public static function page404(){
+    public static function error404()
+    {
         self::redirect(DOMAIN . '/errors/page404');
     }
 
@@ -268,7 +281,7 @@ class helper
     public function __construct($webserviceUrl)
     {
         $this->url = $webserviceUrl;
-        $this->api_key = 'F4960daa89D73A33332382fE661E7a18';
+        $this->api_key = '';
     }
 
     public function getPrices($des_city, $price, $weight, $buy_type, $delivery_type)

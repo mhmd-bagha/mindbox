@@ -10,6 +10,18 @@
     <!-- css owl -->
     <link rel="stylesheet" href="<?php echo DOMAIN ?>/public/vendor/owl/owl.carousel.min.css">
     <link rel="stylesheet" href="<?php echo DOMAIN ?>/public/vendor/owl/owl.theme.default.min.css">
+    <?php
+    if (!empty($this->links_name)) {
+        if (file_exists(DOMAIN . "/public/vendor/{$this->links_name}")) {
+            echo "<!--  links load  -->";
+            foreach ($this->links_path as $link_path) {
+                ?>
+                <link rel="stylesheet" href="<?php echo DOMAIN ?>/public/vendor/<?= $link_path ?>">
+                <?php
+            }
+        }
+    }
+    ?>
     <!--  video player  -->
     <link rel="stylesheet" href="<?php echo DOMAIN ?>/public/vendor/video-player/css/video-player.css">
     <link rel="stylesheet" href="<?php echo DOMAIN ?>/public/css/styles.css">

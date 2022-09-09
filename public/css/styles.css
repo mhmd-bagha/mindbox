@@ -12,11 +12,12 @@
     --anti-flash-white: #f3f4f6;
     --blue: #0369a1;
     --dark-cerulean: #0c4a6e;
-    --dark-cerulean: #0c4a6e;
     --yankees-blue: #153248;
     --orange: #f59e0b;
     --yellow: #f1b146;
     --cadet-grey: #85a2ac;
+    --admin-body: #e4e9f7;
+
     /* transition */
     --tran-03: all 0.3s ease;
 }
@@ -43,7 +44,6 @@ a:hover {
 .text-justify {
     text-align: justify;
 }
-
 /* form */
 .border-form input:focus,
 .border-form textarea:focus,
@@ -110,13 +110,11 @@ a:hover {
     border-radius: 6px;
     cursor: pointer;
 }
-
 .btn-transparent:hover {
     background-color: var(--yellow);
     color: var(--white);
     transition: var(--tran-03);
 }
-
 .btn-transparent:focus {
     box-shadow: 0 0 0 3px var(--orange);
     transition: var(--tran-03);
@@ -133,13 +131,11 @@ a:hover {
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
     cursor: pointer;
 }
-
 .btn-white:hover {
     background-color: var(--yellow);
     color: var(--white);
     transition: var(--tran-03);
 }
-
 .btn-white:focus {
     box-shadow: 0 0 0 3px var(--orange);
     transition: var(--tran-03);
@@ -154,13 +150,11 @@ a:hover {
     border-radius: 6px;
     cursor: pointer;
 }
-
 .btn-orange:hover {
     background-color: var(--yellow);
     color: var(--white);
     transition: var(--tran-03);
 }
-
 .btn-orange:focus {
     box-shadow: 0 0 0 3px var(--orange);
     transition: var(--tran-03);
@@ -175,13 +169,11 @@ a:hover {
     border-radius: 6px;
     cursor: pointer;
 }
-
 .btn-blue:hover {
     background-color: var(--dark-cerulean);
     color: var(--white);
     transition: var(--tran-03);
 }
-
 .btn-blue:focus {
     box-shadow: 0 0 0 3px var(--dark-cerulean);
     transition: var(--tran-03);
@@ -195,7 +187,6 @@ a:hover {
 .menu-header a {
     color: var(--cadet-grey);
 }
-
 .menu-header a.active {
     color: var(--white) !important;
 }
@@ -226,7 +217,6 @@ a:hover {
         display: none !important;
     }
 }
-
 @media (min-width: 1200px) {
     .search-input-focus {
         background-color: var(--white) !important;
@@ -278,27 +268,29 @@ a:hover {
 }
 
 .search-results ul li {
-    padding: 5px 20px;
-}
-
-.search-results ul li:hover {
-    background-color: var(--anti-flash-white);
-}
-
-.search-results ul li:hover a {
-    color: var(--dark-cerulean);
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .search-results ul li a {
+    padding: 5px 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
     color: var(--black);
     font-size: 14px;
+    transition: var(--tran-03);
+}
+
+.search-results ul li a:hover {
+    background-color: var(--anti-flash-white);
 }
 
 @media (max-width: 462px) {
     .btn-register {
         display: none !important;
     }
-
     .btn-register-icon {
         display: inline-block !important;
     }
@@ -308,7 +300,6 @@ a:hover {
     .btn-register {
         display: inline-block !important;
     }
-
     .btn-register-icon {
         display: none !important;
     }
@@ -320,17 +311,14 @@ a:hover {
         width: 50% !important;
     }
 }
-
 @media (min-width: 1200px) {
     .w-xl-50 {
         width: 50% !important;
     }
-
     .w-xl-75 {
         width: 75% !important;
     }
 }
-
 @media (min-width: 1400px) {
     .w-xxl-50 {
         width: 50% !important;
@@ -389,7 +377,6 @@ a:hover {
     justify-items: center !important;
     line-height: 40px !important;
 }
-
 .owl-next:hover,
 .owl-prev:hover {
     background-color: var(--dark-cerulean) !important;
@@ -473,16 +460,13 @@ a:hover {
 .course-card:hover {
     box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
-
 .title-course-card {
     font-size: 1rem;
     font-weight: bold;
 }
-
 .title-course-card a {
     color: var(--black);
 }
-
 .user-course-card {
     font-size: 0.8rem;
 }
@@ -503,19 +487,16 @@ a:hover {
 .btn-group-orange {
     color: var(--orange);
 }
-
 .btn-group-orange label {
     padding: 8px 15px;
     border: 1px solid var(--orange);
     border-top-right-radius: 0;
     border-bottom-left-radius: 0;
 }
-
 .btn-group-orange .label-center {
     border-left: 0 !important;
     border-right: 0 !important;
 }
-
 .btn-group-orange label:hover {
     cursor: pointer;
     background-color: var(--orange);
@@ -618,7 +599,6 @@ a:hover {
     .btn-comment {
         display: none !important;
     }
-
     .btn-comment-icon {
         display: inline-block !important;
     }
@@ -628,7 +608,6 @@ a:hover {
     .btn-comment {
         display: inline-block !important;
     }
-
     .btn-comment-icon {
         display: none !important;
     }
@@ -677,4 +656,132 @@ a:hover {
 .text-rule {
     text-align: justify;
     line-height: 1.8rem;
+}
+
+/* my account */
+/* user menu*/
+.user-menu {
+    background-color: var(--yankees-blue);
+    color: var(--cadet-grey);
+    padding: 30px 20px;
+}
+
+.user-menu img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 0 0 10px;
+}
+
+.user-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-menu ul li {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 5px 0 0 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.user-menu .active {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.user-menu ul li a {
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    transition: var(--tran-03);
+}
+
+.user-menu ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.user-menu ul li a .menu-icon {
+    color: var(--white);
+    margin-left: 10px;
+    font-size: 24px;
+    width: 30px;
+    height: 100%;
+    text-align: center;
+}
+
+/* user content */
+.user-content {
+    padding: 30px 20px;
+}
+
+.user-content .overflow-y-auto {
+    overflow-y: auto;
+    height: 530px;
+}
+
+.user-content .overflow-y-scroll {
+    overflow-y: scroll;
+    height: 480px;
+}
+
+/* user dashboard */
+.user-content .icon-dashboard {
+    box-shadow: 0 0 25px rgba(0 0 0 / 20%) !important;
+    margin: 25px 25px 0 25px;
+    border: 0;
+    text-align: center;
+    font-size: 55px;
+    color: var(--white);
+    background-color: var(--yellow);
+}
+
+/* user factors */
+.user-content .factor-details a {
+    color: var(--blue);
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.user-content .factor-details a:hover {
+    color: var(--dark-cerulean);
+}
+
+.user-content .factor-details span {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+/* user & admin ticket */
+.ticket {
+    color: var(--black);
+    font-size: 13px;
+}
+
+.icon-file {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    display: inline-block;
+    line-height: 55px;
+    border-radius: 50%;
+    text-align: center;
+    color: var(--dark-cerulean);
+    background-color: var(--cadet-grey);
+}
+
+.name-file {
+    color: var(--black);
+}
+
+.size-file {
+    font-size: 13px;
+    color: var(--cadet-grey);
 }

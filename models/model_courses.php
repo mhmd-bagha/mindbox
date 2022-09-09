@@ -62,4 +62,11 @@ class model_courses extends Model
         $query = $this->Select("SELECT TIME_TO_SEC(course_time) FROM `course_files` WHERE `course_id` = ? AND `status_show` = ?", [$course_id, $status_show], 'fetchAll', PDO::FETCH_ASSOC);
         return $query;
     }
+
+    public function get_answered_admin($comment_id)
+    {
+        $status_show = 'show';
+        $query = $this->Select("SELECT * FROM `comments ` WHERE `reply_id` = ? AND `status_show` = ?", [$comment_id, $status_show], 'fetch');
+        return $query;
+    }
 }
