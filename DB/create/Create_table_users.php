@@ -1,13 +1,18 @@
 <?php
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+require dirname(dirname(__DIR__)) . '/core/Model.php';
+require dirname(dirname(__DIR__)) . '/core/config.php';
+
 class Create_table_users extends Db
 {
     public $db;
+
     public function __construct()
     {
         $this->db = new Db();
     }
-    public function Create(){
+
+    public function Create()
+    {
         return $this->db->CreateTable('users', [
             "
             id INT(11) AUTO_INCREMENT,
@@ -20,6 +25,7 @@ class Create_table_users extends Db
             user_money VARCHAR(255) DEFAULT 0,
             user_image VARCHAR(500) NULL,
             user_hash VARCHAR(500) NOT NULL,
+            user_agent VARCHAR(1000) NOT NULL,
             ip VARCHAR(255) NOT NULL,
             create_time VARCHAR(50) NOT NULL,
             PRIMARY KEY (id)
@@ -30,7 +36,7 @@ class Create_table_users extends Db
 
 $Create_db = new Create_table_users();
 $Create = $Create_db->Create();
-if ($Create)
+if ($Create == true)
     echo "successful create table";
 else
     echo "can't create table";

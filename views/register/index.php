@@ -42,42 +42,7 @@
                             <input type="password" class="form-control" id="re_password" placeholder="********">
                         </div>
                         <div class="d-grid">
-                            <button type="button" class="btn-orange" id="btn_send_code">ارسال کد تایید</button>
-                        </div>
-                    </form>
-                    <!--  form verify  -->
-                    <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post"
-                          class="border-form" id="form_verify_code">
-                        <div class="justify-content-center align-items-center text-center mb-2">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <a href="#" id="btn_edited_email"><i
-                                            class="fa-solid fa-pen-to-square fs-6 me-3 text-blue"></i></a>
-                                <p class="fs-6 fw-bold m-0">mabrahimibagha@gmail.com</p>
-                            </div>
-                            <p class="fs-6 text-muted m-0">کدی که برای ایمیل شما ارسال شد را وارد کنید</p>
-                        </div>
-                        <div class="mb-3">
-                            <input type="tel" class="form-control" name="verify-code" id="verify-code"
-                                   placeholder="کد تایید"/>
-                        </div>
-                        <div class="mb-3 row justify-content-center align-items-baseline text-center">
-                            <p class="col-12 col-lg-6 fs-6 text-muted">زمان باقیمانده 94 ثانیه</p>
-                            <a href="#" class="col-12 col-lg-6 text-blue" id="again_send_code">ارسال دوباره کد</a>
-                        </div>
-                        <div class="d-grid">
-                            <button type="button" class="btn-orange" id="btn_send_code">تایید</button>
-                        </div>
-                    </form>
-                    <!--  form edit email  -->
-                    <form action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post"
-                          class="border-form" id="form_edit_email">
-                        <div class="mb-3">
-                            <label for="edit_email">ایمیل</label>
-                            <input type="tel" class="form-control" name="edit_email" id="edit_email"
-                                   placeholder="example@example.com"/>
-                        </div>
-                        <div class="d-grid">
-                            <button type="button" class="btn-orange" id="btn_edit_email">ویرایش</button>
+                            <button type="button" class="btn-orange" id="btn_register">ثبت نام</button>
                         </div>
                     </form>
                 </div>
@@ -89,20 +54,11 @@
     </div>
 </main>
 <script>
+    let PATH = "<?php echo DOMAIN ?>"
+    let btn_register = $("#btn_register")
+    let form_register_input = $("#form_register input")
     $(document).ready(() => {
-        let form_verify_code = $("#form_verify_code")
-        let form_register = $("#form_register")
-        let form_edit_email = $("#form_edit_email")
-        let btn_send_code = $("#btn_send_code")
-        let btn_edit_email = $("#btn_edit_email")
-        let btn_edited_email = $("#btn_edited_email")
-
-        form_verify_code.hide()
-        form_edit_email.hide()
-
-
-        btn_send_code.click(() => {
-
+        btn_register.click(() => {
             let first_name = $("#first_name").val().trim()
             let last_name = $("#last_name").val().trim()
             let phone_mobile = $("#phone_mobile").val().trim()
@@ -113,49 +69,44 @@
                 if (validate_email(email)) {
                     if (password === re_password) {
                         if (validate_password(password)) {
-                            form_register.fadeOut(10)
-                            form_verify_code.fadeIn(10)
+                            register(first_name, last_name, phone_mobile, email, password, re_password)
                         } else {
-                            console.log("dos'n god pass")
+                            alert_error('یک رمز عبور قوی بنویسید')
                         }
                     } else {
-                        console.log("pass and re_pass n't equals")
+                        alert_error('رمز عبور و تکرار آن برابر نیست')
                     }
                 } else {
-                    console.log("n't validate email")
+                    alert_error('ایمیل نامعتبر است')
                 }
             } else {
                 if (empty(first_name))
-                    console.log("is empty first_name")
+                    alert_error('لطفا فیلد نام را پر کنید')
                 if (empty(last_name))
-                    console.log("is empty last_name")
+                    alert_error('لطفا فیلد نام خانوادگی را پر کنید')
                 if (empty(phone_mobile))
-                    console.log("is empty phone_mobile")
+                    alert_error('لطفا فیلد شماره همراه را پر کنید')
                 if (empty(email))
-                    console.log("is empty email")
+                    alert_error('لطفا فیلد ایمیل را پر کنید')
                 if (empty(password))
-                    console.log("is empty password")
+                    alert_error('لطفا فیلد رمز عبور را پر کنید')
                 if (empty(re_password))
-                    console.log("is empty re_password")
+                    alert_error('لطفا فیلد تکرار رمز عبور را پر کنید')
             }
         })
-
-        btn_edited_email.click(() => {
-            form_verify_code.fadeOut(10)
-            form_edit_email.fadeIn(10)
-        })
-
-        btn_edit_email.click(() => {
-            form_edit_email.fadeOut(10)
-            form_verify_code.fadeIn(10)
-        })
-
     })
 
     function register(first_name, last_name, phone_mobile, email, password, re_password) {
-        let PATH = "<?php echo DOMAIN ?>"
+        var back_url
+        btn_register.text('در حال بررسی...').prop('disabled', true)
+        form_register_input.prop('disabled', true)
+        <?php if (isset($_GET['back'])){ ?>
+        back_url = "<?= $_GET['back'] ?>";
+        <?php }else{ ?>
+        back_url = "";
+        <?php } ?>
         $.ajax({
-            url: PATH + "/controller/Register.php",
+            url: PATH + "/register/Register",
             type: "POST",
             data: {
                 first_name: first_name,
@@ -163,14 +114,53 @@
                 phone_mobile: phone_mobile,
                 email: email,
                 password: password,
-                re_password: re_password
+                re_password: re_password,
+                btn_user_register: true
             },
             success: (data) => {
-                console.log(data)
+                let obj = JSON.parse(data)
+                let message = obj.data.message
+                let status_code = obj.statusCode
+                switch (status_code) {
+                    case 200:
+                        if (!empty(back_url)) {
+                            window.location.href = back_url
+                        } else {
+                            window.location.href = PATH + '/account/'
+                        }
+                        break;
+                    case 500:
+                        alert_error(message)
+                        btn_register.text('ثبت نام').prop('disabled', false)
+                        form_register_input.prop('disabled', false)
+                        break;
+                }
             },
-            error: (err) => {
-                console.log(err)
+            error: () => {
+                btn_register.text('ثبت نام').prop('disabled', false)
+                form_register_input.prop('disabled', false)
+                alert_error('خطا در برقراری ارتباط با سرور')
             }
         })
     }
+
+
+    // function timer(remaining) {
+    //     let timerOn = true
+    //     let m = Math.floor(remaining / 60);
+    //     let s = remaining % 60;
+    //     m = m < 10 ? '0' + m : m;
+    //     s = s < 10 ? '0' + s : s;
+    //     document.getElementById('remaining_time').innerHTML = ' زمان باقیمانده ' + m + ':' + s;
+    //     remaining -= 1;
+    //     if (remaining >= 0 && timerOn) {
+    //         setTimeout(() => {
+    //             timer(remaining);
+    //         }, 1000)
+    //         return
+    //     }
+    //     if (!timerOn) {
+    //         return;
+    //     }
+    // }
 </script>

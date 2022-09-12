@@ -13,15 +13,12 @@
   },
   "autoload": {
     "psr-4": {
-      "src\\": "core"
+      "App\\": "core",
+      "src\\": "controllers"
     },
     "files": [
-      "core/Model.php",
-      "core/Controller.php",
-      "core/App.php",
-      "core/config.php",
       "public/jdf/jdf.php",
-      "controller/Response.php"
+      "controllers/Response.php"
     ]
   }
 }

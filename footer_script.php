@@ -1,15 +1,27 @@
-<!-- js -->
+<!-- bootstrap js -->
 <script src="<?php echo DOMAIN ?>/public/js/popper.min.js"></script>
 <script src="<?php echo DOMAIN ?>/public/js/bootstrap.min.js"></script>
-<!--js owl -->
-<script src="<?php echo DOMAIN ?>/public/vendor/owl/owl.carousel.min.js"></script>
 <!-- fontawesome js -->
 <script src="<?php echo DOMAIN ?>/public/js/fontawesome.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
-<script src="<?php echo DOMAIN ?>/public/vendor/video-player/js/video-player.js"></script>
-<!-- script -->
-<script src="<?php echo DOMAIN ?>/public/js/app.js"></script>
-<!-- purecounter -->
+<!-- sweetalert2 -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- lazy load  -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+<?php
+if (!empty($this->scripts_path))
+    foreach ($this->scripts_path as $script_path) {
+        if (!empty($link_path)) {
+            if (file_exists("public/{$script_path}")) {
+                echo "<!-- " . explode('/', $script_path)[0] . " -->";
+                ?>
+                <script src="<?php echo DOMAIN ?>/public/vendor/<?= $script_path ?>"></script>
+                <?php
+            }
+        }
+    }
+?>
+<!-- script ui -->
+<script src="<?php echo DOMAIN ?>/public/js/ui.js"></script>
 <script>
     new PureCounter();
 </script>

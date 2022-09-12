@@ -8,6 +8,9 @@ class Model
     private static $SecretHash = 'mindbox';
     private static $SecretKey = "mindbox";
     private static $SecretIv = "mindbox";
+    protected $table;
+
+    public $result;
 
     function __construct()
     {
@@ -16,21 +19,21 @@ class Model
         $password = PASSWORDDB;
         $dbname = DBNAMEDB;
         $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
-        try {
-            self::$conn = new PDO('mysql:host=' . $servername . ';dbname=' . $dbname, $username, $password, $options);
-            self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return self::$conn;
-        } catch (PDOException $err) {
-            PhpError($err->getCode(), $err->getMessage(), $err->getFile(), $err->getLine());
-        }
+//        try {
+//            self::$conn = new PDO('mysql:host=' . $servername . ';dbname=' . $dbname, $username, $password, $options);
+//            self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//            return self::$conn;
+//        } catch (PDOException $err) {
+//            PhpError($err->getCode(), $err->getMessage(), $err->getFile(), $err->getLine());
+//        }
     }
 
     function Select($sql, $values = [], $fetch = 'fetchAll', $fetchStyle = PDO::FETCH_OBJ, $rowCount = false)
     {
-
         $query = self::$conn->prepare($sql);
-        foreach ($values as $key => $value)
-            $query->bindValue($key + 1, $value);
+        if ($values != null)
+            foreach ($values as $key => $value)
+                $query->bindValue($key + 1, $value);
         $query->execute();
         if ($fetch == 'fetchAll')
             if ($rowCount != true)
@@ -43,6 +46,33 @@ class Model
             else
                 $result = $query->rowCount();
         return $result;
+    }
+
+    function SelectAll($table)
+    {
+        $sql = "SELECT * FROM `{$table}`";
+        $query = self::$conn->prepare($sql);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    function where($table, $key, $value)
+    {
+        $sql = "SELECT * FROM `{$table}` WHERE `{$key}` = ?";
+        $query = self::$conn->prepare($sql);
+        $query->bindValue(1, $value);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function find($key, $value)
+    {
+        return self::where($this->table, $key, $value);
+    }
+
+    public function all()
+    {
+        return self::SelectAll($this->table);
     }
 
     function Query($sql, $values = [])
@@ -105,7 +135,7 @@ class Model
         $dst = imagecreatetruecolor($newwidth, $newheight);//the new image
         imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);//az function
 
-        imagejpeg($dst, $pathToSave, 95);//pish farz in tabe 75 darsad quality ast
+        imagejpeg($dst, $pathToSave, 95);
 
         return $dst;
 
@@ -123,16 +153,37 @@ class Model
 
     public static function redirect($URI, $back = null)
     {
+        $URI = DOMAIN . '/' . $URI;
         if ($back === null) {
             @header("Location: " . $URI);
             echo "<meta http-equiv='refresh' content='0; url={$URI}' />";
             echo "<script>window.location.href = '{$URI}';</script>";
         } else {
-            $UrIBack = $URI . '?' . $back;
+            $UrIBack = DOMAIN . '/' . $back;
             @header("Location: " . $UrIBack);
             echo "<meta http-equiv='refresh' content='0; url={$UrIBack}' />";
             echo "<script>window.location.href = '{$UrIBack}';</script>";
         }
+    }
+
+    public static function error404()
+    {
+        self::redirect('/errors/error404');
+    }
+
+    public static function SessionStart()
+    {
+        if (!isset($_SESSION)) session_start();
+    }
+
+    public static function SessionSet($session_name, $session_value)
+    {
+        $_SESSION[$session_name] = $session_value;
+    }
+
+    public static function SessionGet($session_name)
+    {
+        if (isset($_SESSION[$session_name])) return $_SESSION[$session_name]; else false;
     }
 
     public function buildNum($table_name, $columns_name, $build_num, $type_encrypt = "encrypt")
@@ -264,7 +315,7 @@ class helper
     public function __construct($webserviceUrl)
     {
         $this->url = $webserviceUrl;
-        $this->api_key = 'F4960daa89D73A33332382fE661E7a18';
+        $this->api_key = '';
     }
 
     public function getPrices($des_city, $price, $weight, $buy_type, $delivery_type)

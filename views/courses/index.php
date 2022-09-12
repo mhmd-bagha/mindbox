@@ -72,210 +72,55 @@
                 <!-- courses -->
                 <div class="col-12 col-lg-8 col-xl-9">
                     <div class="row">
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course1.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">عادت های اتمی</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>جیمز کلیر</span>
-                                        <span class="fw-bold badge bg-danger">٪70 تخفیف</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">45,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">150,000<i
-                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course2.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">سحرخیزی پلاس</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>رابین شارما</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">145,000 تومان</span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course3.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">دیسپنزا</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>جو دیسپنزا</span>
-                                        <span class="fw-bold badge bg-danger">٪60 تخفیف</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">80,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">200,000<i
-                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
+                        <?php foreach ($data['courses'] as $course) { ?>
+                            <!-- course -->
+                            <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
+                                <div class="card border-0 course-card h-100">
+                                    <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course->id ?>">
+                                        <img data-src="<?php echo DOMAIN ?>/public/images/<?php echo $course->course_image ?>" alt="<?php echo $course->course_title ?>" data-alt="<?php echo $course->course_title ?>" class="card-img-top rounded-0 lozad"></a>
+                                    <div class="card-body">
+                                        <h2 class="title-course-card text-truncate mb-3">
+                                            <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course->id ?>"><?php echo $course->course_title ?></a>
+                                        </h2>
+                                        <div class="d-flex justify-content-between">
+                            <span class="user-course-card text-muted"><i
+                                        class="fa-solid fa-user me-1"></i><?php echo $course->course_teacher ?></span>
+                                            <?php if ($course->course_discount != null) { ?>
+                                                <span class="fw-bold badge bg-danger">٪<?php echo $course->course_discount ?> تخفیف</span>
+                                            <?php } ?>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <?php
+                                            switch ($course->course_type) {
+                                                case 'money':
+                                                    ?>
+                                                    <?php if ($course->course_discount != null) { ?>
+                                                    <span class="text-success"><?php echo number_format($course->course_price - ($course->course_price * $course->course_discount / 100)) ?> تومان</span>
+                                                    <span class="text-danger text-decoration-line-through"><?php echo number_format($course->course_price) ?><i
+                                                                class="fa-solid fa-dollar-sign ms-1"></i></span>
+                                                <?php } else { ?>
+                                                    <span class="text-success"><?php echo number_format($course->course_price) ?> تومان</span>
+                                                <?php } ?>
+                                                    <?php
+                                                    break;
+                                                case 'free':
+                                                    ?>
+                                                    <span class="text-success">رایگان</span>
+                                                    <?php
+                                                    break;
+                                                    ?><?php
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="d-grid">
+                                            <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course->id ?>"
+                                               class="btn-blue">جزئیات دوره</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course4.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">اَبَر مغز</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>جیم کوییک</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">299,000 تومان</span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course1.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">عادت های اتمی</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>جیمز کلیر</span>
-                                        <span class="fw-bold badge bg-danger">٪70 تخفیف</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">45,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">150,000<i
-                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course2.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">سحرخیزی پلاس</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>رابین شارما</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">145,000 تومان</span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course3.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">دیسپنزا</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>جو دیسپنزا</span>
-                                        <span class="fw-bold badge bg-danger">٪60 تخفیف</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">80,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">200,000<i
-                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course4.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">اَبَر مغز</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>جیم کوییک</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">299,000 تومان</span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- course -->
-                        <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
-                            <div class="card border-0 course-card h-100">
-                                <a href="#"><img src="../../public/images/course1.jpg" alt="" class="card-img-top"></a>
-                                <div class="card-body">
-                                    <h2 class="title-course-card text-truncate mb-3">
-                                        <a href="#">عادت های اتمی</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-between">
-                                        <span class="user-course-card text-muted"><i class="fa-solid fa-user me-1"></i>جیمز کلیر</span>
-                                        <span class="fw-bold badge bg-danger">٪70 تخفیف</span>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between mb-3">
-                                        <span class="text-success">45,000 تومان</span>
-                                        <span class="text-danger text-decoration-line-through">150,000<i
-                                                    class="fa-solid fa-dollar-sign ms-1"></i></span>
-                                    </div>
-                                    <div class="d-grid">
-                                        <a href="" class="btn-blue">جزئیات دوره</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php } ?>
                     </div>
                     <!-- pagination -->
                     <div class="pagination-layer text-center pt-3">

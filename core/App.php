@@ -1,11 +1,11 @@
 <?php
 
-class App_main
+class App
 {
     public $controller = 'index';
     public $method = 'index';
     public $params = array();
-
+    protected static $registry = [];
     function __construct()
     {
         if (isset($_GET['url'])) {
@@ -18,7 +18,7 @@ class App_main
                 unset($url[1]);
             $this->params = array_values($url);
         }
-        $controllerUrl = "controller/{$this->controller}.php";
+        $controllerUrl = "controllers/{$this->controller}.php";
         if (file_exists($controllerUrl)) {
             require $controllerUrl;
             $obj = new $this->controller;
@@ -28,7 +28,7 @@ class App_main
                 call_user_func_array($arr, $this->params);
             }
         } else
-            header('Location: errors/page404/');
+            Model::error404();
     }
 
     function parseUrl($url)

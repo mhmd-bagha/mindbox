@@ -1,13 +1,18 @@
 <?php
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+require dirname(dirname(__DIR__)) . '/core/Model.php';
+require dirname(dirname(__DIR__)) . '/core/config.php';
+
 class Create_db extends Db
 {
     public $db;
+
     public function __construct()
     {
         $this->db = new Db();
     }
-    public function Create(){
+
+    public function Create()
+    {
         return $this->db->CreateDB('db_mindbox');
     }
 }
