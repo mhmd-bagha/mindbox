@@ -19,13 +19,13 @@ class Model
         $password = PASSWORDDB;
         $dbname = DBNAMEDB;
         $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
-//        try {
-//            self::$conn = new PDO('mysql:host=' . $servername . ';dbname=' . $dbname, $username, $password, $options);
-//            self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//            return self::$conn;
-//        } catch (PDOException $err) {
-//            PhpError($err->getCode(), $err->getMessage(), $err->getFile(), $err->getLine());
-//        }
+        try {
+            self::$conn = new PDO('mysql:host=' . $servername . ';dbname=' . $dbname, $username, $password, $options);
+            self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return self::$conn;
+        } catch (PDOException $err) {
+            PhpError($err->getCode(), $err->getMessage(), $err->getFile(), $err->getLine());
+        }
     }
 
     function Select($sql, $values = [], $fetch = 'fetchAll', $fetchStyle = PDO::FETCH_OBJ, $rowCount = false)

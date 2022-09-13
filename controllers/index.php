@@ -12,6 +12,7 @@ class index extends Controller
 
     public function index()
     {
+        $total_course_time_all = 0;
         $sliders = $this->model->sliders();
         $categories = $this->model->categories();
         $users_count = $this->model->users_count();

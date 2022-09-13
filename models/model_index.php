@@ -35,7 +35,7 @@ class model_index extends Model
     {
         $status_show = 'show';
         $query = $this->Select("SELECT TIME_TO_SEC(course_time) FROM `course_files` WHERE `status_show` = ?", [$status_show], 'fetchAll', PDO::FETCH_ASSOC);
-        return $query ? $query : 0;
+        return $query;
     }
 
     public function course_offer()

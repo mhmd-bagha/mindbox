@@ -19,3 +19,4 @@ define('DBNAMEDB', 'db_mindbox');
 define('DOMAIN', 'http://localhost/mindbox');
 define('DL_DOMAIN', 'http://localhost/mindbox');
 define('DIR_ROOT', dirname(__DIR__)) . '/';
+define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/');
