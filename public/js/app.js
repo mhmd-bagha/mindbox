@@ -1,4 +1,4 @@
-console.clear();
+
 
 // replace text
 function replace_text(text, element) {
@@ -60,7 +60,7 @@ $(document).ready(() => {
                 }
             },
             icons: {
-                path: "public/vendor/video-player/icons/"
+                path: "../../public/vendor/video-player/icons/"
             }
         })
     }
@@ -73,8 +73,8 @@ $(document).ready(() => {
         slider.owlCarousel({
             rtl: true,
             loop: true,
-            dots: false,
-            nav: false,
+            dots: true,
+            nav: true,
             center: true,
             autoplayTimeout: 3000,
             autoplay: true,
@@ -83,7 +83,7 @@ $(document).ready(() => {
             responsive: {
                 992: {
                     nav: true,
-                    dots: true,
+                    dots: true
                 }
             }
         });
@@ -155,6 +155,11 @@ $(document).ready(() => {
         });
     }
 })
+
+// purecounter
+if ($(".purecounter").length) {
+    new PureCounter();
+}
 
 // back to top
 function backTop() {

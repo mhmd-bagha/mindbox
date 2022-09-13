@@ -10,12 +10,11 @@ class courses extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->scripts_path = ['js/app.js'];
     }
 
     public function index()
     {
-        $this->scripts_path = ['vendor/lozad/lozad.min.js'];
+        $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/app.js'];
         $courses = $this->model->courses();
         $data = ['courses' => $courses];
         $this->title = 'دوره های آموزشی مایندباکس';
@@ -29,9 +28,9 @@ class courses extends Controller
         $course_details = $this->model->getCourse($course_id);
         if ($course_details == false) Model::error404();
 
-        $this->scripts_path = ['vendor/video-player/js/video-player.js'];
+        $this->links_path = ['vendor/video-player/css/video-player.css'];
+        $this->scripts_path = ['vendor/video-player/js/video-player.js', 'js/app.js'];
 
-        $this->links_path = ['video-player/css/video-player.css'];
         $course_details_name = $course_details[0]->course_title;
         $this->description = $course_details[0]->course_description;
         $this->title = "دوره {$course_details_name}";
@@ -55,6 +54,7 @@ class courses extends Controller
     public function category($id = null)
     {
         if ($id == null) Model::error404();
+        $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/app.js'];
         $id = $this->model->security($id);
         $category = $this->model->category($id);
         $get_category = $this->model->get_category($id)[0];

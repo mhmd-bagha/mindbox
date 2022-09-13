@@ -10,6 +10,12 @@ class information extends Controller
         $this->scripts_path = ['js/app.js'];
     }
 
+    public function index()
+    {
+        $this->title = 'درباره ما | مایندباکس';
+        $this->view('information/about-us');
+    }
+
     public function rules()
     {
         $this->title = 'قوانین | مایندباکس';
@@ -20,11 +26,5 @@ class information extends Controller
     {
         $this->title = 'تماس با ما | مایندباکس';
         $this->view('information/contact-us');
-    }
-
-    public function aboutUs()
-    {
-        $this->title = 'درباره ما | مایندباکس';
-        $this->view('information/about-us');
     }
 }

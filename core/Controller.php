@@ -19,6 +19,7 @@ class Controller
             require('header.php');
 
         require('views/' . $view . '.php');
+
         if ($script == 'require')
             require 'footer_script.php';
 

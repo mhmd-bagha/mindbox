@@ -1,4 +1,4 @@
-<?php if (is_array($data['sliders'])||is_object($data['sliders'])) ?>
+<?php if (is_array($data['sliders'])||is_object($data['sliders'])){ ?>
     <div class="container-fluid px-0">
     <div class="owl-carousel owl-theme" id="slider">
 <?php foreach ($data['sliders'] as $slider) { ?>

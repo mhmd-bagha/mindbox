@@ -7,7 +7,7 @@ class index extends Controller
     {
         parent::__construct();
         $this->links_path = ['vendor/owl/owl.carousel.min.css', 'vendor/owl/owl.theme.default.min.css'];
-        $this->scripts_path = ['js/app.js', 'vendor/owl/owl.carousel.min.js', 'vendor/lozad/lozad.min.js', 'vendor/purecounterjs/purecounter_vanilla.js'];
+        $this->scripts_path = ['vendor/owl/owl.carousel.min.js', 'vendor/lozad/lozad.min.js', 'vendor/purecounterjs/purecounter_vanilla.js', 'js/app.js'];
     }
 
     public function index()

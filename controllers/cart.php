@@ -18,15 +18,17 @@ class cart extends Controller
         $this->title = 'سبد خرید';
         $data_user = $this->model->where('users', 'user_email', $this->model->decrypt(Model::SessionGet('user')));
         $data_cart = $this->model->cart($data_user->id);
-        $courses_id = $data_cart->courses_id;
-        $courses_id = explode(',', $courses_id);
-        foreach ($courses_id as $course_id) {
-            $get_course = $this->model->where('courses', 'id', $course_id);
-            if (!empty($get_course->course_discount)) {
-                $balance_all += ($get_course->course_price - ($get_course->course_price * $get_course->course_discount / 100));
-                $balance_all_discount += ($get_course->course_price * $get_course->course_discount / 100);
-            } else {
-                $balance_all += $get_course->course_price;
+        if ($data_cart) {
+            $courses_id = $data_cart->courses_id;
+            $courses_id = explode(',', $courses_id);
+            foreach ($courses_id as $course_id) {
+                $get_course = $this->model->where('courses', 'id', $course_id);
+                if (!empty($get_course->course_discount)) {
+                    $balance_all += ($get_course->course_price - ($get_course->course_price * $get_course->course_discount / 100));
+                    $balance_all_discount += ($get_course->course_price * $get_course->course_discount / 100);
+                } else {
+                    $balance_all += $get_course->course_price;
+                }
             }
         }
         $this->view('cart/index', compact('data_cart', 'data_user', 'balance_all', 'balance_all_discount'));

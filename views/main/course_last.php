@@ -1,4 +1,4 @@
-<?php if (is_array($data['course_last'])||is_object($data['course_last'])) ?>
+<?php if (is_array($data['course_last'])||is_object($data['course_last'])){ ?>
     <!-- the last courses -->
     <div class="container-fluid py-5">
     <div class="container">

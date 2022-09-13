@@ -4,8 +4,10 @@
         <!-- title -->
         <div class="course mb-2">
             <span class="right">نظرات کاربران</span>
-            <button type="button" class="btn-orange btn-comment" id="click_collapse" data-bs-toggle="collapse" href="#form-comment"><i
-                        class="fa-solid fa-pen-to-square me-2"></i>ثبت دیدگاه</button>
+            <button type="button" class="btn-orange btn-comment" id="click_collapse" data-bs-toggle="collapse"
+                    href="#form-comment"><i
+                        class="fa-solid fa-pen-to-square me-2"></i>ثبت دیدگاه
+            </button>
             <a class="btn btn-warning text-white btn-comment-icon" data-bs-toggle="collapse"
                href="#form-comment"><i class="fa-solid fa-pen-to-square"></i></a>
         </div>
@@ -67,9 +69,8 @@
     </div>
 </div>
 <script>
-    let PATH = "<?= DOMAIN ?>"
     var btn_comment = $("#btn_comment")
-    var course_id = "<?= $course_details->id ?>"
+    var id = "<?= $course_details->id ?>"
     var user_id = "<?php $email = $this->model->decrypt(Model::SessionGet('user')); echo $this->model->where('users', 'user_email', $email)->id; ?>"
     var input_comment = $("#comment")
     var click_collapse = $("#click_collapse")
@@ -77,7 +78,7 @@
         btn_comment.click(() => {
             var comment_text = $("#comment").val().trim()
             if (!empty(comment_text)) {
-                sendComment(course_id, user_id, comment_text)
+                sendComment(id, user_id, comment_text)
             } else {
                 alert_error('نظر خود را بنویسید')
             }
@@ -92,10 +93,9 @@
             type: "POST",
             data: {course_id: course_id, user_id: user_id, comment: comment, btn_comment: true},
             success: (data) => {
-                console.log(data)
-                let obj = JSON.parse(data)
-                let message = obj.data.message
-                let status_code = obj.statusCode
+                var obj = JSON.parse(data)
+                var message = obj.data.message
+                var status_code = obj.statusCode
                 switch (status_code) {
                     case 200:
                         alert_success(message)

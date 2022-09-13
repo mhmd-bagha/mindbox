@@ -13,9 +13,9 @@
         foreach ($this->links_path as $link_path) {
             if (!empty($link_path)) {
                 if (file_exists("public/{$link_path}")) {
-                    echo "<!-- " . explode('/', $link_path)[0] . " -->";
+                    echo "<!-- " . explode('/', $link_path)[1] . " -->";
                     ?>
-                    <link rel="stylesheet" href="<?php echo DOMAIN ?>/public/vendor/<?= $link_path ?>">
+                    <link rel="stylesheet" href="<?php echo DOMAIN ?>/public/<?= $link_path ?>">
                     <?php
                 }
             }

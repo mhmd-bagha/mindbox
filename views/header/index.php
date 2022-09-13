@@ -2,7 +2,7 @@
     <div class="row align-items-center py-2">
         <!-- logo -->
         <div class="col-lg-2 col-xxl-1 d-none d-lg-block text-center">
-            <a href="index.php"><img src="<?php echo DOMAIN ?>/public/images/pubilc-images/logo/mindbox.svg" alt=""
+            <a href="<?php echo DOMAIN ?>"><img src="<?php echo DOMAIN ?>/public/images/pubilc-images/logo/mindbox.svg" alt=""
                                      class="img-fluid"></a>
         </div>
         <!-- form search -->
@@ -12,7 +12,7 @@
                 <input type="text"
                        class="search-input form-control shadow-none border-0 bg-anti-flash-white z-index3 px-5"
                        onkeyup="course_search(this.value)"
-                       data-bs-toggle="modal" data-bs-target="#modal-search" placeholder="جستجو...">
+                       data-bs-toggle="modal" data-bs-target="#modal-search" placeholder="جستجو..."/>
             </div>
             <!-- box search -->
             <div class="search-card w-xl-75 w-xxl-50">
@@ -31,7 +31,7 @@
                                             class="fa-solid fa-arrow-right"></i></a>
                                 <input type="text"
                                        class="form-control shadow-none border-0 border-bottom bg-transparent z-index3 ps-5"
-                                       placeholder="جستجو..." onkeyup="course_search(this.value)">
+                                       placeholder="جستجو..." onkeyup="course_search(this.value)"/>
                             </div>
                         </div>
                         <div class="modal-body ">
@@ -52,10 +52,21 @@
                 <a href="<?php echo DOMAIN ?>/register" class="btn btn-warning text-white btn-register-icon"><i
                             class="fa-solid fa-user-plus"></i></a>
                 <a href="<?php echo DOMAIN ?>/register" class="btn-orange btn-register">ثبت نام</a>
-            <?php }else{ ?>
+            <?php } else { ?>
                 <a href="<?php echo DOMAIN ?>/account/" class="btn btn-warning text-white"><i
                             class="fa-solid fa-user"></i></a>
-                <a href="<?php echo DOMAIN ?>/cart/" class="btn ms-1"><i class="bi bi-cart"></i><span><?php $courses_id = explode(',', $this->model->where('cart', 'status', 'waiting')->courses_id); echo count($courses_id) ?></span></a>
+                <a href="<?php echo DOMAIN ?>/cart/" class="btn ms-1"><i
+                            class="bi bi-cart"></i><span>
+                        <?php
+                        $get_cart = $this->model->where('cart', 'status', 'waiting');
+                        if ($get_cart) {
+                            $courses_id = explode(',', $get_cart->courses_id);
+                            echo count($courses_id);
+                        } else {
+                            echo 0;
+                        }
+                        ?>
+                    </span></a>
             <?php } ?>
         </div>
     </div>
@@ -80,7 +91,7 @@
                         <a class="nav-link active" href="<?php echo DOMAIN ?>">صفحه اصلی</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo DOMAIN ?>/information/aboutUs">درباره ما</a>
+                        <a class="nav-link" href="<?php echo DOMAIN ?>/information">درباره ما</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo DOMAIN ?>/information/contactUs">تماس با ما</a>
