@@ -84,17 +84,29 @@
                             </ul>
                             <hr>
                             <div class="d-grid">
-                                <?php if (Model::SessionGet('user')) { ?>
-                                    <button type="button" class="btn-blue fs-6" id="added_course" onclick="course_add()">ثبت نام در دوره</button>
+                                <?php if (Model::SessionGet('user')) {
+                                if ($this->exist_course_to_factors($course_details->id)) {
+                                    ?>
+                                    <div class="alert alert-success text-center fs-6">شما دانشجوی این دوره
+                                        هستید
+                                    </div>
+                                <?php
+                                } else {
+                                switch ($course_details->course_type){
+                                case "money":
+                                ?>
+                                    <button type="button" class="btn-blue fs-6" id="added_course_money"
+                                            onclick="course_money_add()">ثبت نام در دوره
+                                    </button>
                                     <script>
-                                        let added_course = $("#added_course")
+                                        let added_course = $("#added_course_money")
                                         let PATH = "<?= DOMAIN ?>"
                                         let course_id = "<?= $course_details->id ?>"
 
-                                        function course_add() {
+                                        function course_money_add() {
                                             added_course.text('اضافه کردن به سبد خرید...').prop('disabled', true)
                                             $.ajax({
-                                                url: PATH + "/cart/add",
+                                                url: PATH + "/cart/add/money",
                                                 type: "POST",
                                                 data: {course_id: course_id, add_cart: true},
                                                 success: (data) => {
@@ -118,7 +130,50 @@
                                             })
                                         }
                                     </script>
-                                <?php } else { ?>
+                                <?php
+                                break;
+                                case "free":
+                                ?>
+                                    <button type="button" class="btn-blue fs-6" id="added_course_free"
+                                            onclick="course_free_add()">ثبت نام در دوره
+                                    </button>
+                                    <script>
+                                        let added_course = $("#added_course_free")
+                                        let PATH = "<?= DOMAIN ?>"
+                                        let course_id = "<?= $course_details->id ?>"
+
+                                        function course_free_add() {
+                                            added_course.text('در حال ثبت...').prop('disabled', true)
+                                            $.ajax({
+                                                url: PATH + "/cart/add/free",
+                                                type: "POST",
+                                                data: {course_id: course_id, add_cart: true},
+                                                success: (data) => {
+                                                    let obj = JSON.parse(data)
+                                                    let status = obj.statusCode
+                                                    let message = obj.data.message
+                                                    switch (status) {
+                                                        case 200:
+                                                            window.location.href = PATH + '/courses/course_details/' + course_id
+                                                            break;
+                                                        case 500:
+                                                            alert_error(message)
+                                                            added_course.text('ثبت نام در دوره').prop('disabled', false)
+                                                            break;
+                                                    }
+                                                },
+                                                error: () => {
+                                                    added_course.text('ثبت نام در دوره').prop('disabled', false)
+                                                    alert_error("خطا در ثبت نام دوره")
+                                                }
+                                            })
+                                        }
+                                    </script>
+                                <?php
+                                break;
+                                }
+                                }
+                                } else { ?>
                                     <a href="<?= DOMAIN . '/login?back=courses/course_details/' . $course_details->id ?>"
                                        class="btn-blue fs-6">ثبت نام در دوره</a>
                                 <?php } ?>

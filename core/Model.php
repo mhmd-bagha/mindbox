@@ -62,7 +62,7 @@ class Model
         $query = self::$conn->prepare($sql);
         $query->bindValue(1, $value);
         $query->execute();
-        return $query->fetch(PDO::FETCH_OBJ);
+        return $query ? $query->fetch(PDO::FETCH_OBJ) : false;
     }
 
     public function find($key, $value)

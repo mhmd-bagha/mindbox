@@ -42,6 +42,6 @@ $data_user = $data['data_user'];
     <hr>
     <!-- buy -->
     <div class="d-grid">
-        <button class="btn-orange">اقدام به پرداخت</button>
+        <a class="btn-orange" href="<?= DOMAIN ?>/checkout/request/<?= $this->model->encrypt(implode(',', $data_cart->courses_id)) ?>">اقدام به پرداخت</a>
     </div>
 </div>

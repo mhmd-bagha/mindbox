@@ -34,52 +34,79 @@ class cart extends Controller
         $this->view('cart/index', compact('data_cart', 'data_user', 'balance_all', 'balance_all_discount'));
     }
 
-    public function add()
+    public function add($type)
     {
-        if (isset($_POST['add_cart'])) {
-            $data = $_POST;
-            $course_id = $this->model->security($data['course_id']);
-            $user_id = $this->model->where('users', 'user_email', $this->model->decrypt(Model::SessionGet('user')))->id;
-            $status = 'waiting';
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $time = jdate("Y/m/d H:i:s", time(), '', 'Asia/Tehran', 'en');
-            $find_cart = $this->model->find('status', $status);
-            if ($find_cart) {
-                $courses_id = $find_cart->courses_id;
-                $courses_id = explode(',', $courses_id);
-                if (!in_array($course_id, $courses_id)) {
-                    $courses_id_push = array_push($courses_id, $course_id);
-                    $courses_id = implode(',', $courses_id);
-                    $update_cart = $this->model->update($courses_id, $user_id, $status, $time);
-                    if ($update_cart)
+        switch ($type) {
+            case "money":
+                if (isset($_POST['add_cart'])) {
+                    $data = $_POST;
+                    $course_id = $this->model->security($data['course_id']);
+                    $user_id = $this->model->where('users', 'user_email', $this->model->decrypt(Model::SessionGet('user')))->id;
+                    $status = 'waiting';
+                    $ip = $_SERVER['REMOTE_ADDR'];
+                    $time = jdate("Y/m/d H:i:s", time(), '', 'Asia/Tehran', 'en');
+                    $find_cart = $this->model->find('status', $status);
+                    if ($find_cart) {
+                        $courses_id = $find_cart->courses_id;
+                        $courses_id = explode(',', $courses_id);
+                        if (!in_array($course_id, $courses_id)) {
+                            $courses_id_push = array_push($courses_id, $course_id);
+                            $courses_id = implode(',', $courses_id);
+                            $update_cart = $this->model->update($courses_id, $user_id, $status, $time);
+                            if ($update_cart)
+                                echo response::Json(200, true, [
+                                    'domain' => DOMAIN,
+                                    'message' => 'دوره با موفقیت به سبد خرید اضافه شد'
+                                ]);
+                            else
+                                echo response::Json(500, true, [
+                                    'domain' => DOMAIN,
+                                    'message' => 'خطا در اضافه کردن دوره به سبد خرید'
+                                ]);
+                        } else {
+                            echo response::Json(500, true, [
+                                'domain' => DOMAIN,
+                                'message' => 'این دوره در سبد خرید شما موجود است'
+                            ]);
+                        }
+                    } else {
+                        $add_cart = $this->model->add($course_id, $user_id, $status, $ip, $time);
+                        if ($add_cart)
+                            echo response::Json(200, true, [
+                                'domain' => DOMAIN,
+                                'message' => 'دوره با موفقیت به سبد خرید اضافه شد'
+                            ]);
+                        else
+                            echo response::Json(500, true, [
+                                'domain' => DOMAIN,
+                                'message' => 'خطا در اضافه کردن دوره به سبد خرید'
+                            ]);
+                    }
+                }
+                break;
+            case "free":
+                if (isset($_POST['add_cart'])) {
+                    $data = $_POST;
+                    $user_id = $this->model->where('users', 'user_email', $this->model->decrypt(Model::SessionGet('user')))->id;
+                    $course_id = $this->model->security($data['course_id']);
+                    $factor_type = 'free';
+                    $status = 'paid';
+                    $ip = $_SERVER['REMOTE_ADDR'];
+                    $time = jdate("Y/m/d H:i:s", time(), '', 'Asia/Tehran', 'en');
+                    $factor_number = $this->model->buildNum('factors', 'factor_number', mt_rand(10000, 999999));
+                    $factors = $this->model->add_factors($user_id, $course_id, $factor_type, $status, $factor_number, $ip, $time);
+                    if ($factors)
                         echo response::Json(200, true, [
                             'domain' => DOMAIN,
-                            'message' => 'دوره با موفقیت به سبد خرید اضافه شد'
+                            'message' => 'دوره با موفقیت ثبت شد'
                         ]);
                     else
                         echo response::Json(500, true, [
                             'domain' => DOMAIN,
-                            'message' => 'خطا در اضافه کردن دوره به سبد خرید'
+                            'message' => 'خطا در اضافه کردن دوره'
                         ]);
-                } else {
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'این دوره در سبد خرید شما موجود است'
-                    ]);
                 }
-            } else {
-                $add_cart = $this->model->add($course_id, $user_id, $status, $ip, $time);
-                if ($add_cart)
-                    echo response::Json(200, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'دوره با موفقیت به سبد خرید اضافه شد'
-                    ]);
-                else
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'خطا در اضافه کردن دوره به سبد خرید'
-                    ]);
-            }
+                break;
         }
     }
 
@@ -98,8 +125,13 @@ class cart extends Controller
                     if ($value == $course_id)
                         unset($courses_id[$key]);
                 }
-                $courses_id = implode(',', $courses_id);
-                $update_cart = $this->model->update($courses_id, $user_id, $status, $time);
+                if (!empty($courses_id)) {
+                    $courses_id = implode(',', $courses_id);
+                    $update_cart = $this->model->update($courses_id, $user_id, $status, $time);
+                } else {
+                    $get_cart = $this->model->find('status', 'waiting');
+                    $update_cart = $this->model->delete($get_cart->id);
+                }
                 if ($update_cart)
                     echo response::Json(200, true, [
                         'domain' => DOMAIN,

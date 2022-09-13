@@ -576,15 +576,34 @@ a:hover {
   width: 35px;
   height: 35px;
   display: inline-block;
+  border: 1px solid #6c757d;
+  border-radius: 50%;
+  text-align: center;
+  color: #6c757d;
+  font-size: 16px;
+  line-height: 36px;
+  cursor: pointer;
+}
+
+.course-icon-download:hover {
+  color: #6c757d;
+  box-shadow: 0 0 8px 0 #6c757d;
+}
+
+.course-icon-download.active {
+  width: 35px;
+  height: 35px;
+  display: inline-block;
   border: 1px solid #b6e49c;
   border-radius: 50%;
   text-align: center;
   color: #6fc341;
   font-size: 16px;
   line-height: 36px;
+  cursor: pointer;
 }
 
-.course-icon-download:hover {
+.course-icon-download.active:hover {
   color: #6fc341;
   box-shadow: 0 0 8px 0 #6fc341;
 }
