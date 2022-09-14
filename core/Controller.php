@@ -27,16 +27,6 @@ class Controller
             require('footer.php');
     }
 
-    public function scriptLoad($script_name, $script_path)
-    {
-        $this->scripts_path = $script_path;
-    }
-
-    public function linkLoad($link_name, $link_path)
-    {
-        $this->links_path = $link_path;
-    }
-
     function model($modelUrl)
     {
         require('models/model_' . $modelUrl . '.php');

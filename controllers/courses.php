@@ -97,12 +97,16 @@ class courses extends Controller
 
     public function exist_course_to_factors($course_id)
     {
-        if ($get_factors = $this->model->where('factors', 'factor_status', 'paid')) {
-            $course_id_factor = explode(',', $get_factors->courses_id);
-            if (in_array($course_id, $course_id_factor))
-                return $get_factors;
-            else
-                return false;
+        if ($get_factors = $this->model->where_all('factors', 'factor_status', 'paid')) {
+            $get_factor_outer = '';
+            foreach ($get_factors as $get_factor) {
+                $course_id_factor = explode(',', $get_factor->courses_id);
+                if (in_array($course_id, $course_id_factor)) {
+                    $get_factor_outer = $get_factor;
+                    break;
+                }
+            }
+            return $get_factor_outer;
         } else return false;
     }
 }

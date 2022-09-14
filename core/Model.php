@@ -26,6 +26,8 @@ class Model
         } catch (PDOException $err) {
             PhpError($err->getCode(), $err->getMessage(), $err->getFile(), $err->getLine());
         }
+
+//        self::$SecretKey = md5('mindbox_courses_cheshmi');
     }
 
     function Select($sql, $values = [], $fetch = 'fetchAll', $fetchStyle = PDO::FETCH_OBJ, $rowCount = false)
@@ -65,9 +67,23 @@ class Model
         return $query ? $query->fetch(PDO::FETCH_OBJ) : false;
     }
 
+    function where_all($table, $key, $value)
+    {
+        $sql = "SELECT * FROM `{$table}` WHERE `{$key}` = ?";
+        $query = self::$conn->prepare($sql);
+        $query->bindValue(1, $value);
+        $query->execute();
+        return $query ? $query->fetchAll(PDO::FETCH_OBJ) : false;
+    }
+
     public function find($key, $value)
     {
         return self::where($this->table, $key, $value);
+    }
+
+    public function find_all($key, $value)
+    {
+        return self::where_all($this->table, $key, $value);
     }
 
     public function all()
@@ -220,6 +236,33 @@ class Model
         $iv = substr(hash('sha256', self::$SecretIv), 0, 16);
         $decrypt = openssl_decrypt(base64_decode($value), self::$EncryptionMethod, $key, 0, $iv);
         return $decrypt;
+    }
+
+    public static function jaliliToMiladi($jalili, $format = '/')
+    {
+
+        $jalili = explode('/', $jalili);
+        $year = $jalili[0];
+        $month = $jalili[1];
+        $day = $jalili[2];
+        $date = jalali_to_gregorian($year, $month, $day);
+        $date = implode($format, $date);
+        $date = new DateTime($date);
+        $date = $date->format('Y/m/d');
+
+        return $date;
+    }
+
+    public static function MiladiTojalili($miladi, $format = '/')
+    {
+
+        $miladi = explode('/', $miladi);
+        $year = $miladi[0];
+        $month = $miladi[1];
+        $day = $miladi[2];
+        $date = gregorian_to_jalali($year, $month, $day);
+        $date = implode($format, $date);
+        return $date;
     }
 }
 
