@@ -26,7 +26,8 @@ class index extends Controller
             $total_course_time_all = $total_course_time_all + $total_course_time_all;
         }
         $total_course_time_all = (gmdate("i", $total_course_time_all));
-        $data = ['sliders' => $sliders, 'categories' => $categories, 'users_count' => $users_count, 'course_offer' => $course_offer, 'course_discounts' => $course_discounts, 'course_last' => $course_last, 'courses_count' => $courses_count, 'total_course_time_all' => $total_course_time_all];
+        $stories = $this->model->stories();
+        $data = ['sliders' => $sliders, 'categories' => $categories, 'users_count' => $users_count, 'course_offer' => $course_offer, 'course_discounts' => $course_discounts, 'course_last' => $course_last, 'courses_count' => $courses_count, 'total_course_time_all' => $total_course_time_all, 'stories' => $stories];
         $this->view('main/index', $data);
     }
 }

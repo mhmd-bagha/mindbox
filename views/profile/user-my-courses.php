@@ -1,45 +1,49 @@
-
-    <!-- main -->
-    <main>
-        <div class="container-fluid py-5">
-            <div class="container">
-                <div class="card border-0 rounded-0 box-shadow-sm">
-                    <div class="card-body p-0">
-                        <div class="row mx-0">
-                            <div class="col-12 col-lg-3 user-menu">
-                                <!-- user menu -->
-                                <?php
-                                require_once("user-menu.php");
-                                ?>
-                            </div>
-                            <div class="col-12 col-lg-9 user-content">
-                                <h5>دوره های من</h5>
-                                <hr>
+<?php $my_courses = $data['my_courses']; ?>
+<!-- main -->
+<main>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="card border-0 rounded-0 box-shadow-sm">
+                <div class="card-body p-0">
+                    <div class="row mx-0">
+                        <div class="col-12 col-lg-3 user-menu">
+                            <!-- user menu -->
+                            <?php
+                            require_once("user-menu.php");
+                            ?>
+                        </div>
+                        <div class="col-12 col-lg-9 user-content">
+                            <h5>دوره های من</h5>
+                            <hr>
+                            <?php if (is_array($my_courses) || is_object($my_courses)) { ?>
                                 <div class="table-responsive overflow-y-auto">
                                     <!-- table -->
                                     <table class="table table-striped table-hover table-bordered text-center text-nowrap">
                                         <thead class="table-dark sticky-top">
-                                            <tr>
-                                                <th>عنوان آموزش</th>
-                                                <th>تاریخ آخرین بروزرسانی</th>
-                                            </tr>
+                                        <tr>
+                                            <th>عنوان آموزش</th>
+                                            <th>تاریخ آخرین بروزرسانی</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
+                                        <?php foreach ($my_courses as $my_course) { ?>
                                             <tr>
-                                                <td><a href="../course-details.php" class="text-blue">دوره عادت های اتمی</a></td>
-                                                <td>1401/05/26</td>
+                                                <td><a href="<?= DOMAIN ?>/courses/course_details/<?= $my_course->id ?>"
+                                                       class="text-blue"><?= $my_course->course_title ?></a>
+                                                </td>
+                                                <td><?= $my_course->create_time ?></td>
                                             </tr>
-                                            <tr>
-                                                <td><a href="#" class="text-blue">دوره سحرخیزی پلاس</a></td>
-                                                <td>1401/05/16</td>
-                                            </tr>
+                                        <?php } ?>
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
+                            <?php } else { ?>
+                                <div class="alert alert-warning fs-6 text-center">هیچ دوره ای ندارید!</div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>

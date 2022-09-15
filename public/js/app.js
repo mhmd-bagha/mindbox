@@ -1,11 +1,4 @@
 
-
-// replace text
-function replace_text(text, element) {
-    element = $(element)
-    element.html(text)
-}
-
 $(document).ready(() => {
     // search
     let bg_matte = $(".bg-matte")

@@ -13,3 +13,9 @@ const validate_password = (pass) => {
     let valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/
     return (pass.match(valid))
 }
+
+// replace text
+function replace_text(text, element) {
+    element = $(element)
+    element.html(text)
+}

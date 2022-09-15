@@ -2,7 +2,7 @@
 require dirname(dirname(__DIR__)) . '/core/Model.php';
 require dirname(dirname(__DIR__)) . '/core/config.php';
 
-class Create_table_payment extends Db
+class Create_table_stories extends Db
 {
     public $db;
 
@@ -13,27 +13,22 @@ class Create_table_payment extends Db
 
     public function Create()
     {
-        return $this->db->CreateTable('payment', [
+        return $this->db->CreateTable('stories', [
             "
             id INT(11) AUTO_INCREMENT,
-            payment_order VARCHAR(50) NOT NULL,
-            authority VARCHAR(1000) NULL,
-            status_number VARCHAR(11) NOT NULL,
-            status ENUM('waiting', 'paid', 'unsuccessful') NOT NULL,
-            ref_id VARCHAR(255) NULL,
-            payment_number VARCHAR(1000) NOT NULL,
-            courses_id VARCHAR(255) NOT NULL,
-            user_id VARCHAR(11) NOT NULL,
+            stories_title VARCHAR(255) NOT NULL,
+            stories_description VARCHAR(2500) NOT NULL,
             ip VARCHAR(255) NOT NULL,
             create_time VARCHAR(50) NOT NULL,
             update_time VARCHAR(50) NULL,
+            status_show ENUM('show', 'hide') NOT NULL,
             PRIMARY KEY (id)
             "
         ]);
     }
 }
 
-$Create_db = new Create_table_payment();
+$Create_db = new Create_table_stories();
 $Create = $Create_db->Create();
 if ($Create == true)
     echo "successful create table";

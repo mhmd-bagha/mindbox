@@ -1,7 +1,7 @@
 <?php
 session_start();
 ob_start();
-ini_set('error_reporting', 'On');
+ini_set('error_reporting', 'on');
 error_reporting(E_ALL);
 function PhpError($error_code, $error_msg, $error_file, $error_line)
 {
@@ -20,3 +20,5 @@ define('DOMAIN', 'http://localhost/mindbox');
 define('DL_DOMAIN', 'http://localhost/mindbox');
 define('DIR_ROOT', dirname(__DIR__) . '/');
 define('DOC_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/');
+define('ADMIN_EMAIL', 'm@gmail.com');
+define('ADMIN_PASSWORD', 'U295cHhCRGVwWWNqUUg2MUg0L3RTZz09');

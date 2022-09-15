@@ -61,4 +61,11 @@ class model_index extends Model
         $query = $this->Select("SELECT * FROM `courses` WHERE `course_last` = ? OR `course_last` IS NULL  AND `status_show` = ? ORDER BY `id` DESC LIMIT 10", [$course_last, $status_show]);
         return ($query) ? $query : false;
     }
+
+    public function stories()
+    {
+        $status = 'show';
+        $query = $this->Select("SELECT * FROM `stories` WHERE `status_show` = ?", [$status]);
+        return $query ? $query : false;
+    }
 }

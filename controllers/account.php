@@ -1,10 +1,9 @@
 <?php
 require 'vendor/autoload.php';
 
-use Response\Response as response;
-
 class account extends Controller
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -12,13 +11,13 @@ class account extends Controller
         $this->scripts_path = ['js/app.js'];
     }
 
-
     public function index()
     {
         $this->title = 'پنل کاربری';
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
         $register_you_history = $this->register_you_history($get_user->create_time);
-        $this->view('profile/index', compact('register_you_history'));
+        $count_my_course = $this->count_my_course();
+        $this->view('profile/index', compact('register_you_history', 'count_my_course', 'get_user'));
     }
 
     public function user_edit_profile()
@@ -42,7 +41,8 @@ class account extends Controller
     public function user_my_courses()
     {
         $this->title = '';
-        $this->view('profile/user-my-courses');
+        $my_courses = $this->my_courses();
+        $this->view('profile/user-my-courses', compact('my_courses'));
     }
 
     public function user_factors()
@@ -65,8 +65,8 @@ class account extends Controller
 
     public function logout()
     {
-        unset($_SESSION['user_id']);
-        $this->model->redirect(DOMAIN);
+        unset($_SESSION['user']);
+        Model::redirect('');
     }
 
     protected function register_you_history($time_register)
@@ -79,6 +79,22 @@ class account extends Controller
     }
 
     public function count_my_course()
+    {
+        $count_all = 0;
+        $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
+        $user_id = $get_user->id;
+        $status = 'paid';
+        $my_courses = $this->model->count_my_course($user_id, $status);
+        if ($my_courses) {
+            foreach ($my_courses as $my_course) {
+                $count_course = explode(',', $my_course->courses_id);
+                $count_all += count($count_course);
+            }
+            return $count_all;
+        }
+    }
+
+    public function my_courses()
     {
 
     }

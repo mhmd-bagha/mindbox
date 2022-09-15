@@ -1,0 +1,1 @@
+<div class="alert #class">#text</div>

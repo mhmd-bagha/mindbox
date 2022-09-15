@@ -91,6 +91,24 @@ class Model
         return self::SelectAll($this->table);
     }
 
+    public function count($table)
+    {
+        $sql = "SELECT * FROM `{$table}`";
+        $query = self::$conn->prepare($sql);
+        $query->execute();
+        return $query->rowCount();
+    }
+
+    public function count_all()
+    {
+        return self::count($this->table);
+    }
+
+    public function count_all_table($table)
+    {
+        return self::count($table);
+    }
+
     function Query($sql, $values = [])
     {
         $query = self::$conn->prepare($sql);
@@ -184,7 +202,7 @@ class Model
 
     public static function error404()
     {
-        self::redirect('/errors/error404');
+        self::redirect('errors/error404');
     }
 
     public static function SessionStart()
@@ -263,6 +281,18 @@ class Model
         $date = gregorian_to_jalali($year, $month, $day);
         $date = implode($format, $date);
         return $date;
+    }
+
+    public static function __callStatic($method, $parameters)
+    {
+        return (new static)->$method(...$parameters);
+    }
+
+    public static function alert_null_data($text, $class = "alert-warning fs-6"){
+        $file = file_get_contents(DIR_ROOT . '/views/programs/alert-null-data/index.php');
+        $file = str_replace('#text', $text, $file);
+        $file = str_replace('#class', $class, $file);
+        echo html_entity_decode($file);
     }
 }
 
