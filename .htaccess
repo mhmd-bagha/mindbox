@@ -10,10 +10,10 @@ RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
     </FilesMatch>
 </IfModule>
 
-<Files ~ "^\.(htaccess|htpasswd)$">
-deny from all
-</Files>
-Options -Indexes
+#<Files ~ "^\.(htaccess|htpasswd)$">
+#deny from all
+#</Files>
+#Options -Indexes
 
 # Error Document
 ErrorDocument 403 http://localhost/mindbox/errors/error403

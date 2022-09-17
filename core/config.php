@@ -14,7 +14,7 @@ set_error_handler("PhpError");
 
 define('SERVERDB', 'localhost');
 define('USERNAMEDB', 'root');
-define('PASSWORDDB', '');
+define('PASSWORDDB', 'Mhdmhdmhd82@#');
 define('DBNAMEDB', 'db_mindbox');
 define('DOMAIN', 'http://localhost/mindbox');
 define('DL_DOMAIN', 'http://localhost/mindbox');
