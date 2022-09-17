@@ -26,6 +26,14 @@ class account extends Controller
         $this->title = 'ویرایش پروفایل';
         $this->view('profile/user-edit-profile');
     }
+    public function information_edit(){
+        $this->title = "ویرایش اطلاعات";
+        $name = $_POST["name"];
+        $family = $_POST["family"];
+        $phone = $_POST["phone"];
+        $email = $_POST["email"];
+        $result = $this->model->information_edit($name, $family, $phone, $email);
+    }
 
     public function user_change_password()
     {

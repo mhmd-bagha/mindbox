@@ -15,7 +15,7 @@ class App
             unset($url[0]);
             if (isset($url[1]))
                 $this->method = $url[1];
-                unset($url[1]);
+            unset($url[1]);
             $this->params = array_values($url);
         }
         $controllerUrl = "controllers/{$this->controller}.php";
