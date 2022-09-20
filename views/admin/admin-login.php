@@ -1,5 +1,5 @@
 <!-- admin login -->
-<main>
+<main class="admin-bg">
     <div class="container">
         <div class="row align-items-center vh-100">
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 mx-auto">

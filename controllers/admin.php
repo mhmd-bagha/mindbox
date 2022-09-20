@@ -1,24 +1,34 @@
 <?php
-require 'vendor/autoload.php';
+require DIR_ROOT . 'vendor/autoload.php';
+
+use Response\Response as response;
+
+
 require 'admin_comment.php';
 require 'admin_users.php';
 require 'admin_sliders.php';
-
-use Response\Response as response;
+require 'admin_categories.php';
+require 'admin_courses.php';
 
 class admin extends Controller
 {
     private $comment;
     private $users;
     private $sliders;
+    private $categories;
+    private $courses;
 
     public function __construct()
     {
         parent::__construct();
         $this->body_class = 'admin-body';
+        $this->keywords = '';
+        $this->robots = 'noindex, nofollow';
         $this->comment = new admin_comment();
         $this->users = new admin_users();
         $this->sliders = new admin_sliders();
+        $this->categories = new admin_categories();
+        $this->courses = new admin_courses();
     }
 
     public function index()
@@ -80,7 +90,8 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/lozad/lozad.min.js', 'js/admin.js'];
         $this->title = 'ادمین | دسته‌بندی ها';
-        $this->view('admin/admin-categories', '', null, null);
+        $categories_all = $this->categories->model_categories->all();
+        $this->view('admin/admin-categories', compact('categories_all'), null, null);
     }
 
     public function courses()
@@ -88,19 +99,24 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css', 'vendor/tom-select/tom-select.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/lozad/lozad.min.js', 'vendor/ckeditor/ckeditor.js', 'vendor/tom-select/tom-select.complete.min.js', 'js/admin.js'];
         $this->title = 'ادمین | دوره‌ها';
-        $this->view('admin/admin-courses', '', null, null);
+        $courses_all = $this->courses->model_courses->all();
+        $this->view('admin/admin-courses', compact('courses_all'), null, null);
     }
 
-    public function course_part()
+    public function course_part(int $id = null)
     {
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | مدیریت دوره';
-        $this->view('admin/admin-course-part', '', null, null);
+        if (empty($id)) Model::error404();
+        $id = $this->courses->model_courses->security($id);
+        $course_files = $this->courses->model_courses->where_all('course_files', 'course_id', $id);
+        $this->view('admin/admin-course-part', compact('course_files'), null, null);
     }
 
     public function sliders()
     {
+        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/admin.js'];
         $this->title = 'ادمین | اسلایدر‌ها';
         $slider_all = $this->sliders->model_sliders->all();
@@ -112,7 +128,8 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | نظرات';
-        $this->view('admin/admin-comments', '', null, null);
+        $comment_all = $this->comment->model_comment->where_all('comments', 'comment_type', 'user');
+        $this->view('admin/admin-comments', compact('comment_all'), null, null);
     }
 
     public function tickets()
@@ -246,5 +263,10 @@ class admin extends Controller
                     ]);
             }
         }
+    }
+
+    public function get_slider_id()
+    {
+        $get_slider_id = $this->sliders->get_slider_id();
     }
 }

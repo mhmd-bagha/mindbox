@@ -42,6 +42,16 @@ $data_user = $data['data_user'];
     <hr>
     <!-- buy -->
     <div class="d-grid">
-        <a class="btn-orange" href="<?= DOMAIN ?>/checkout/request/<?= $this->model->encrypt(implode(',', $data_cart->courses_id)) ?>">اقدام به پرداخت</a>
+        <a class="btn-orange"
+           href="<?= DOMAIN ?>/checkout/request/<?= $this->model->encrypt(implode(',', $data_cart->courses_id)) ?>"
+           id="go_gateway">اقدام به پرداخت</a>
     </div>
 </div>
+<script>
+    $(document).ready(() => {
+        var go_gateway = $("#go_gateway")
+        go_gateway.click(()=>{
+            go_gateway.prop('disabled', true).text('در حال انتقال‌...')
+        })
+    })
+</script>

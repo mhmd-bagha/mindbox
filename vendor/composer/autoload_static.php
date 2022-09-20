@@ -9,12 +9,17 @@ class ComposerStaticInit300dd64db4b653f9eb4513136d95e401
     public static $files = array (
         'b91ad166301d49b024af90b43d9545cd' => __DIR__ . '/../..' . '/public/jdf/jdf.php',
         'a3b1eb601536bf005892c05257990a0f' => __DIR__ . '/../..' . '/controllers/Response.php',
+        '93505452bdc37d60e3524ea2b24f508a' => __DIR__ . '/../..' . '/controllers/email.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
             'src\\' => 4,
+        ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'A' => 
         array (
@@ -26,6 +31,10 @@ class ComposerStaticInit300dd64db4b653f9eb4513136d95e401
         'src\\' => 
         array (
             0 => __DIR__ . '/../..' . '/controllers',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'App\\' => 
         array (

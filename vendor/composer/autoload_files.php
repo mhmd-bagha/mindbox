@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'b91ad166301d49b024af90b43d9545cd' => $baseDir . '/public/jdf/jdf.php',
     'a3b1eb601536bf005892c05257990a0f' => $baseDir . '/controllers/Response.php',
+    '93505452bdc37d60e3524ea2b24f508a' => $baseDir . '/controllers/email.php',
 );

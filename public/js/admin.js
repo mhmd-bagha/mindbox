@@ -101,7 +101,24 @@ if ($('#select_lables').length) {
     new TomSelect('#select_lables', settings_lables);
 }
 
-if ($(".lozad").length){
+if ($(".lozad").length) {
     const observer = lozad();
     observer.observe();
+}
+
+function get_data_item(id, path, type = 'POST', msg_error = 'خطا در برقراری ارتباط با سرور') {
+    $.ajax({
+        url: path,
+        type: type,
+        data: {id: id, btn_data: true},
+        error: () => {
+            alert_error(msg_error)
+        }
+    }).done((data) => {
+        console.log(data)
+        var obj = JSON.parse(data)
+        var status_code = obj.statusCode
+        var message = obj.data.message[0]
+        return message
+    })
 }

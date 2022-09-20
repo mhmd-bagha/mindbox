@@ -1,7 +1,7 @@
 {
   "name": "mindbox/mindbox",
   "description": "project mindbox",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "license": "proprietary",
   "authors": [
     {
@@ -10,16 +10,18 @@
     }
   ],
   "require": {
-    "ext-pdo": "*"
+    "phpmailer/phpmailer": "^6.6",
+    "api-file-uploader/api-file-uploader": "dev-main"
   },
   "autoload": {
     "psr-4": {
-      "App\\": "core",
-      "src\\": "controllers"
+      "App\\": "core/",
+      "src\\": "controllers/"
     },
     "files": [
       "public/jdf/jdf.php",
-      "controllers/Response.php"
+      "controllers/Response.php",
+      "controllers/email.php"
     ]
   }
 }

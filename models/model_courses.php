@@ -65,9 +65,9 @@ class model_courses extends Model
         return $query;
     }
 
-    public function comment($course_id, $user_id, $comment, $ip, $status_show, $create_time)
+    public function comment($course_id, $user_id, $comment, $comment_type, $ip, $status_show, $create_time)
     {
-        $query = $this->Query("INSERT INTO `comments`(`course_id`, `comment_text`, `user_id`, `author`, `ip`, `create_time`, `status_show`) VALUES (?, ?, ?, ?, ?, ?, ?)", [$course_id, $comment, $user_id, $user_id, $ip, $create_time, $status_show]);
+        $query = $this->Query("INSERT INTO `comments`(`course_id`, `comment_text`, `comment_type`, `user_id`, `author`, `ip`, `create_time`, `status_show`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [$course_id, $comment, $comment_type, $user_id, $user_id, $ip, $create_time, $status_show]);
         return ($query) ? true : false;
     }
 }

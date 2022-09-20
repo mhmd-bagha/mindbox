@@ -1,6 +1,6 @@
 <?php
-
 require 'vendor/autoload.php';
+
 require DIR_ROOT . '/models/model_admin_users.php';
 
 class admin_users extends Controller
@@ -18,6 +18,4 @@ class admin_users extends Controller
     {
         return $this->model_users->end_users();
     }
-
-
 }

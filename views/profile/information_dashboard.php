@@ -1,4 +1,3 @@
-<?php $get_user = $data['get_user']; ?>
 <!-- information -->
 <div class="card bg-anti-flash-white border-0 box-shadow-sm">
     <div class="card-body">

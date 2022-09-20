@@ -8,4 +8,10 @@ class model_admin_sliders extends Model
     {
         parent::__construct();
     }
+
+    public function get_slider_id($id)
+    {
+         $query = $this->Select("SELECT * FROM `sliders` WHERE `id` = ?", [$id]);
+        return $query;
+    }
 }

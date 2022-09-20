@@ -104,6 +104,20 @@ class Model
         return self::count($this->table);
     }
 
+    public function count_where($table, $key, $value)
+    {
+        $sql = "SELECT * FROM `{$table}` WHERE `{$key}` = ?";
+        $query = self::$conn->prepare($sql);
+        $query->bindValue(1, $value);
+        $query->execute();
+        return $query->rowCount();
+    }
+
+    public function count_all_where($key, $value)
+    {
+        return self::count($this->table, $key, $value);
+    }
+
     public function count_all_table($table)
     {
         return self::count($table);
@@ -220,6 +234,12 @@ class Model
         if (isset($_SESSION[$session_name])) return $_SESSION[$session_name]; else false;
     }
 
+    public static function SessionRemove($session_name)
+    {
+        if (isset($_SESSION[$session_name]))
+            unset($_SESSION[$session_name]);
+    }
+
     public function buildNum($table_name, $columns_name, $build_num, $type_encrypt = "encrypt")
     {
         $model = new Model();
@@ -288,11 +308,20 @@ class Model
         return (new static)->$method(...$parameters);
     }
 
-    public static function alert_null_data($text, $class = "alert-warning fs-6"){
+    public static function alert_null_data($text, $class = "alert-warning fs-6")
+    {
         $file = file_get_contents(DIR_ROOT . '/views/programs/alert-null-data/index.php');
         $file = str_replace('#text', $text, $file);
         $file = str_replace('#class', $class, $file);
         echo html_entity_decode($file);
+    }
+
+    public function add_name_file_time($file_name, $new_name)
+    {
+        $array = explode(".", $file_name);
+        $exit = end($array);
+        $new_name = "{$new_name}_" . date('Y-m-d_H-i-s') . ".{$exit}";
+        return $new_name;
     }
 }
 
@@ -370,105 +399,35 @@ class Db
 
 class helper
 {
-    private $url;
-    private $api_key;
-    const METHOD_POST = 'post';
-    const METHOD_GET = 'get';
-    /**
-     * list of errors
-     *
-     * @var array
-     */
-    private $errors = array();
-
-    /**
-     * @param string $webserviceUrl
-     * @param string $apiKey
-     */
-    public function __construct($webserviceUrl)
+    public static function ErrorPay($domain, $price, $site_name, $address_site, $pay_time, $site_email, $msg_gateway)
     {
-        $this->url = $webserviceUrl;
-        $this->api_key = '';
+        $file = file_get_contents(DIR_ROOT . '/views/email/error-pay/index.php');
+        $file = str_replace('#DOMAIN', $domain, $file);
+        $file = str_replace('#Price', $price, $file);
+        $file = str_replace('#SiteName', $site_name, $file);
+        $file = str_replace('#AddressSite', $address_site, $file);
+        $file = str_replace('#AddressSiteHref', $domain, $file);
+        $file = str_replace('#PayTime', $pay_time, $file);
+        $file = str_replace('#SiteEmail', $site_email, $file);
+        $file = str_replace('#MsgGateway', $msg_gateway, $file);
+//        $file_style = (file_get_contents(DIR_ROOT . '/public/css/styles.css'));
+//        $file_bootstrap = (file_get_contents(DIR_ROOT . '/public/css/bootstrap.rtl.min.css'));
+//        $file = str_replace('/* style internal(styles) */', $file_style, $file);
+//        $file = str_replace('/* style external(bootstrap) */', $file_bootstrap, $file);
+        return html_entity_decode($file);
     }
 
-    public function getPrices($des_city, $price, $weight, $buy_type, $delivery_type)
+    public static function SuccessPay($domain, $ref_id, $price, $site_name, $address_site, $pay_time, $site_email)
     {
-        $params = array(
-            'des_city' => $des_city,
-            'price' => $price,
-            'weight' => $weight,
-            'buy_type' => $buy_type,
-            'send_type' => $delivery_type
-        );
-        return $this->call('order/getPrices.json', $params);
-    }
-
-
-    private function call($url, $params, $methodType = helper::METHOD_POST)
-    {
-        // flush error list
-        $this->errors = array();
-        if (stripos($url, 'http://') === false)
-            $url = $this->url . $url;
-        $params['api'] = $this->api_key;
-        $data = http_build_query($params);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_POST, $methodType === helper::METHOD_POST);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //execute post
-        $result = curl_exec($ch);
-        //close connection
-        curl_close($ch);
-        $result = json_decode($result, true);
-        if (json_last_error() == JSON_ERROR_NONE)
-            return $this->parseResponse($result);
-        throw new FrotelResponseException('Failed to Parse Response (' . json_last_error() . ')');
-    }
-
-    /**
-     * parse webservice response
-     *
-     * @param array $response
-     * @return bool
-     * @throws FrotelResponseException
-     * @throws FrotelWebserviceException
-     */
-    private function parseResponse($response)
-    {
-        if (!isset($response['code'], $response['message'], $response['result']))
-            throw new FrotelResponseException('پاسخ دریافتی از سرور معتبر نیست.');
-        if ($response['code'] == 0)
-            return $response['result'];
-        $this->errors[] = $response['message'];
-        throw new FrotelWebserviceException($response['message']);
-    }
-
-    public function getErrors()
-    {
-        return $this->errors;
+        $file = file_get_contents(DIR_ROOT . '/views/email/success-pay/index.php');
+        $file = str_replace('#DOMAIN', $domain, $file);
+        $file = str_replace('#RefId', $ref_id, $file);
+        $file = str_replace('#Price', $price, $file);
+        $file = str_replace('#SiteName', $site_name, $file);
+        $file = str_replace('#AddressSite', $address_site, $file);
+        $file = str_replace('#AddressSiteHref', $domain, $file);
+        $file = str_replace('#PayTime', $pay_time, $file);
+        $file = str_replace('#SiteEmail', $site_email, $file);
+        return html_entity_decode($file);
     }
 }
-
-class FrotelResponseException extends Exception
-{
-}
-
-class FrotelWebserviceException extends Exception
-{
-}
-
-
-?>
-
-
-
-
-
-
-
-
-
-

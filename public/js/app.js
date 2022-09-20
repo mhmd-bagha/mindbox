@@ -66,8 +66,8 @@ $(document).ready(() => {
         slider.owlCarousel({
             rtl: true,
             loop: true,
-            dots: true,
-            nav: true,
+            dots: false,
+            nav: false,
             center: true,
             autoplayTimeout: 3000,
             autoplay: true,
@@ -85,7 +85,7 @@ $(document).ready(() => {
         suggestedCourses_dailyDiscounts.owlCarousel({
             rtl: true,
             margin: 30,
-            loop: false,
+            loop: true,
             dots: false,
             nav: false,
             autoplayTimeout: 4000,
@@ -118,7 +118,7 @@ $(document).ready(() => {
         categoriesBretz.owlCarousel({
             rtl: true,
             margin: 30,
-            loop: false,
+            loop: true,
             dots: false,
             nav: false,
             autoplayTimeout: 4000,

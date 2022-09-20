@@ -1,4 +1,5 @@
 <?php
+require dirname(__DIR__) . '/vendor/autoload.php';
 
 class checkout extends \Controller
 {
@@ -11,7 +12,6 @@ class checkout extends \Controller
     private $CallbackURL = DOMAIN . "/checkout/pay_verify";
     private $ZarinGate = false;
     private $SandBox = true;
-    private $result = array();
 
     public function __construct()
     {
@@ -66,6 +66,7 @@ class checkout extends \Controller
 
     public function pay_verify()
     {
+        $email = new email();
         $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
         $this->Amount = $_SESSION['amount'];
         $result = $this->zp->verify($this->MerchantID, $this->Amount, $this->SandBox, $this->ZarinGate);
@@ -74,17 +75,23 @@ class checkout extends \Controller
         $status_waiting = 'waiting';
         $get_user = $this->model->where('users', 'user_email', $this->model->decrypt(Model::SessionGet('user')));
         $user_id = $get_user->id;
+        $full_name = $get_user->first_name . ' ' . $get_user->last_name;
+        $user_email = $get_user->user_email;
         if (isset($result["Status"]) && $result["Status"] == 100) {
             // Success
             $this->model->update_payment($result["Status"], $status_paid, $result['RefID'], $time, $result['Authority']);
             $this->model->update_factor($status_paid, $result['Authority']);
             $this->model->update_cart($status_paid, $status_waiting, $user_id);
+            $success_pay = helper::SuccessPay(DOMAIN, $result['RefID'], $this->Amount, 'مایندباکس', 'www.bebest20.ir', $time, EMAIL_USERNAME);
+            $email->send($user_email, $full_name, 'رسید خرید اینترنتی مایندباکس', $success_pay);
             $redirect = "checkout/verify/success-pay";
         } else {
             // error
             $this->model->update_payment($result["Status"], $status_unsuccessful, null, $time, $result['Authority']);
             $this->model->update_factor($status_unsuccessful, $result['Authority']);
             $this->model->update_cart($status_unsuccessful, $status_waiting, $user_id);
+            $error_pay = helper::ErrorPay(DOMAIN, $this->Amount, 'مایندباکس', 'www.bebest20.ir', $time, EMAIL_USERNAME, $result['Message']);
+            $email->send($user_email, $full_name, 'رسید خرید اینترنتی مایندباکس', $error_pay);
             $redirect = "checkout/verify/error-pay";
         }
         $_SESSION['result'] = array('zarinpal' => $result, 'time' => $time, 'amount' => $this->Amount);

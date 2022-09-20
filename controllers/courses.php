@@ -74,8 +74,9 @@ class courses extends Controller
             $ip = $_SERVER['REMOTE_ADDR'];
             $status_show = 'hide';
             $create_time = jdate("Y/m/d H:i:s", time(), '', 'Asia/Tehran', 'en');
+            $comment_type=  'user';
             if (isset($course_id, $user_id, $comment) && !empty($course_id) && !empty($user_id) && !empty($comment)) {
-                $send_comment = $this->model->comment($course_id, $user_id, $comment, $ip, $status_show, $create_time);
+                $send_comment = $this->model->comment($course_id, $user_id, $comment, $comment_type, $ip, $status_show, $create_time);
                 if ($send_comment)
                     echo response::Json(200, true, [
                         'domain' => DOMAIN,

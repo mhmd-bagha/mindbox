@@ -1,9 +1,10 @@
 <?php
 
-require 'vendor/autoload.php';
+require DIR_ROOT . 'vendor/autoload.php';
+
 require DIR_ROOT . '/models/model_admin_comment.php';
 
-class admin_comment extends Controller
+class admin_comment extends \Controller
 {
     public $model_comment;
 
