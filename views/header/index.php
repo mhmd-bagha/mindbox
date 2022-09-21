@@ -85,22 +85,7 @@
                 <button type="button" class="btn border-0 text-white" data-bs-dismiss="offcanvas"><i
                             class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="offcanvas-body">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="<?php echo DOMAIN ?>">صفحه اصلی</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo DOMAIN ?>/information">درباره ما</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo DOMAIN ?>/information/contactUs">تماس با ما</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo DOMAIN ?>/information/rules">قوانین</a>
-                    </li>
-                </ul>
-            </div>
+            <?php require 'menu_items.php' ?>
         </div>
         <?php if (!Model::SessionGet('user')) { ?>
             <a href="<?php echo DOMAIN ?>/login" class="btn-transparent d-md-none">ورود به حساب کاربری</a>

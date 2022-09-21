@@ -16,6 +16,19 @@ $ticket_chats = $data['chat_ticket'] ?>
                         <div class="col-12 col-lg-9 user-content">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5><?= $get_ticket->ticket_title ?></h5>
+                                <p> وضعیت:
+                                    <?php switch ($get_ticket->ticket_status) {
+                                        case "waiting":
+                                            ?> <span
+                                                class="badge text-warning p-2"> در انتظار پاسخ</span> <?php break;
+                                        case "closed":
+                                            ?> <span
+                                                class="badge text-danger p-2">بسته شده</span> <?php break;
+                                        case "answered":
+                                            ?> <span
+                                                class="badge text-success p-2">پاسخ داده شده</span> <?php break;
+                                    } ?>
+                                </p>
                                 <div>
                                     <?php if ($get_ticket->ticket_status != 'closed') { ?>
                                         <a href="#" class="btn-orange" data-bs-toggle="modal"
@@ -174,6 +187,32 @@ $ticket_chats = $data['chat_ticket'] ?>
     </div>
 </main>
 <?php if ($get_ticket->ticket_status != 'closed') { ?>
+    <!-- Modal -->
+    <div class="modal fade" id="close_ticket_modal" tabindex="-1" aria-labelledby="close_ticket_modal_label"
+         aria-hidden="true"
+         data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <i class="fa-solid fa-circle-exclamation text-warning" style="font-size: 5rem"></i>
+                    <p class="fs-5 fw-bold mt-4">کاربر گرامی</p>
+                    <p class="fs-6">با بستن تیکت دیگر قابلیت ارسال پیام در این تیکت را ندارید</p>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="#" class="w-100 me-2">
+                            <button type="button" class="btn btn-primary w-100" onclick="closed_ticket()"
+                                    id="btn_go_closed_ticket">بزن بریم
+                            </button>
+                        </a>
+                        <a href="#" data-bs-dismiss="modal" class="w-100">
+                            <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">بزار
+                                بعدا
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         var btn_add_ticket = $("#answer_ticket")
         let ticket_image = ''
@@ -230,36 +269,7 @@ $ticket_chats = $data['chat_ticket'] ?>
                 form_ticket_answer.prop('disabled', false)
             })
         }
-    </script>
-<?php } ?>
-<?php if ($get_ticket->ticket_status != 'closed') { ?>
-    <!-- Modal -->
-    <div class="modal fade" id="close_ticket_modal" tabindex="-1" aria-labelledby="close_ticket_modal_label"
-         aria-hidden="true"
-         data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <i class="fa-solid fa-circle-exclamation text-warning" style="font-size: 5rem"></i>
-                    <p class="fs-5 fw-bold mt-4">کاربر گرامی</p>
-                    <p class="fs-6">با بستن تیکت دیگر قابلیت ارسال پیام در این تیکت را ندارید</p>
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                        <a href="#" class="w-100 me-2">
-                            <button type="button" class="btn btn-primary w-100" onclick="closed_ticket()"
-                                    id="btn_go_closed_ticket">بزن بریم
-                            </button>
-                        </a>
-                        <a href="#" data-bs-dismiss="modal" class="w-100">
-                            <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">بزار
-                                بعدا
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
+
         function closed_ticket() {
             var id = "<?= $get_ticket->id ?>"
             var btn_go_closed_ticket = $("#btn_go_closed_ticket")

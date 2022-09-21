@@ -12,6 +12,7 @@ require 'admin_sliders.php';
 require 'admin_categories.php';
 require 'admin_courses.php';
 require 'admin_ticket.php';
+require 'menu.php';
 
 class admin extends Controller
 {
@@ -21,6 +22,7 @@ class admin extends Controller
     private $categories;
     private $courses;
     private $tickets;
+    private $menu;
 
     public function __construct()
     {
@@ -34,6 +36,7 @@ class admin extends Controller
         $this->categories = new admin_categories();
         $this->courses = new admin_courses();
         $this->tickets = new admin_ticket();
+        $this->menu = new menu();
     }
 
     public function index()
@@ -160,7 +163,8 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | منو‌ها';
-        $this->view('admin/admin-menus', '', null, null);
+        $menu_all = $this->menu->model_menu->all();
+        $this->view('admin/admin-menus', compact('menu_all'), null, null);
     }
 
     public function pages()
@@ -350,6 +354,48 @@ class admin extends Controller
                     echo response::Json(500, true, [
                         'domain' => DOMAIN,
                         'message' => 'اطلاعات ارسالی ناقص است'
+                    ]);
+            }
+        }
+    }
+
+    public function add_menu()
+    {
+        if (isset($_POST['btn_add_menu'])) {
+            $data = $_POST;
+            $menu_name = $this->model->security($data['menu_name']);
+            $menu_address = $this->model->security($data['menu_address']);
+            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
+            $status_show = 'show';
+            if (isset($menu_name, $menu_address) && !empty($menu_name) && !empty($menu_address)) {
+                if (filter_var($menu_address, FILTER_VALIDATE_URL)) {
+                    $menu_add = $this->menu->model_menu->add($menu_name, $menu_address, $status_show, $time);
+                    if ($menu_add)
+                        echo response::Json(200, true, [
+                            'domain' => DOMAIN,
+                            'message' => 'منو با موفقیت ایجاد شد',
+                            'redirect' => DOMAIN . '/admin/menus'
+                        ]);
+                    else
+                        echo response::Json(500, true, [
+                            'domain' => DOMAIN,
+                            'message' => 'خطا در ثبت منو'
+                        ]);
+                } else
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فرمت آدرس منو نامعتبر است'
+                    ]);
+            } else {
+                if (empty($menu_name))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد نام منو را پر کنید'
+                    ]);
+                if (empty($menu_address))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد آدرس منو را پر کنید'
                     ]);
             }
         }
