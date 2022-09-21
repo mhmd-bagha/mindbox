@@ -14,7 +14,7 @@
                             <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course_discounts->id ?>"><img
                                         data-src="<?php echo DOMAIN ?>/public/images/<?php echo $course_discounts->course_image ?>"
                                         alt="<?php echo $course_discounts->course_title ?>" data-alt="<?php echo $course_discounts->course_title ?>"
-                                        class="card-img-top lozad"></a>
+                                        class="card-img-top owl-lazy"></a>
                             <div class="card-body">
                                 <h2 class="title-course-card text-truncate mb-3">
                                     <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course_discounts->id ?>"><?php echo $course_discounts->course_title ?></a>

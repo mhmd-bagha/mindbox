@@ -71,6 +71,7 @@ $(document).ready(() => {
             center: true,
             autoplayTimeout: 3000,
             autoplay: true,
+            lazyLoad: true,
             autoplayHoverPause: true,
             items: 1,
             responsive: {
@@ -88,6 +89,7 @@ $(document).ready(() => {
             loop: true,
             dots: false,
             nav: false,
+            lazyLoad: true,
             autoplayTimeout: 4000,
             autoplay: true,
             autoplayHoverPause: true,
@@ -121,6 +123,7 @@ $(document).ready(() => {
             loop: true,
             dots: false,
             nav: false,
+            lazyLoad: true,
             autoplayTimeout: 4000,
             autoplay: true,
             autoplayHoverPause: true,

@@ -2,13 +2,13 @@
     <div class="container-fluid">
         <!-- sidebar -->
         <?php
-        require_once("admin-menu.php");
+        require_once(DIR_ROOT . "views/admin/admin-menu.php");
         ?>
         <!-- content wrapper -->
         <section class="content-wrapper">
             <!-- header content -->
             <?php
-            require_once("admin-header.php");
+            require_once(DIR_ROOT . "views/admin/admin-header.php");
             ?>
             <!-- main content -->
             <section class="main-content px-3">

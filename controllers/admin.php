@@ -172,7 +172,7 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/ckeditor/ckeditor.js', 'js/admin.js'];
         $this->title = 'ادمین | صفحات';
-        $this->view('admin/admin-pages', '', null, null);
+        $this->view('admin/pages/admin-pages', '', null, null);
     }
 
     public function settings()

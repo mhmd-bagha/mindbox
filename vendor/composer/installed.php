@@ -3,7 +3,7 @@
         'name' => 'mindbox/mindbox',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '2467e4f00723db789e8707efb5038ebdb90d3485',
+        'reference' => '57de3c6920a62cdb99609c3e86282c74229a6813',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -24,7 +24,7 @@
         'mindbox/mindbox' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '2467e4f00723db789e8707efb5038ebdb90d3485',
+            'reference' => '57de3c6920a62cdb99609c3e86282c74229a6813',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
