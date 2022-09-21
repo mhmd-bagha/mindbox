@@ -1,8 +1,9 @@
+<?php $get_admin = $this->model->where('admins', 'admin_email', $this->model->decrypt(Model::SessionGet('admin'))); ?>
 <section class="sidebar">
     <!-- sidebar header -->
     <div class="sidebar-header d-flex align-items-center">
-        <img src="<?= DOMAIN ?>/public/images/profile/user.svg" alt="">
-        <span class="text-truncate">محمد چشمی</span>
+        <img src="<?= DOMAIN ?>/public/images/profile/user.svg" alt="تصویر ادمین">
+        <span class="text-truncate"><?= $get_admin->first_name . ' ' . $get_admin->last_name ?></span>
     </div>
     <!-- sidebar nav -->
     <div class="sidebar-nav">
@@ -91,10 +92,14 @@
     <!-- sidebar footer -->
     <div class="sidebar-footer">
         <li>
-            <a href="#">
+            <a href="<?= DOMAIN ?>/admin/logout">
                 <span class="menu-icon"><i class="fa-solid fa-power-off"></i></span>
                 <span class="menu-text text-truncate">خروج حساب کاربری</span>
             </a>
         </li>
     </div>
 </section>
+<script>
+    let admin_id = "<?= $get_admin->id ?>"
+    let PATH = "<?= DOMAIN ?>"
+</script>

@@ -266,10 +266,12 @@ class account extends Controller
         if (isset($_POST['btn_ticket_closed'])) {
             $data = $_POST;
             $ticket_id = $this->model->security($_POST['ticket_id']);
-            if (empty($ticket_id)) {
-                $closed_ticket = $this->model->closed_ticket('closed', $ticket_id);
+            $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
+            $user_id = $get_user->id;
+            if (!empty($ticket_id)) {
+                $closed_ticket = $this->model->closed_ticket('closed', $ticket_id, $user_id);
                 if ($closed_ticket) {
-                    echo response::Json(500, true, [
+                    echo response::Json(200, true, [
                         'domain' => DOMAIN,
                         'message' => 'تیکت با موفقیت بسته شد',
                         'redirect' => DOMAIN . "/account/ticket/{$ticket_id}"

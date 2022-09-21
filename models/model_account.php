@@ -63,9 +63,9 @@ class model_account extends Model
         return (bool)$query;
     }
 
-        public function closed_ticket($status, $id)
+    public function closed_ticket($status, $id, $user_id)
     {
-        $query = $this->Query("UPDATE `tickets` SET `ticket_status` = ? WHERE `id` = ?", [$status, $id]);
+        $query = $this->Query("UPDATE `tickets` SET `ticket_status` = ? WHERE `id` = ? AND `user_id` = ?", [$status, $id, $user_id]);
         return (bool)$query;
     }
 }

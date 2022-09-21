@@ -18,25 +18,8 @@ $ticket_chats = $data['chat_ticket'] ?>
                                 <h5><?= $get_ticket->ticket_title ?></h5>
                                 <div>
                                     <?php if ($get_ticket->ticket_status != 'closed') { ?>
-                                        <a href="<?= DOMAIN ?>/account/tickets" class="btn-orange" data-bs-toggle="modal" data-bs-target="#exampleModal">بستن تیکت</a>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">بستن تیکت</h5>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="alert alert-warning">هشدار با بستن تیکت دیگر قابلیت ارسال پیام در این تیکت را ندارید</div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        <a href="#" class="btn-orange" data-bs-toggle="modal"
+                                           data-bs-target="#close_ticket_modal">بستن تیکت</a>
                                     <?php } ?>
                                     <a href="<?= DOMAIN ?>/account/tickets" class="btn-blue">بازگشت</a>
                                 </div>
@@ -180,7 +163,9 @@ $ticket_chats = $data['chat_ticket'] ?>
                                                     class="fa-solid fa-paper-plane"></i></button>
                                     </div>
                                 </form>
-                            <?php } ?>
+                            <?php } else {
+                                Model::alert_null_data("تیکت شماره {$get_ticket->id} بسته شده است", 'alert-primary text-center fw-bold mt-5');
+                            } ?>
                         </div>
                     </div>
                 </div>
@@ -248,18 +233,60 @@ $ticket_chats = $data['chat_ticket'] ?>
     </script>
 <?php } ?>
 <?php if ($get_ticket->ticket_status != 'closed') { ?>
+    <!-- Modal -->
+    <div class="modal fade" id="close_ticket_modal" tabindex="-1" aria-labelledby="close_ticket_modal_label"
+         aria-hidden="true"
+         data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <i class="fa-solid fa-circle-exclamation text-warning" style="font-size: 5rem"></i>
+                    <p class="fs-5 fw-bold mt-4">کاربر گرامی</p>
+                    <p class="fs-6">با بستن تیکت دیگر قابلیت ارسال پیام در این تیکت را ندارید</p>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="#" class="w-100 me-2">
+                            <button type="button" class="btn btn-primary w-100" onclick="closed_ticket()"
+                                    id="btn_go_closed_ticket">بزن بریم
+                            </button>
+                        </a>
+                        <a href="#" data-bs-dismiss="modal" class="w-100">
+                            <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">بزار
+                                بعدا
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
-        function closed_ticket(id) {
+        function closed_ticket() {
+            var id = "<?= $get_ticket->id ?>"
+            var btn_go_closed_ticket = $("#btn_go_closed_ticket")
+            btn_go_closed_ticket.prop('disabled', true).text('در حال بستن...')
             $.ajax({
-                url: "",
-                type: "",
-                data: {},
-                success: () => {
+                url: PATH + "/account/closed_ticket",
+                type: "POST",
+                data: {ticket_id: id, btn_ticket_closed: true},
+                success: (data) => {
+                    let obj = JSON.parse(data)
+                    let status = obj.statusCode
+                    let message = obj.data.message
+                    switch (status) {
+                        case 200:
+                            window.location.href = obj.data.redirect
+                            break;
+                        case 500:
+                            alert_error(message)
+                            break;
+                    }
                 },
                 error: () => {
+                    alert_error('خطا در بستن تیکت')
+                    btn_go_closed_ticket.prop('disabled', false).text('بزن بریم')
                 }
             }).done(() => {
-
+                btn_go_closed_ticket.prop('disabled', false).text('بزن بریم')
             })
         }
     </script>

@@ -1,6 +1,8 @@
 <?php
 require DIR_ROOT . 'vendor/autoload.php';
+require DIR_ROOT . 'vendor/api-file-uploader/api-file-uploader/uploader/Uploader.php';
 
+use Uploader\Uploader as file_uploader;
 use Response\Response as response;
 
 
@@ -9,6 +11,7 @@ require 'admin_users.php';
 require 'admin_sliders.php';
 require 'admin_categories.php';
 require 'admin_courses.php';
+require 'admin_ticket.php';
 
 class admin extends Controller
 {
@@ -17,6 +20,7 @@ class admin extends Controller
     private $sliders;
     private $categories;
     private $courses;
+    private $tickets;
 
     public function __construct()
     {
@@ -29,6 +33,7 @@ class admin extends Controller
         $this->sliders = new admin_sliders();
         $this->categories = new admin_categories();
         $this->courses = new admin_courses();
+        $this->tickets = new admin_ticket();
     }
 
     public function index()
@@ -137,13 +142,17 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | تیکت‌ها';
-        $this->view('admin/admin-tickets', '', null, null);
+        $ticket_all = $this->tickets->model_ticket->get_tickets();
+        $this->view('admin/admin-tickets', compact('ticket_all'), null, null);
     }
 
-    public function ticket()
+    public function ticket(int $id = null)
     {
-        $this->title = 'ادمین | تیکت';
-        $this->view('admin/admin-ticket', '', null, null);
+        if (empty($id)) Model::error404();
+        $get_ticket = $this->tickets->model_ticket->where('tickets', 'id', $id);
+        $chat_ticket = $this->tickets->model_ticket->get_ticket($id);
+        $this->title = "ادمین | تیکت {$get_ticket->ticket_title}";
+        $this->view('admin/admin-ticket', compact('get_ticket', 'chat_ticket'), null, null);
     }
 
     public function menus()
@@ -268,5 +277,81 @@ class admin extends Controller
     public function get_slider_id()
     {
         $get_slider_id = $this->sliders->get_slider_id();
+    }
+
+    public function ticket_answer()
+    {
+        if (isset($_POST['btn_answer_ticket'])) {
+            $data = $_POST;
+            $file_uploader = new file_uploader();
+            $ticket_description = $this->model->security($data['ticket_description']);
+            $admin_id = $this->model->security($data['admin_id']);
+            $ticket_id = $this->model->security($data['ticket_id']);
+            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $ticket_type = 'admin';
+            $ticket_status = 'answered';
+            if (isset($ticket_description, $admin_id, $ticket_id) && !empty($ticket_description) && !empty($admin_id) && !empty($ticket_id)) {
+                if (isset($_FILES['ticket_image']['name']) && !empty($_FILES['ticket_image']['name'])) {
+                    $data_file = $_FILES['ticket_image'];
+                    $ticket_img_name = $data_file['name'];;
+                    $ticket_img_tmp = $data_file['tmp_name'];
+                    $ticket_img_size = $data_file['size'];
+                    $ticket_img_type = $data_file['type'];
+                    $ticket_image = $this->model->add_name_file_time($ticket_img_name, 'image');
+                    if (in_array($ticket_img_type, TYPE_IMG)) {
+                        if ($ticket_img_size <= SIZE_IMG) {
+                            $add_ticket = $this->tickets->model_ticket->ticket_answer($ticket_description, $ticket_image, $ticket_status, $ticket_type, $ticket_id, $admin_id, $ip, $time);
+                            if ($add_ticket) {
+                                $file_uploader->uploader($ticket_img_tmp, $ticket_img_type, $ticket_image, 'image_ticket', DL_DOMAIN . '/uploader/getter.php');
+                                $this->tickets->model_ticket->ticket_status($ticket_id, $ticket_status);
+                                echo response::Json(200, true, [
+                                    'domain' => DOMAIN,
+                                    'message' => 'پاسخ تیکت با موفقیت ثبت شد',
+                                    'redirect' => DOMAIN . "/admin/ticket/{$ticket_id}"
+                                ]);
+                            } else
+                                echo response::Json(500, true, [
+                                    'domain' => DOMAIN,
+                                    'message' => 'خطا در ثبت پاسخ'
+                                ]);
+                        } else
+                            echo response::Json(500, true, [
+                                'domain' => DOMAIN,
+                                'message' => 'حجم تصویر باید زیر ۲ مگابایت باشد'
+                            ]);
+                    } else
+                        echo response::Json(500, true, [
+                            'domain' => DOMAIN,
+                            'message' => 'پسوند های مجاز است png یا jpg یا jpeg'
+                        ]);
+                } else {
+                    $add_ticket = $this->tickets->model_ticket->ticket_answer($ticket_description, null, $ticket_status, $ticket_type, $ticket_id, $admin_id, $ip, $time);
+                    if ($add_ticket) {
+                        $this->tickets->model_ticket->ticket_status($ticket_id, $ticket_status);
+                        echo response::Json(200, true, [
+                            'domain' => DOMAIN,
+                            'message' => 'پاسخ تیکت با موفقیت ثبت شد',
+                            'redirect' => DOMAIN . "/admin/ticket/{$ticket_id}"
+                        ]);
+                    } else
+                        echo response::Json(500, true, [
+                            'domain' => DOMAIN,
+                            'message' => 'خطا در ثبت پاسخ'
+                        ]);
+                }
+            } else {
+                if (empty($ticket_description))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد متن تیکت اجباری است'
+                    ]);
+                if (empty($admin_id) || empty($ticket_id))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'اطلاعات ارسالی ناقص است'
+                    ]);
+            }
+        }
     }
 }

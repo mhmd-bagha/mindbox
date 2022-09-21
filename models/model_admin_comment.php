@@ -9,9 +9,9 @@ class model_admin_comment extends Model
         parent::__construct();
     }
 
-    public function end_comments()
+    public function end_comments($comment_type = 'user')
     {
-        $query = $this->Select("SELECT * FROM `comments` ORDER BY `create_time` DESC LIMIT 5");
+        $query = $this->Select("SELECT * FROM `comments` WHERE `comment_type` = ? AND `reply_id` IS NULL ORDER BY `create_time` DESC LIMIT 5", [$comment_type]);
         return $query;
     }
 
