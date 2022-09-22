@@ -13,18 +13,21 @@ class information extends Controller
     public function index()
     {
         $this->title = 'درباره ما | مایندباکس';
-        $this->view('information/about-us');
+        $about_me = $this->model->get('about_me');
+        $this->view('information/about-me', compact('about_me'));
     }
 
     public function rules()
     {
         $this->title = 'قوانین | مایندباکس';
-        $this->view('information/rules');
+        $rules = $this->model->getAll('rules');
+        $this->view('information/rules', compact('rules'));
     }
 
     public function contactUs()
     {
         $this->title = 'تماس با ما | مایندباکس';
-        $this->view('information/contact-us');
+        $contact_us = $this->model->get('contact_us');
+        $this->view('information/contact-us', compact('contact_us'));
     }
 }

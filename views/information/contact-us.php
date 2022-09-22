@@ -5,18 +5,19 @@
             <div class="card shadow rounded-0">
                 <div class="card-body p-0">
                     <div class="row mx-0">
+                        <?php if (!empty($data['contact_us'])){
+                            $contact_us = json_decode($data['contact_us']->information_data); ?>
                         <!-- information -->
                         <div class="col-12 col-lg-5 col-xl-4 p-4 p-sm-5 text-white bg-blue">
                             <h4 class="fw-bold">اطلاعات تماس</h4>
                             <hr class="pb-2">
                             <ul class="list-unstyled">
-                                <li class="py-3 fs-5"><i class="fa-solid fa-map-location-dot me-2"></i>استان خراسان رضوی،
-                                    مشهد، بلوار احمدآباد، خیابان عارف، عارف 10، پلاک 20، واحد 5، شرکت مایندباکس
-                                </li>
-                                <li class="py-3 fs-5"><i class="fa-solid fa-phone me-2"></i>09051234567</li>
-                                <li class="py-3 fs-5"><i class="fa-solid fa-envelope me-2"></i>info@mindbox.com</li>
+                                <li class="py-3 fs-5"><i class="fa-solid fa-map-location-dot me-2"></i><?= $contact_us->address ?></li>
+                                <li class="py-3 fs-5"><i class="fa-solid fa-phone me-2"></i><?= $contact_us->phone_mobile ?></li>
+                                <li class="py-3 fs-5"><i class="fa-solid fa-envelope me-2"></i><?= $contact_us->email ?></li>
                             </ul>
                         </div>
+                        <?php } ?>
                         <!-- form contact us -->
                         <div class="col-12 col-lg-7 col-xl-8 p-4 p-sm-5">
                             <h4 class="fw-bold">تماس با ما</h4>

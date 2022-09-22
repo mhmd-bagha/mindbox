@@ -13,6 +13,7 @@ require 'admin_categories.php';
 require 'admin_courses.php';
 require 'admin_ticket.php';
 require 'menu.php';
+require 'admin_information.php';
 
 class admin extends Controller
 {
@@ -23,6 +24,7 @@ class admin extends Controller
     private $courses;
     private $tickets;
     private $menu;
+    private $information;
 
     public function __construct()
     {
@@ -37,6 +39,7 @@ class admin extends Controller
         $this->courses = new admin_courses();
         $this->tickets = new admin_ticket();
         $this->menu = new menu();
+        $this->information = new admin_information();
     }
 
     public function index()
@@ -172,7 +175,8 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/ckeditor/ckeditor.js', 'js/admin.js'];
         $this->title = 'ادمین | صفحات';
-        $this->view('admin/pages/admin-pages', '', null, null);
+        $rules = $this->information->model_information->getAll('rules');
+        $this->view('admin/pages/admin-pages', compact('rules'), null, null);
     }
 
     public function settings()
@@ -396,6 +400,102 @@ class admin extends Controller
                     echo response::Json(500, true, [
                         'domain' => DOMAIN,
                         'message' => 'فیلد آدرس منو را پر کنید'
+                    ]);
+            }
+        }
+    }
+
+    public function add_rules()
+    {
+        if (isset($_POST['btn_rule'])) {
+            $data = $_POST;
+            $title = $this->model->security($data['title']);
+            $description = $this->model->security($data['description']);
+            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
+            $status = 'show';
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $information_type = 'rules';
+            if (isset($title, $description) && !empty($title) && !empty($description)) {
+                $json_data = ['rule_title' => $title, 'rule_description' => $description];
+                $json_data = json_encode($json_data, true);
+                $add_rule = $this->information->model_information->add($information_type, $json_data, $ip, $time, $status);
+                echo ($add_rule) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'قانون با موفقیت اضافه شد', 'redirect' => DOMAIN . '/admin/pages']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در اضافه کردن قانون']);
+            } else {
+                if (empty($title))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد عنوان قوانین اجباری است'
+                    ]);
+                if (empty($description))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد عنوان قوانین اجباری است'
+                    ]);
+            }
+        }
+    }
+
+    public function add_contact_us()
+    {
+        if (isset($_POST['btn_contact_us'])) {
+            $data = $_POST;
+            $address = $this->model->security($data['address']);
+            $phone_mobile = $this->model->security($data['phone_mobile']);
+            $email = $this->model->security($data['email']);
+            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
+            $status = 'show';
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $information_type = 'contact_us';
+            if (isset($address, $phone_mobile, $email) && !empty($address) && !empty($phone_mobile) && !empty($email)) {
+                $json_data = ['address' => $address, 'phone_mobile' => $phone_mobile, 'email' => $email];
+                $json_data = json_encode($json_data, true);
+                $add_rule = $this->information->model_information->add($information_type, $json_data, $ip, $time, $status);
+                echo ($add_rule) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'اطلاعات با موفقیت اضافه شد', 'redirect' => DOMAIN . '/admin/pages']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در اضافه کردن اطلاعات']);
+            } else {
+                if (empty($address))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد آدرس اجباری است'
+                    ]);
+                if (empty($phone_mobile))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد شماره تلفن اجباری است'
+                    ]);
+                if (empty($email))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد ایمیل اجباری است'
+                    ]);
+            }
+        }
+    }
+
+    public function add_about_me()
+    {
+        if (isset($_POST['btn_about_me'])) {
+            $data = $_POST;
+            $title = $this->model->security($data['title']);
+            $description = $this->model->security($data['description']);
+            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
+            $status = 'show';
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $information_type = 'about_me';
+            if (isset($title, $description) && !empty($title) && !empty($description)) {
+                $json_data = ['title' => $title, 'description' => $description];
+                $json_data = json_encode($json_data, true);
+                $add_rule = $this->information->model_information->add($information_type, $json_data, $ip, $time, $status);
+                echo ($add_rule) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'اطلاعات با موفقیت اضافه شد', 'redirect' => DOMAIN . '/admin/pages']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در اضافه کردن اطلاعات']);
+            } else {
+                if (empty($title))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد عنوان اجباری است'
+                    ]);
+                if (empty($description))
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => 'فیلد متن اجباری است'
                     ]);
             }
         }
