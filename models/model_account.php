@@ -15,21 +15,21 @@ class model_account extends Model
         return $query;
     }
 
-    public function my_factors($user_id, $factor_status)
+    public function count_my_ticket($user_id, $ticket_type)
     {
-        $query = $this->Select("SELECT * FROM `factors` WHERE `user_id` = ? AND `factor_status` = ?", [$user_id, $factor_status]);
+        $query = $this->Select("SELECT `id` FROM `tickets` WHERE `user_id` = ? AND `ticket_type` = ? AND `ticket_reply` IS NULL ", [$user_id, $ticket_type], 'fetchAll', PDO::FETCH_OBJ, true);
+        return $query;
+    }
+
+    public function my_factors($user_id)
+    {
+        $query = $this->Select("SELECT * FROM `factors` WHERE `user_id` = ?", [$user_id]);
         return $query;
     }
 
     public function my_cart($user_id, $factor_status)
     {
         $query = $this->Select("SELECT * FROM `cart` WHERE `user_id` = ? AND `status` = ?", [$user_id, $factor_status]);
-        return $query;
-    }
-
-    public function my_courses($id)
-    {
-        $query = $this->Select("SELECT `id`, `course_title`, `create_time` FROM `courses` WHERE `id` = ?", [$id]);
         return $query;
     }
 
@@ -67,5 +67,18 @@ class model_account extends Model
     {
         $query = $this->Query("UPDATE `tickets` SET `ticket_status` = ? WHERE `id` = ? AND `user_id` = ?", [$status, $id, $user_id]);
         return (bool)$query;
+    }
+
+    public function my_courses_factor($user_id)
+    {
+        $factor_status = 'paid';
+        $query = $this->Select("SELECT `courses_id` FROM `factors` WHERE `factor_status` = ? AND `user_id` = ?", [$factor_status, $user_id]);
+        return $query;
+    }
+
+    public function my_course($course_id)
+    {
+        $query = $this->Select("SELECT * FROM `courses` WHERE `id` = ?", [$course_id]);
+        return $query;
     }
 }

@@ -38,7 +38,7 @@
                             <td><?= $category->create_time ?></td>
                             <td>
                                 <div class="btn-group">
-                                    <a data-bs-toggle="modal" data-bs-target="#show-more" title="نمایش بیشتر"
+                                    <a data-bs-toggle="modal" data-bs-target="#show-more-img-<?= $category->id ?>" title="نمایش بیشتر"
                                        class="btn btn-sm btn-outline-info shadow-none"><i
                                                 class="fa-solid fa-eye"></i></a>
                                     <a data-bs-toggle="modal" data-bs-target="#form" title="ویرایش"
@@ -49,23 +49,23 @@
                                 </div>
                             </td>
                         </tr>
+                            <!-- modal show more -->
+                            <div class="modal fade" id="show-more-img-<?= $category->id ?>" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">تصویر دسته بندی</h5>
+                                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img data-src="<?= DOMAIN ?>/public/images/<?= $category->category_image ?>" alt="" class="img-fluid lozad">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php } ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <!-- modal show more -->
-            <div class="modal fade" id="show-more" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">تصویر دسته بندی</h5>
-                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <img data-src="<?= DOMAIN ?>/public/images/category1.png" alt="" class="img-fluid lozad">
-                        </div>
-                    </div>
                 </div>
             </div>
             <!-- modal edit & add -->

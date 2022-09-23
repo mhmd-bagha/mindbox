@@ -18,69 +18,69 @@ if (isset(explode('/', $_SERVER['QUERY_STRING'])[1])) {
 }
 switch ($url_active_user) {
     case null:
-        $index = "active";
+        $index_active = "active";
         break;
-    case "user_edit_profile":
-        $edit_profile = "active";
+    case "edit_profile":
+        $edit_profile_active = "active";
         break;
-    case "user_change_password":
-        $change_password = "active";
+    case "change_password":
+        $change_password_active = "active";
         break;
-    case "user_wallet":
-        $wallet = "active";
+    case "wallet":
+        $wallet_active = "active";
         break;
-    case "user_my_courses":
-        $my_courses = "active";
+    case "my_courses":
+        $my_courses_active = "active";
         break;
-    case "user_factors":
-        $factors = "active";
+    case "factors":
+        $factors_active = "active";
         break;
-    case "user_tickets" || "user_ticket" || "add_ticket":
-        $tickets = "active";
+    case "tickets" || "ticket" || "add_ticket":
+        $tickets_active = "active";
         break;
     default:
-        $index = "active";
+        $index_active = "active";
         break;
 }
 ?>
 <ul>
-    <li class="<?php echo $index ?>">
+    <li class="<?php echo $index_active ?>">
         <a href="<?php echo DOMAIN ?>/account/">
             <span class="menu-icon"><i class="bi bi-speedometer2"></i></span>
             <span class="menu-text text-truncate">داشبورد کاربری</span>
         </a>
     </li>
-    <li class="<?php echo $edit_profile ?>">
+    <li class="<?php echo $edit_profile_active ?>">
         <a href="<?php echo DOMAIN ?>/account/edit_profile">
             <span class="menu-icon"><i class="bi bi-person"></i></span>
             <span class="menu-text text-truncate">ویرایش پروفایل</span>
         </a>
     </li>
-    <li class="<?php echo $change_password ?>">
+    <li class="<?php echo $change_password_active ?>">
         <a href="<?php echo DOMAIN ?>/account/change_password">
             <span class="menu-icon"><i class="bi bi-shield-lock"></i></span>
             <span class="menu-text text-truncate">تغییر رمز عبور</span>
         </a>
     </li>
-    <li class="<?php echo $wallet ?>">
+    <li class="<?php echo $wallet_active ?>">
         <a href="<?php echo DOMAIN ?>/account/wallet">
             <span class="menu-icon"><i class="bi bi-wallet"></i></span>
             <span class="menu-text text-truncate">کیف پول</span>
         </a>
     </li>
-    <li class="<?php echo $my_courses ?>">
+    <li class="<?php echo $my_courses_active ?>">
         <a href="<?php echo DOMAIN ?>/account/my_courses">
             <span class="menu-icon"><i class="bi bi-display"></i></span>
             <span class="menu-text text-truncate">دوره های من</span>
         </a>
     </li>
-    <li class="<?php echo $factors ?>">
+    <li class="<?php echo $factors_active ?>">
         <a href="<?php echo DOMAIN ?>/account/factors">
             <span class="menu-icon"><i class="bi bi-file-text"></i></span>
             <span class="menu-text text-truncate">فاکتور ها</span>
         </a>
     </li>
-    <li class="<?php echo $tickets ?>">
+    <li class="<?php echo $tickets_active ?>">
         <a href="<?php echo DOMAIN ?>/account/tickets">
             <span class="menu-icon"><i class="bi bi-ticket"></i></span>
             <span class="menu-text text-truncate">تیکت ها</span>

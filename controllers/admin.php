@@ -14,6 +14,7 @@ require 'admin_courses.php';
 require 'admin_ticket.php';
 require 'menu.php';
 require 'admin_information.php';
+require 'admin_social_networks.php';
 
 class admin extends Controller
 {
@@ -25,6 +26,7 @@ class admin extends Controller
     private $tickets;
     private $menu;
     private $information;
+    private $social_network;
 
     public function __construct()
     {
@@ -40,6 +42,7 @@ class admin extends Controller
         $this->tickets = new admin_ticket();
         $this->menu = new menu();
         $this->information = new admin_information();
+        $this->social_network = new admin_social_networks();
     }
 
     public function index()
@@ -93,7 +96,8 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | شبکه های اجتماعی';
-        $this->view('admin/admin-social-networks', '', null, null);
+        $social_networks = $this->social_network->model_social_networks->all();
+        $this->view('admin/admin-social-networks', compact('social_networks'), null, null);
     }
 
     public function categories()
@@ -497,6 +501,30 @@ class admin extends Controller
                         'domain' => DOMAIN,
                         'message' => 'فیلد متن اجباری است'
                     ]);
+            }
+        }
+    }
+
+    public function add_network()
+    {
+        if (isset($_POST['btn_network'])) {
+            $data = $_POST;
+            $network_name = $this->model->security($data['network_name']);
+            $network_address = $this->model->security($data['network_address']);
+            $network_icon = $this->model->security($data['network_icon']);
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
+            $status_show = 'show';
+            if (isset($network_name, $network_address, $network_icon) && !empty($network_name) && !empty($network_address) && !empty($network_icon)) {
+                $add_social_network = $this->social_network->model_social_networks->add($network_name, $network_address, $network_icon, $ip, $time, $status_show);
+                echo ($add_social_network) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'شبکه اجتماعی با موفقیت اضافه شد', 'redirect' => DOMAIN . '/admin/social_networks']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در افزودن شبکه اجتماعی']);
+            } else {
+                if (empty($network_name))
+                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد عنوان اجباری است']);
+                if (empty($network_address))
+                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد آدرس اجباری است']);
+                if (empty($network_icon))
+                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'آیکون مورد نظر را انتخاب کنید']);
             }
         }
     }

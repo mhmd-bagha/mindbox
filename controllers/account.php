@@ -22,7 +22,8 @@ class account extends Controller
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
         $register_you_history = $this->register_you_history($get_user->create_time);
         $count_my_course = $this->count_my_course();
-        $this->view('profile/index', compact('register_you_history', 'count_my_course', 'get_user'));
+        $count_my_ticket = $this->model->count_my_ticket($get_user->id, 'user');
+        $this->view('profile/index', compact('register_you_history', 'count_my_course', 'get_user', 'count_my_ticket'));
     }
 
     public function edit_profile()
@@ -46,14 +47,24 @@ class account extends Controller
     public function my_courses()
     {
         $this->title = '';
-        $my_courses = $this->my_courses();
+        $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
+        $my_courses_factors = $this->model->my_courses_factor($get_user->id);
+        foreach ($my_courses_factors as $courses_factor) {
+            $courses_factor = explode(',', $courses_factor->courses_id);
+            for ($i = 0; $i < count($courses_factor); $i++) {
+                $my_courses[] = $this->model->my_course($courses_factor[$i]);
+            }
+        }
         $this->view('profile/user-my-courses', compact('my_courses'));
     }
 
     public function factors()
     {
+        $this->scripts_path = ['vendor/lozad/lozad.min.js'];
         $this->title = '';
-        $this->view('profile/user-factors');
+        $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
+        $my_factors = $this->model->my_factors($get_user->id);
+        $this->view('profile/user-factors', compact('my_factors'));
     }
 
     public function tickets()

@@ -1,105 +1,98 @@
-
-    <!-- main -->
-    <main>
-        <div class="container-fluid py-5">
-            <div class="container">
-                <div class="card border-0 rounded-0 box-shadow-sm">
-                    <div class="card-body p-0">
-                        <div class="row mx-0">
-                            <div class="col-12 col-lg-3 user-menu">
-                                <!-- user menu -->
-                                <?php
-                                require_once("user-menu.php");
-                                ?>
-                            </div>
-                            <div class="col-12 col-lg-9 user-content">
-                                <h5>فاکتور ها</h5>
-                                <hr>
-                                <div class="table-responsive overflow-y-auto">
-                                    <!-- table -->
-                                    <table class="table table-striped table-hover table-bordered text-center text-nowrap">
-                                        <thead class="table-dark sticky-top">
-                                            <tr>
-                                                <th>تاریخ</th>
-                                                <th>تعداد دوره</th>
-                                                <th>وضعیت پرداخت</th>
-                                                <th>جزئیات</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1401/05/29</td>
-                                                <td>2</td>
-                                                <td><span class="text-success">پرداخت موفق</span></td>
-                                                <td><a class="btn btn-sm shadow-none btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#factor-details">جزئیات</a></td>
-                                                <!-- modal factor details -->
-                                                <div class="modal fade" id="factor-details" tabindex="-1">
-                                                    <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">جزئیات فاکتور</h5>
-                                                                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
-                                                            </div>
-                                                            <div class="modal-body">
+<!-- main -->
+<main>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="card border-0 rounded-0 box-shadow-sm">
+                <div class="card-body p-0">
+                    <div class="row mx-0">
+                        <div class="col-12 col-lg-3 user-menu">
+                            <!-- user menu -->
+                            <?php
+                            require_once("user-menu.php");
+                            ?>
+                        </div>
+                        <div class="col-12 col-lg-9 user-content">
+                            <h5>فاکتور ها</h5>
+                            <hr>
+                            <div class="table-responsive overflow-y-auto">
+                                <!-- table -->
+                                <table class="table table-striped table-hover table-bordered text-center text-nowrap">
+                                    <thead class="table-dark sticky-top">
+                                    <tr>
+                                        <th>تاریخ</th>
+                                        <th>تعداد دوره</th>
+                                        <th>وضعیت پرداخت</th>
+                                        <th>جزئیات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($data['my_factors'] as $my_factor) {
+                                        $my_courses_id = explode(',', $my_factor->courses_id);
+                                        $count_courses = count($my_courses_id); ?>
+                                        <tr>
+                                            <td><?= $my_factor->create_time ?></td>
+                                            <td><?= $count_courses; ?></td>
+                                            <td><?php switch ($my_factor->factor_status) {
+                                                    case "paid":
+                                                        ?>
+                                                        <span class="text-success">پرداخت موفق</span>
+                                                        <?php break;
+                                                    case "unsuccessful": ?>
+                                                        <span class="text-danger">پرداخت ناموفق</span>
+                                                        <?php break;
+                                                    case "waiting": ?>
+                                                        <span class="text-warning">پرداخت معلق</span>
+                                                        <?php break;
+                                                } ?></td>
+                                            <td><a class="btn btn-sm shadow-none btn-outline-secondary"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#factor-details-<?= $my_factor->id ?>">جزئیات</a>
+                                            </td>
+                                            <!-- modal factor details -->
+                                            <div class="modal fade" id="factor-details-<?= $my_factor->id ?>"
+                                                 tabindex="-1">
+                                                <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">جزئیات فاکتور</h5>
+                                                            <button type="button" class="btn-close shadow-none"
+                                                                    data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <?php foreach ($my_courses_id as $my_course_id) {
+                                                                $my_course = $this->model->where('courses', 'id', $my_course_id); ?>
                                                                 <div class="row factor-details">
                                                                     <div class="col-12 col-sm-6 mb-4 mb-sm-0">
-                                                                        <a href="../course-details.php">دوره عادت های اتمی</a>
+                                                                        <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"><img
+                                                                                    src="<?= DOMAIN . '/public/images/' . $my_course->course_image ?>"
+                                                                                    alt="<?= $my_course->course_title ?>"
+                                                                                    class="img-fluid lozad"></a>
                                                                     </div>
                                                                     <div class="col-12 col-sm-6">
-                                                                        <span>مبلغ اصلی: 150,000 تومان</span>
-                                                                        <span>تخفیف: 50,000 تومان</span>
-                                                                        <span>قایل پرداخت: 100,000 تومان</span>
-                                                                        <span>پرداخت نقدی</span>
+                                                                        <span><a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"><?= $my_course->course_title ?></a></span>
+                                                                        <span class="text-truncate"><?= $my_course->course_description ?></span>
+                                                                        <span>مبلغ دوره: <?= number_format($my_course->course_price) ?> تومان</span>
+                                                                        <span>قابل پرداخت: <?= number_format($my_factor->factor_price) ?> تومان</span>
                                                                     </div>
+                                                                   <div class="text-end">
+                                                                       <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}#comment" ?>" class="text-info">ثبت دیدگاه</a>
+                                                                   </div>
                                                                 </div>
                                                                 <hr>
-                                                                <div class="row factor-details">
-                                                                    <div class="col-12 col-sm-6 mb-4 mb-sm-0">
-                                                                        <a href="../course-details.php">دوره سحرخیزی پلاس</a>
-                                                                    </div>
-                                                                    <div class="col-12 col-sm-6">
-                                                                        <span>مبلغ اصلی: 180,000 تومان</span>
-                                                                        <span>تخفیف: 0 تومان</span>
-                                                                        <span>قایل پرداخت: 180,000 تومان</span>
-                                                                        <span>پرداخت کیف پول</span>
-                                                                    </div>
-                                                                </div>
-                                                                <hr>
-                                                                <div class="row factor-details">
-                                                                    <div class="col-12 col-sm-6 mb-4 mb-sm-0">
-                                                                        <a href="../course-details.php">دوره سحرخیزی پلاس</a>
-                                                                    </div>
-                                                                    <div class="col-12 col-sm-6">
-                                                                        <span>مبلغ اصلی: 180,000 تومان</span>
-                                                                        <span>تخفیف: 0 تومان</span>
-                                                                        <span>قایل پرداخت: 180,000 تومان</span>
-                                                                        <span>پرداخت کیف پول</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            <?php } ?>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </tr>
-                                            <tr>
-                                                <td>1401/04/16</td>
-                                                <td>4</td>
-                                                <td><span class="text-danger">پرداخت ناموفق</span></td>
-                                                <td><a href="#" class="btn btn-sm shadow-none btn-outline-secondary">جزئیات</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>1401/03/19</td>
-                                                <td>1</td>
-                                                <td><span class="text-success">پرداخت موفق</span></td>
-                                                <td><a href="#" class="btn btn-sm shadow-none btn-outline-secondary">جزئیات</a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            </div>
+                                        </tr>
+                                    <?php } ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>

@@ -15,31 +15,34 @@
                         <div class="col-12 col-lg-9 user-content">
                             <h5>دوره های من</h5>
                             <hr>
-                            <?php if (is_array($my_courses) || is_object($my_courses)) { ?>
-                                <div class="table-responsive overflow-y-auto">
-                                    <!-- table -->
-                                    <table class="table table-striped table-hover table-bordered text-center text-nowrap">
-                                        <thead class="table-dark sticky-top">
+                            <div class="table-responsive overflow-y-auto">
+                                <!-- table -->
+                                <table class="table table-striped table-hover table-bordered text-center text-nowrap">
+                                    <thead class="table-dark sticky-top">
+                                    <tr>
+                                        <th>عنوان آموزش</th>
+                                        <th>تاریخ آخرین بروزرسانی</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($my_courses as $my_course) {
+                                        $my_course = $my_course[0]; ?>
                                         <tr>
-                                            <th>عنوان آموزش</th>
-                                            <th>تاریخ آخرین بروزرسانی</th>
+                                            <td><a href="<?= DOMAIN ?>/courses/course_details/<?= $my_course->id ?>" class="text-blue"><?= $my_course->course_title ?></a>
+                                            </td>
+                                            <td><?php switch ($my_course->update_time) {
+                                                    case null:
+                                                        echo $my_course->create_time;
+                                                        break;
+                                                    case !null:
+                                                        echo $my_course->update_time;
+                                                        break;
+                                                } ?></td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php foreach ($my_courses as $my_course) { ?>
-                                            <tr>
-                                                <td><a href="<?= DOMAIN ?>/courses/course_details/<?= $my_course->id ?>"
-                                                       class="text-blue"><?= $my_course->course_title ?></a>
-                                                </td>
-                                                <td><?= $my_course->create_time ?></td>
-                                            </tr>
-                                        <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            <?php } else { ?>
-                                <div class="alert alert-warning fs-6 text-center">هیچ دوره ای ندارید!</div>
-                            <?php } ?>
+                                    <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

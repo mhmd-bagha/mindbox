@@ -93,9 +93,8 @@
                 <div class="d-flex justify-content-start">
                     <div class="col-12 col-sm-9 col-md-6 col-lg-8 col-xl-6 col-xxl-5">
                         <div class="card bg-anti-flash-white">
-                            <div class="card-header border-0">
-                                                        <span class="user-ticket"><i
-                                                                    class="bi bi-person-fill me-2"><?= $get_admin->first_name . ' ' . $get_admin->last_name ?></i></span>
+                            <div class="card-header border-0"><span class="user-ticket"><i
+                                            class="bi bi-person-fill me-2"></i><?= $get_admin->first_name . ' ' . $get_admin->last_name ?></span>
                             </div>
                             <div class="card-body text-justify pt-2">
                                 <div class="d-flex align-items-center">
@@ -123,7 +122,8 @@
         <?php } ?>
     </div>
     <!-- form ticket -->
-    <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post" class="border-form sticky-bottom" id="form_answer_ticket">
+    <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post" class="border-form sticky-bottom"
+          id="form_answer_ticket">
         <div class="input-group bg-white">
                             <textarea rows="1" class="form-control" placeholder="پیامی بنویسید..."
                                       style="resize: none;" id="ticket_text"></textarea>

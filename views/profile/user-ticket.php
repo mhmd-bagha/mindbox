@@ -134,7 +134,7 @@ $ticket_chats = $data['chat_ticket'] ?>
                                                 <div class="card bg-anti-flash-white">
                                                     <div class="card-header border-0">
                                                         <span class="user-ticket"><i
-                                                                    class="bi bi-person-fill me-2"><?= $get_admin->first_name . ' ' . $get_admin->last_name ?></i></span>
+                                                                    class="bi bi-person-fill me-2"></i><?= $get_admin->first_name . ' ' . $get_admin->last_name ?></span>
                                                     </div>
                                                     <div class="card-body text-justify pt-2">
                                                         <div class="d-flex align-items-center">
