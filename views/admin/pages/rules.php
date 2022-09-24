@@ -110,7 +110,7 @@
         btn_rule.text('در حال ثبت ...')
         form_rule.prop('disabled', true)
         $.ajax({
-            url: PATH + "/admin/add_rules",
+            url: PATH + "/admin_information/add_rules",
             type: "POST",
             data: {title: information_title, description: information_description, btn_rule: true},
             success: (data) => {

@@ -50,9 +50,9 @@ class Model
         return $result;
     }
 
-    function SelectAll($table)
+    function SelectAll($table, $options = 'ORDER BY id DESC')
     {
-        $sql = "SELECT * FROM `{$table}`";
+        $sql = "SELECT * FROM `{$table}` {$options}";
         $query = self::$conn->prepare($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
@@ -67,9 +67,9 @@ class Model
         return $query ? $query->fetch(PDO::FETCH_OBJ) : false;
     }
 
-    function where_all($table, $key, $value)
+    function where_all($table, $key, $value, $options = 'ORDER BY id DESC')
     {
-        $sql = "SELECT * FROM `{$table}` WHERE `{$key}` = ?";
+        $sql = "SELECT * FROM `{$table}` WHERE `{$key}` = ? {$options}";
         $query = self::$conn->prepare($sql);
         $query->bindValue(1, $value);
         $query->execute();
@@ -121,6 +121,12 @@ class Model
     public function count_all_table($table)
     {
         return self::count($table);
+    }
+
+    public function change_status($table, $status_show, $id)
+    {
+        $query = $this->Query("UPDATE `{$table}` SET `status_show` = ? WHERE `id` = ?", [$status_show, $id]);
+        return (bool)$query;
     }
 
     function Query($sql, $values = [])

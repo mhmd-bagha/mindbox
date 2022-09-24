@@ -34,7 +34,10 @@
                         <?php foreach ($data['comment_all'] as $comment) { ?>
                             <tr>
                                 <td><?= $comment->id ?></td>
-                                <td><a href="<?php $get_course = $this->model->where('courses', 'id', $comment->course_id); echo DOMAIN . '/courses/course_details/' . $get_course->id ?>" target="_blank"><?= $get_course->course_title; ?></a></td>
+                                <td>
+                                    <a href="<?php $get_course = $this->model->where('courses', 'id', $comment->course_id);
+                                    echo DOMAIN . '/courses/course_details/' . $get_course->id ?>"
+                                       target="_blank"><?= $get_course->course_title; ?></a></td>
                                 <td><?php $get_user = $this->model->where('users', 'id', $comment->user_id);
                                     echo $get_user->first_name . ' ' . $get_user->last_name ?></td>
                                 <td><?= $get_user->user_email ?></td>
@@ -54,12 +57,23 @@
                                 <td>
                                     <div class="btn-group">
                                         <a data-bs-toggle="modal" data-bs-target="#show-more-<?= $comment->id ?>"
-                                           title="نمایش بیشتر"
-                                           class="btn btn-sm btn-outline-info shadow-none"><i
+                                           title="نمایش بیشتر" class="btn btn-sm btn-outline-info shadow-none"><i
                                                     class="fa-solid fa-eye"></i></a>
-                                        <a href="#" title="غیرفعال"
-                                           class="btn btn-sm btn-outline-secondary shadow-none"><i
-                                                    class="fa-solid fa-toggle-off"></i></a>
+                                        <?php switch ($comment->status_show) {
+                                            case "hide":
+                                                ?>
+                                                <a href="#" title="غیرفعال"
+                                                   class="btn btn-sm btn-outline-secondary shadow-none"
+                                                   onclick="enable('<?= $comment->id ?>', 'آیا میخواهید این نظر را را فعال کنید؟', 'comment')"><i
+                                                            class="fa-solid fa-toggle-off"></i></a>
+                                                <?php break;
+                                            case "show": ?>
+                                                <a href="#" title="فعال"
+                                                   class="btn btn-sm btn-outline-success shadow-none"
+                                                   onclick="disable('<?= $comment->id ?>', 'آیا میخواهید این نظر را غیر فعال کنید؟', 'comment')"><i
+                                                            class="fa-solid fa-toggle-on"></i></a>
+                                                <?php break;
+                                        } ?>
                                         <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none"><i
                                                     class="fa-solid fa-trash"></i></a>
                                     </div>
@@ -81,21 +95,28 @@
                                                     <h6 class="fw-bold"><i
                                                                 class="fa-solid fa-user text-muted me-2"></i><?= $get_user->first_name . ' ' . $get_user->last_name ?>
                                                     </h6>
-                                                    <!-- text commennt -->
+                                                    <!-- text comment -->
                                                     <p><?= $comment->comment_text ?></p>
                                                     <hr>
                                                     <!-- button answer -->
                                                     <a class="btn btn-primary mb-3" data-bs-toggle="collapse"
-                                                       href="#answer-form">پاسخ</a>
-                                                    <div class="collapse" id="answer-form">
+                                                       href="#answer-form-<?= $comment->id ?>">پاسخ</a>
+                                                    <div class="collapse" id="answer-form-<?= $comment->id ?>">
                                                         <!-- answer form -->
-                                                        <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post" class="border-form mt-2">
+                                                        <form action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>"
+                                                              method="post" class="border-form mt-2"
+                                                              id="form_comment_answer_<?= $comment->id ?>">
                                                             <div class="mb-3">
-                                                <textarea class="form-control" rows="4"
-                                                          placeholder="پاسخ خود را بنویسید..."></textarea>
+                                                <textarea class="form-control resize-none" rows="4"
+                                                          placeholder="پاسخ خود را بنویسید..."
+                                                          id="comment_answer_<?= $comment->id ?>"><?php $get_answer_comment = $this->model->where('comments', 'reply_id', $comment->id);
+                                                    if ($get_answer_comment) echo $get_answer_comment->comment_text ?></textarea>
                                                             </div>
                                                             <div class="text-end">
-                                                                <button type="submit" class="btn btn-success">ثبت
+                                                                <button type="button" class="btn btn-success"
+                                                                        id="btn_comment_answer_<?= $comment->id ?>"
+                                                                        onclick="<?php if ($get_answer_comment) { ?>comment_answer('<?= $comment->id ?>', 'edit')<?php } else { ?>comment_answer('<?= $comment->id ?>', 'post')<?php } ?>">
+                                                                    ثبت
                                                                 </button>
                                                             </div>
                                                         </form>
@@ -116,3 +137,41 @@
 </div>
 <!-- admin backdrop -->
 <div class="admin-backdrop"></div>
+<script>
+    function comment_answer(id, type) {
+        var btn = $("#btn_comment_answer_" + id)
+        var modal = $("#show-more-" + id)
+        var comment_answer = $("#comment_answer_" + id).val().trim()
+        btn.prop('disabled', true).text('در حال ثبت...')
+        comment_answer.prop('disabled', true)
+        $.ajax({
+            url: PATH + "/admin/comment_answer",
+            type: "POST",
+            data: {id: id, comment_answer: comment_answer, btn_comment_answer: true, type: type},
+            success: (data) => {
+                let obj = JSON.parse(data)
+                let status = obj.statusCode
+                let message = obj.data.message
+                switch (status) {
+                    case 200:
+                        alert_success(message)
+                        setTimeout(() => {
+                            location.reload()
+                        }, 2500)
+                        break;
+                    case 500:
+                        alert_error(message)
+                        break;
+                }
+            },
+            error: () => {
+                alert_error('خطا در ثبت پاسخ')
+                btn.prop('disabled', false).text('ثبت')
+                comment_answer.prop('disabled', false)
+            }
+        }).done(() => {
+            btn.prop('disabled', false).text('ثبت')
+            comment_answer.prop('disabled', false)
+        })
+    }
+</script>

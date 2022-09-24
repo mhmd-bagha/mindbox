@@ -114,7 +114,7 @@
     function menu(menu_name, menu_address) {
         form_add_menu.prop('disabled', true)
         $.ajax({
-            url: PATH + "/admin/add_menu",
+            url: PATH + "/menu/add_menu",
             type: "POST",
             data: {menu_name: menu_name, menu_address: menu_address, btn_add_menu: true},
             success: (data) => {

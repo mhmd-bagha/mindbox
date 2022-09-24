@@ -123,7 +123,7 @@
         btn_network.text('در حال ثبت...')
         form_network.prop('disabled', true)
         $.ajax({
-            url: PATH + "/admin/add_network",
+            url: PATH + "/admin_social_networks/add_network",
             type: "POST",
             data: {
                 network_name: network_name,

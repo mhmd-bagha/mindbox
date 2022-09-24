@@ -164,7 +164,7 @@
     function ticket(data) {
         form_ticket_answer.prop('disabled', true)
         $.ajax({
-            url: PATH + "/admin/ticket_answer",
+            url: PATH + "/admin_ticket/ticket_answer",
             type: "POST",
             data: data,
             contentType: false,

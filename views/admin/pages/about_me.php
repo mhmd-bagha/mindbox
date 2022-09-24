@@ -37,7 +37,7 @@
             btn_about_me.text('در حال ثبت...')
             form_about_me.prop('disabled', true)
             $.ajax({
-                url: PATH + "/admin/add_about_me",
+                url: PATH + "/admin_information/add_about_me",
                 type: "POST",
                 data: {title: title, description: description, btn_about_me: true},
                 success: (data) => {

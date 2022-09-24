@@ -6,15 +6,15 @@ use Uploader\Uploader as file_uploader;
 use Response\Response as response;
 
 
-require 'admin_comment.php';
+require DIR_ROOT . 'models/model_admin_comment.php';
 require 'admin_users.php';
-require 'admin_sliders.php';
+require DIR_ROOT . 'models/model_admin_sliders.php';
 require 'admin_categories.php';
 require 'admin_courses.php';
-require 'admin_ticket.php';
-require 'menu.php';
-require 'admin_information.php';
-require 'admin_social_networks.php';
+require DIR_ROOT . 'models/model_admin_ticket.php';
+require DIR_ROOT . 'models/model_menu.php';
+require DIR_ROOT . 'models/model_admin_information.php';
+require DIR_ROOT . 'models/model_admin_social_networks.php';
 
 class admin extends Controller
 {
@@ -34,15 +34,15 @@ class admin extends Controller
         $this->body_class = 'admin-body';
         $this->keywords = '';
         $this->robots = 'noindex, nofollow';
-        $this->comment = new admin_comment();
+        $this->comment = new model_admin_comment();
         $this->users = new admin_users();
-        $this->sliders = new admin_sliders();
+        $this->sliders = new model_admin_sliders();
         $this->categories = new admin_categories();
         $this->courses = new admin_courses();
-        $this->tickets = new admin_ticket();
-        $this->menu = new menu();
-        $this->information = new admin_information();
-        $this->social_network = new admin_social_networks();
+        $this->tickets = new model_admin_ticket();
+        $this->menu = new model_menu();
+        $this->information = new model_admin_information();
+        $this->social_network = new model_admin_social_networks();
     }
 
     public function index()
@@ -96,7 +96,7 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | شبکه های اجتماعی';
-        $social_networks = $this->social_network->model_social_networks->all();
+        $social_networks = $this->social_network->all();
         $this->view('admin/admin-social-networks', compact('social_networks'), null, null);
     }
 
@@ -134,7 +134,7 @@ class admin extends Controller
         if (!Model::SessionGet('admin')) Model::redirect('admin/login');
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/admin.js'];
         $this->title = 'ادمین | اسلایدر‌ها';
-        $slider_all = $this->sliders->model_sliders->all();
+        $slider_all = $this->sliders->all();
         $this->view('admin/admin-sliders', compact('slider_all'), null, null);
     }
 
@@ -143,7 +143,7 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | نظرات';
-        $comment_all = $this->comment->model_comment->where_all('comments', 'comment_type', 'user');
+        $comment_all = $this->comment->where_all('comments', 'comment_type', 'user');
         $this->view('admin/admin-comments', compact('comment_all'), null, null);
     }
 
@@ -152,15 +152,15 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | تیکت‌ها';
-        $ticket_all = $this->tickets->model_ticket->get_tickets();
+        $ticket_all = $this->tickets->get_tickets();
         $this->view('admin/admin-tickets', compact('ticket_all'), null, null);
     }
 
     public function ticket(int $id = null)
     {
         if (empty($id)) Model::error404();
-        $get_ticket = $this->tickets->model_ticket->where('tickets', 'id', $id);
-        $chat_ticket = $this->tickets->model_ticket->get_ticket($id);
+        $get_ticket = $this->tickets->where('tickets', 'id', $id);
+        $chat_ticket = $this->tickets->get_ticket($id);
         $this->title = "ادمین | تیکت {$get_ticket->ticket_title}";
         $this->view('admin/admin-ticket', compact('get_ticket', 'chat_ticket'), null, null);
     }
@@ -170,7 +170,7 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | منو‌ها';
-        $menu_all = $this->menu->model_menu->all();
+        $menu_all = $this->menu->all();
         $this->view('admin/admin-menus', compact('menu_all'), null, null);
     }
 
@@ -179,7 +179,7 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/ckeditor/ckeditor.js', 'js/admin.js'];
         $this->title = 'ادمین | صفحات';
-        $rules = $this->information->model_information->getAll('rules');
+        $rules = $this->information->getAll('rules');
         $this->view('admin/pages/admin-pages', compact('rules'), null, null);
     }
 
@@ -286,246 +286,39 @@ class admin extends Controller
         }
     }
 
-    public function get_slider_id()
+    public function disable()
     {
-        $get_slider_id = $this->sliders->get_slider_id();
+        $btn_name = 'btn_status_';
+        $data = $_POST;
+        if (isset($data['id']) && !empty($data['id'])) {
+            $id = $this->model->security($data['id']);
+//        comment
+            if (isset($_POST[$btn_name .= 'comment'])) {
+                $query = $this->model->change_status('comments', 'hide', $id);
+                echo ($query) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'نظر با موفقیت غیرفعال شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در غیرفعال کردن نظر']);
+            }
+        } else
+            echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'داده های ارسالی ناقص است'
+            ]);
     }
 
-    public function ticket_answer()
+    public function enable()
     {
-        if (isset($_POST['btn_answer_ticket'])) {
-            $data = $_POST;
-            $file_uploader = new file_uploader();
-            $ticket_description = $this->model->security($data['ticket_description']);
-            $admin_id = $this->model->security($data['admin_id']);
-            $ticket_id = $this->model->security($data['ticket_id']);
-            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $ticket_type = 'admin';
-            $ticket_status = 'answered';
-            if (isset($ticket_description, $admin_id, $ticket_id) && !empty($ticket_description) && !empty($admin_id) && !empty($ticket_id)) {
-                if (isset($_FILES['ticket_image']['name']) && !empty($_FILES['ticket_image']['name'])) {
-                    $data_file = $_FILES['ticket_image'];
-                    $ticket_img_name = $data_file['name'];;
-                    $ticket_img_tmp = $data_file['tmp_name'];
-                    $ticket_img_size = $data_file['size'];
-                    $ticket_img_type = $data_file['type'];
-                    $ticket_image = $this->model->add_name_file_time($ticket_img_name, 'image');
-                    if (in_array($ticket_img_type, TYPE_IMG)) {
-                        if ($ticket_img_size <= SIZE_IMG) {
-                            $add_ticket = $this->tickets->model_ticket->ticket_answer($ticket_description, $ticket_image, $ticket_status, $ticket_type, $ticket_id, $admin_id, $ip, $time);
-                            if ($add_ticket) {
-                                $file_uploader->uploader($ticket_img_tmp, $ticket_img_type, $ticket_image, 'image_ticket', DL_DOMAIN . '/uploader/getter.php');
-                                $this->tickets->model_ticket->ticket_status($ticket_id, $ticket_status);
-                                echo response::Json(200, true, [
-                                    'domain' => DOMAIN,
-                                    'message' => 'پاسخ تیکت با موفقیت ثبت شد',
-                                    'redirect' => DOMAIN . "/admin/ticket/{$ticket_id}"
-                                ]);
-                            } else
-                                echo response::Json(500, true, [
-                                    'domain' => DOMAIN,
-                                    'message' => 'خطا در ثبت پاسخ'
-                                ]);
-                        } else
-                            echo response::Json(500, true, [
-                                'domain' => DOMAIN,
-                                'message' => 'حجم تصویر باید زیر ۲ مگابایت باشد'
-                            ]);
-                    } else
-                        echo response::Json(500, true, [
-                            'domain' => DOMAIN,
-                            'message' => 'پسوند های مجاز است png یا jpg یا jpeg'
-                        ]);
-                } else {
-                    $add_ticket = $this->tickets->model_ticket->ticket_answer($ticket_description, null, $ticket_status, $ticket_type, $ticket_id, $admin_id, $ip, $time);
-                    if ($add_ticket) {
-                        $this->tickets->model_ticket->ticket_status($ticket_id, $ticket_status);
-                        echo response::Json(200, true, [
-                            'domain' => DOMAIN,
-                            'message' => 'پاسخ تیکت با موفقیت ثبت شد',
-                            'redirect' => DOMAIN . "/admin/ticket/{$ticket_id}"
-                        ]);
-                    } else
-                        echo response::Json(500, true, [
-                            'domain' => DOMAIN,
-                            'message' => 'خطا در ثبت پاسخ'
-                        ]);
-                }
-            } else {
-                if (empty($ticket_description))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد متن تیکت اجباری است'
-                    ]);
-                if (empty($admin_id) || empty($ticket_id))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'اطلاعات ارسالی ناقص است'
-                    ]);
+        $btn_name = 'btn_status_';
+        $data = $_POST;
+        if (isset($data['id']) && !empty($data['id'])) {
+            $id = $this->model->security($data['id']);
+//        comment
+            if (isset($_POST[$btn_name .= 'comment'])) {
+                $query = $this->model->change_status('comments', 'show', $id);
+                echo ($query) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'نظر با موفقیت فعال شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در فعال کردن نظر']);
             }
-        }
-    }
-
-    public function add_menu()
-    {
-        if (isset($_POST['btn_add_menu'])) {
-            $data = $_POST;
-            $menu_name = $this->model->security($data['menu_name']);
-            $menu_address = $this->model->security($data['menu_address']);
-            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
-            $status_show = 'show';
-            if (isset($menu_name, $menu_address) && !empty($menu_name) && !empty($menu_address)) {
-                if (filter_var($menu_address, FILTER_VALIDATE_URL)) {
-                    $menu_add = $this->menu->model_menu->add($menu_name, $menu_address, $status_show, $time);
-                    if ($menu_add)
-                        echo response::Json(200, true, [
-                            'domain' => DOMAIN,
-                            'message' => 'منو با موفقیت ایجاد شد',
-                            'redirect' => DOMAIN . '/admin/menus'
-                        ]);
-                    else
-                        echo response::Json(500, true, [
-                            'domain' => DOMAIN,
-                            'message' => 'خطا در ثبت منو'
-                        ]);
-                } else
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فرمت آدرس منو نامعتبر است'
-                    ]);
-            } else {
-                if (empty($menu_name))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد نام منو را پر کنید'
-                    ]);
-                if (empty($menu_address))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد آدرس منو را پر کنید'
-                    ]);
-            }
-        }
-    }
-
-    public function add_rules()
-    {
-        if (isset($_POST['btn_rule'])) {
-            $data = $_POST;
-            $title = $this->model->security($data['title']);
-            $description = $this->model->security($data['description']);
-            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
-            $status = 'show';
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $information_type = 'rules';
-            if (isset($title, $description) && !empty($title) && !empty($description)) {
-                $json_data = ['rule_title' => $title, 'rule_description' => $description];
-                $json_data = json_encode($json_data, true);
-                $add_rule = $this->information->model_information->add($information_type, $json_data, $ip, $time, $status);
-                echo ($add_rule) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'قانون با موفقیت اضافه شد', 'redirect' => DOMAIN . '/admin/pages']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در اضافه کردن قانون']);
-            } else {
-                if (empty($title))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد عنوان قوانین اجباری است'
-                    ]);
-                if (empty($description))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد عنوان قوانین اجباری است'
-                    ]);
-            }
-        }
-    }
-
-    public function add_contact_us()
-    {
-        if (isset($_POST['btn_contact_us'])) {
-            $data = $_POST;
-            $address = $this->model->security($data['address']);
-            $phone_mobile = $this->model->security($data['phone_mobile']);
-            $email = $this->model->security($data['email']);
-            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
-            $status = 'show';
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $information_type = 'contact_us';
-            if (isset($address, $phone_mobile, $email) && !empty($address) && !empty($phone_mobile) && !empty($email)) {
-                $json_data = ['address' => $address, 'phone_mobile' => $phone_mobile, 'email' => $email];
-                $json_data = json_encode($json_data, true);
-                $add_rule = $this->information->model_information->add($information_type, $json_data, $ip, $time, $status);
-                echo ($add_rule) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'اطلاعات با موفقیت اضافه شد', 'redirect' => DOMAIN . '/admin/pages']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در اضافه کردن اطلاعات']);
-            } else {
-                if (empty($address))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد آدرس اجباری است'
-                    ]);
-                if (empty($phone_mobile))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد شماره تلفن اجباری است'
-                    ]);
-                if (empty($email))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد ایمیل اجباری است'
-                    ]);
-            }
-        }
-    }
-
-    public function add_about_me()
-    {
-        if (isset($_POST['btn_about_me'])) {
-            $data = $_POST;
-            $title = $this->model->security($data['title']);
-            $description = $this->model->security($data['description']);
-            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
-            $status = 'show';
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $information_type = 'about_me';
-            if (isset($title, $description) && !empty($title) && !empty($description)) {
-                $json_data = ['title' => $title, 'description' => $description];
-                $json_data = json_encode($json_data, true);
-                $add_rule = $this->information->model_information->add($information_type, $json_data, $ip, $time, $status);
-                echo ($add_rule) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'اطلاعات با موفقیت اضافه شد', 'redirect' => DOMAIN . '/admin/pages']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در اضافه کردن اطلاعات']);
-            } else {
-                if (empty($title))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد عنوان اجباری است'
-                    ]);
-                if (empty($description))
-                    echo response::Json(500, true, [
-                        'domain' => DOMAIN,
-                        'message' => 'فیلد متن اجباری است'
-                    ]);
-            }
-        }
-    }
-
-    public function add_network()
-    {
-        if (isset($_POST['btn_network'])) {
-            $data = $_POST;
-            $network_name = $this->model->security($data['network_name']);
-            $network_address = $this->model->security($data['network_address']);
-            $network_icon = $this->model->security($data['network_icon']);
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $time = jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
-            $status_show = 'show';
-            if (isset($network_name, $network_address, $network_icon) && !empty($network_name) && !empty($network_address) && !empty($network_icon)) {
-                $add_social_network = $this->social_network->model_social_networks->add($network_name, $network_address, $network_icon, $ip, $time, $status_show);
-                echo ($add_social_network) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'شبکه اجتماعی با موفقیت اضافه شد', 'redirect' => DOMAIN . '/admin/social_networks']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در افزودن شبکه اجتماعی']);
-            } else {
-                if (empty($network_name))
-                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد عنوان اجباری است']);
-                if (empty($network_address))
-                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد آدرس اجباری است']);
-                if (empty($network_icon))
-                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'آیکون مورد نظر را انتخاب کنید']);
-            }
-        }
+        } else
+            echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'داده های ارسالی ناقص است'
+            ]);
     }
 }

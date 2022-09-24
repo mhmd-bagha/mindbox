@@ -122,3 +122,73 @@ function get_data_item(id, path, type = 'POST', msg_error = 'خطا در برق�
         return message
     })
 }
+
+function disable(id, message_confirm, type) {
+    if (confirm(message_confirm)) {
+        var formData = new FormData()
+        formData.append('id', id)
+        formData.append('btn_status_' + type + '', true)
+        $.ajax({
+            url: PATH + "/admin/disable",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: (data) => {
+                let obj = JSON.parse(data)
+                let status = obj.statusCode
+                let message = obj.data.message
+                switch (status) {
+                    case 200:
+                        alert_success(message)
+                        setTimeout(() => {
+                            location.reload()
+                        }, 2400)
+                        break;
+                    case 500:
+                        alert_error(message)
+                        break;
+                }
+            },
+            error: () => {
+                alert_error('خطا در انجام عملیات')
+            }
+        })
+    }
+}
+
+function enable(id, message_confirm, type) {
+    if (confirm(message_confirm)) {
+        var formData = new FormData()
+        formData.append('id', id)
+        formData.append('btn_status_' + type + '', true)
+        $.ajax({
+            url: PATH + "/admin/enable",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: (data) => {
+                let obj = JSON.parse(data)
+                let status = obj.statusCode
+                let message = obj.data.message
+                switch (status) {
+                    case 200:
+                        alert_success(message)
+                        setTimeout(() => {
+                            location.reload()
+                        }, 2400)
+                        break;
+                    case 500:
+                        alert_error(message)
+                        break;
+                }
+            },
+            error: () => {
+                alert_error('خطا در انجام عملیات')
+            }
+        })
+    }
+}

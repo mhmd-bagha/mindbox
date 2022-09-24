@@ -46,7 +46,7 @@
             btn_contact_us.text('در حال ثبت...')
             form_contact_us.prop('disabled', true)
             $.ajax({
-                url: PATH + "/admin/add_contact_us",
+                url: PATH + "/admin_information/add_contact_us",
                 type: "POST",
                 data: {address: address, phone_mobile: phone_mobile, email: email, btn_contact_us: true},
                 success: (data) => {

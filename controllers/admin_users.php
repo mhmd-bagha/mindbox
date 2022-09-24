@@ -1,4 +1,7 @@
 <?php
+
+use Response\Response as response;
+
 require 'vendor/autoload.php';
 
 require DIR_ROOT . '/models/model_admin_users.php';

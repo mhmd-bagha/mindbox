@@ -15,12 +15,14 @@ class model_admin_information extends Model
         return (bool)$query;
     }
 
-    public function get($information_type){
+    public function get($information_type)
+    {
         $query = $this->Select("SELECT * FROM `information` WHERE `information_type` = ?", [$information_type], 'fetch');
         return $query;
     }
 
-    public function getAll($information_type){
+    public function getAll($information_type)
+    {
         $query = $this->Select("SELECT * FROM `information` WHERE `information_type` = ?", [$information_type]);
         return $query;
     }

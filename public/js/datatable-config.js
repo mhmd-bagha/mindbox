@@ -10,6 +10,7 @@ $(document).ready(function () {
         "info": true,
         "responsive": true,
         "ordering": true,
+        "order": [[2, 'desc']],
         "language": {
             searchPlaceholder: "",
             "lengthMenu": "نمایش _MENU_ سطر",

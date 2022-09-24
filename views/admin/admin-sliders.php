@@ -96,7 +96,7 @@
 <!-- admin backdrop -->
 <div class="admin-backdrop"></div>
 <script>
-    var path = "<?= DOMAIN ?>/admin/get_slider_id/"
+    var path = "<?= DOMAIN ?>/admin_sliders/get_slider_id/"
 
     function get_data_slider_id(id) {
         var get_data = get_data_item(id, path)
