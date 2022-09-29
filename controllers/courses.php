@@ -1,6 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
+require DIR_ROOT . 'controllers/api.php';
 
 use Response\Response as response;
 
@@ -74,7 +75,7 @@ class courses extends Controller
             $ip = $_SERVER['REMOTE_ADDR'];
             $status_show = 'hide';
             $create_time = jdate("Y/m/d H:i:s", time(), '', 'Asia/Tehran', 'en');
-            $comment_type=  'user';
+            $comment_type = 'user';
             if (isset($course_id, $user_id, $comment) && !empty($course_id) && !empty($user_id) && !empty($comment)) {
                 $send_comment = $this->model->comment($course_id, $user_id, $comment, $comment_type, $ip, $status_show, $create_time);
                 if ($send_comment)
@@ -109,5 +110,26 @@ class courses extends Controller
             }
             return $get_factor_outer;
         } else return false;
+    }
+
+    public function download($course_id = '', $user_id = '', $file_id = '')
+    {
+        if (empty($course_id) || empty($user_id) || empty($file_id)) Model::error404();
+
+        $api = new api();
+        $course_id = $this->model->decrypt($course_id);
+        $user_id = $this->model->decrypt($user_id);
+        $file_id = $this->model->decrypt($file_id);
+        $is_user_course = $api->exist_user_course($user_id, $course_id);
+        if ($is_user_course) {
+            $get_file = $this->model->where('course_files', 'id', $file_id);
+            if ($get_file) {
+                $url = DL_DOMAIN . "/public/course-files/{$this->model->encrypt($course_id)}/{$get_file->course_file}/{$get_file->course_file}";
+                $download_file = $api->download_file_course($url, $get_file->course_file);
+                if ($download_file) {
+                    $this->view('programs/scripts/win-close', '', '', '');
+                }
+            }
+        }
     }
 }

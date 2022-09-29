@@ -197,7 +197,7 @@ function _(el) {
     return document.getElementById(el);
 }
 
-function uploadFile(file, file_name, file_name_posted, loaded_n_total = 'loaded_n_total', progressBar = 'progressBar', status = 'status') {
+function uploadFile(file, file_name, file_name_posted) {
     _("progressShow").style.display = 'block'
     var formdata = new FormData();
     formdata.append("file", file);
@@ -223,6 +223,10 @@ function progressHandler(event) {
 function completeHandler(event) {
     _("status").innerHTML = event.target.responseText;
     _("progressBar").style.width = "100%";
+    alert_success('فایل با موفقیت آپلود شد')
+    setTimeout(() => {
+        location.reload()
+    }, 3000)
 }
 
 function errorHandler() {
@@ -231,4 +235,9 @@ function errorHandler() {
 
 function abortHandler(event) {
     _("status").innerHTML = "آپلود لغو شد";
+}
+
+function type_file(value) {
+    var allowedExtensions = /(\.zip|\.rar)$/i;
+    return (allowedExtensions.exec(value)) ? true : false;
 }

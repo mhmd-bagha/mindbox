@@ -21,7 +21,7 @@ if (isset($_FILES['image_ticket'])) {
 }
 
 // file header
-if (isset($_FILES['header'])){
+if (isset($_FILES['header'])) {
     $data_file = $_FILES['header'];
     $file_name = $data_file['name'];
     $file_tmp = $data_file['tmp_name'];
@@ -37,7 +37,7 @@ if (isset($_FILES['header'])){
 }
 
 // category
-if (isset($_FILES['category'])){
+if (isset($_FILES['category'])) {
     $data_file = $_FILES['category'];
     $file_name = $data_file['name'];
     $file_tmp = $data_file['tmp_name'];
@@ -53,7 +53,7 @@ if (isset($_FILES['category'])){
 }
 
 // slider
-if (isset($_FILES['slider'])){
+if (isset($_FILES['slider'])) {
     $data_file = $_FILES['slider'];
     $file_name = $data_file['name'];
     $file_tmp = $data_file['tmp_name'];
@@ -69,7 +69,7 @@ if (isset($_FILES['slider'])){
 }
 
 // course_image
-if (isset($_FILES['course_image'])){
+if (isset($_FILES['course_image'])) {
     $data_file = $_FILES['course_image'];
     $file_name = $data_file['name'];
     $file_tmp = $data_file['tmp_name'];
@@ -81,5 +81,30 @@ if (isset($_FILES['course_image'])){
         return $upload ? "فایل با موفقیت آپلود شد" : "خطا در اپلود فایل";
     } else {
         return "پسوند های مجاز است png یا jpg یا jpeg";
+    }
+}
+
+// course_file
+if (isset($_FILES['course_file'])) {
+    $data_file = $_FILES['course_file'];
+    $file_names = explode('@', $data_file['name']);
+    $file_name = $file_names[0];
+    $course_id = $file_names[1];
+    $file_tmp = $data_file['tmp_name'];
+    $file_img_size = $data_file['size'];
+    $file_img_type = $data_file['type'];
+    if (in_array($file_img_type, TYPE_FILE)) {
+        if (file_exists(ROOT . 'public/public/course-files')) {
+            mkdir(ROOT . "public/course-files/{$course_id}/{$file_name}");
+            $upload = move_uploaded_file($file_tmp, ROOT . "public/course-files/{$course_id}/{$file_name}/{$file_name}");
+            return $upload ? "فایل با موفقیت آپلود شد" : "خطا در اپلود فایل";
+        } else {
+            mkdir(ROOT . "public/course-files/{$course_id}");
+            mkdir(ROOT . "public/course-files/{$course_id}/{$file_name}");
+            $upload = move_uploaded_file($file_tmp, ROOT . "public/course-files/{$course_id}/{$file_name}/{$file_name}");
+            return $upload ? "فایل با موفقیت آپلود شد" : "خطا در اپلود فایل";
+        }
+    } else {
+        return "پسوند های مجاز zip یا rar است";
     }
 }

@@ -64,13 +64,13 @@
                                                             $my_course = $this->model->where('courses', 'id', $my_course_id); ?>
                                                             <div class="row factor-details">
                                                                 <div class="col-12 col-sm-6 mb-4 mb-sm-0">
-                                                                    <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"><img
+                                                                    <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>" target="_blank"><img
                                                                                 src="<?= DOMAIN . '/public/images/course/' . $my_course->course_image . '/' . $my_course->course_image ?>"
                                                                                 alt="<?= $my_course->course_title ?>"
                                                                                 class="img-fluid lozad"></a>
                                                                 </div>
                                                                 <div class="col-12 col-sm-6">
-                                                                    <span><a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"><?= $my_course->course_title ?></a></span>
+                                                                    <span><a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>" target="_blank"><?= $my_course->course_title ?></a></span>
                                                                     <span class="text-truncate"><?= $my_course->course_description ?></span>
                                                                     <span>مبلغ دوره: <?php if ($my_factor->factor_type == 'free' && empty($my_factor->factor_price)) {
                                                                         echo "رایگان";

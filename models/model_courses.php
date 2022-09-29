@@ -11,7 +11,7 @@ class model_courses extends Model
 
     public function getCourse($id, $status_show = 'show')
     {
-        $query = $this->Select("SELECT * FROM `courses` WHERE `id` = ? AND `status_show` = ?", [$id, $status_show]);
+        $query = $this->Select("SELECT * FROM `courses` WHERE `id` = ?", [$id]);
         return ($query) ? $query : false;
     }
 

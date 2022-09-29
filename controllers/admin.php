@@ -134,7 +134,7 @@ class admin extends Controller
         if (empty($id)) Model::error404();
         $id = $this->courses->security($id);
         $course_files = $this->courses->where_all('course_files', 'course_id', $id);
-        $this->view('admin/admin-course-part', compact('course_files'), null, null);
+        $this->view('admin/course-part/admin-course-part', compact('course_files'), null, null);
     }
 
     public function sliders()
@@ -167,6 +167,7 @@ class admin extends Controller
     public function ticket(int $id = null)
     {
         if (empty($id)) Model::error404();
+        $this->scripts_path = ['js/admin.js'];
         $get_ticket = $this->tickets->where('tickets', 'id', $id);
         $chat_ticket = $this->tickets->get_ticket($id);
         $this->title = "ادمین | تیکت {$get_ticket->ticket_title}";

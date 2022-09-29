@@ -1,3 +1,5 @@
+<?php $email = $this->model->decrypt(Model::SessionGet('user'));
+$get_user = $this->model->where('users', 'user_email', $email); ?>
 <!-- course meetings -->
 <div class="card rounded-3 border-0 box-shadow mb-5">
     <div class="card-body content-session hide-content">
@@ -9,7 +11,7 @@
         <?php if (is_array($data['get_course_file']) || is_object($data['get_course_file'])) {
             foreach ($data['get_course_file'] as $course_file) { ?>
                 <!-- meeting -->
-                <div class="card border-0 rounded-2 box-shadow m-4">
+                <div class="card border-0 rounded-2 box-shadow m-4" id="course-file-<?= $course_file->id ?>">
                     <div class="card-body">
                         <div class="row align-items-baseline">
                             <div class="col-12 col-sm-8 col-md-9 col-lg-8 col-xl-9 d-flex text-start pb-3 pb-sm-0">
@@ -29,11 +31,18 @@
                             <div class="col-12 col-sm-4 col-md-3 col-lg-4 col-xl-3 text-end">
                                 <span class="text-muted"><?php echo $course_file->course_time ?></span>
                                 <?php switch ($course_file->course_type) {
-                                    case "free": ?>
-                                        <a href="<?php echo DOMAIN ?>/public/course-files/<?php echo $course_details->course_title . '-' . $course_details->id ?>/<?php echo $course_file->course_file ?>"
-                                           class="course-icon-download active ms-3" target="_blank"><i
-                                                    class="fa-solid fa-download"></i></a>
-                                        <?php break;
+                                    case "free":
+                                        if (Model::SessionGet('user')) { ?>
+                                            <a href="<?php echo DOMAIN ?>/courses/download/<?= $this->model->encrypt($course_details->id) . '/' . $this->model->encrypt($get_user->id) . '/' . $this->model->encrypt($course_file->id) ?>"
+                                               class="course-icon-download active ms-3" target="_blank"><i
+                                                        class="fa-solid fa-download"></i></a>
+                                        <?php } else {
+                                            ?>
+                                            <a href="<?php echo DOMAIN ?>/login?back=courses/course_details/<?= $course_details->id ?>#course-file-<?= $course_file->id ?>"
+                                               class="course-icon-download active ms-3"><i
+                                                        class="fa-solid fa-download"></i></a>
+                                        <?php }
+                                        break;
                                     case "lock":
                                         if (Model::SessionGet('user')) {
                                             if ($this->exist_course_to_factors($course_details->id)) {

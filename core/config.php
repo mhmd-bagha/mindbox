@@ -28,3 +28,4 @@ define('EMAIL_PASSWORD', 'rDzMMerF@bebest.ir');
 define('EMAIL_USERNAME', 'info@bebest20.ir');
 define('SMTPSERVER', 'mail.bebest20.ir');
 define('SMTPSERVER_PORT', 465);
+define('TYPE_FILE', array('application/vnd.rar', 'application/zip'));
