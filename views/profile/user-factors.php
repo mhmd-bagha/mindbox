@@ -46,45 +46,54 @@
                                                 } ?></td>
                                             <td><a class="btn btn-sm shadow-none btn-outline-secondary"
                                                    data-bs-toggle="modal"
-                                                   data-bs-target="#factor-details-<?= $my_factor->id ?>">جزئیات</a>
+                                                   data-bs-target="#factor_details_<?= $my_factor->id ?>">جزئیات</a>
                                             </td>
-                                            <!-- modal factor details -->
-                                            <div class="modal fade" id="factor-details-<?= $my_factor->id ?>"
-                                                 tabindex="-1">
-                                                <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">جزئیات فاکتور</h5>
-                                                            <button type="button" class="btn-close shadow-none"
-                                                                    data-bs-dismiss="modal"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <?php foreach ($my_courses_id as $my_course_id) {
-                                                                $my_course = $this->model->where('courses', 'id', $my_course_id); ?>
-                                                                <div class="row factor-details">
-                                                                    <div class="col-12 col-sm-6 mb-4 mb-sm-0">
-                                                                        <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"><img
-                                                                                    src="<?= DOMAIN . '/public/images/' . $my_course->course_image ?>"
-                                                                                    alt="<?= $my_course->course_title ?>"
-                                                                                    class="img-fluid lozad"></a>
-                                                                    </div>
-                                                                    <div class="col-12 col-sm-6">
-                                                                        <span><a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"><?= $my_course->course_title ?></a></span>
-                                                                        <span class="text-truncate"><?= $my_course->course_description ?></span>
-                                                                        <span>مبلغ دوره: <?= number_format($my_course->course_price) ?> تومان</span>
-                                                                        <span>قابل پرداخت: <?= number_format($my_factor->factor_price) ?> تومان</span>
-                                                                    </div>
-                                                                   <div class="text-end">
-                                                                       <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}#comment" ?>" class="text-info">ثبت دیدگاه</a>
-                                                                   </div>
+                                        </tr>
+                                        <!-- modal factor details -->
+                                        <div class="modal fade" id="factor_details_<?= $my_factor->id ?>"
+                                             tabindex="-1">
+                                            <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">جزئیات فاکتور</h5>
+                                                        <button type="button" class="btn-close shadow-none"
+                                                                data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <?php foreach ($my_courses_id as $my_course_id) {
+                                                            $my_course = $this->model->where('courses', 'id', $my_course_id); ?>
+                                                            <div class="row factor-details">
+                                                                <div class="col-12 col-sm-6 mb-4 mb-sm-0">
+                                                                    <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"><img
+                                                                                src="<?= DOMAIN . '/public/images/course/' . $my_course->course_image . '/' . $my_course->course_image ?>"
+                                                                                alt="<?= $my_course->course_title ?>"
+                                                                                class="img-fluid lozad"></a>
                                                                 </div>
-                                                                <hr>
-                                                            <?php } ?>
-                                                        </div>
+                                                                <div class="col-12 col-sm-6">
+                                                                    <span><a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"><?= $my_course->course_title ?></a></span>
+                                                                    <span class="text-truncate"><?= $my_course->course_description ?></span>
+                                                                    <span>مبلغ دوره: <?php if ($my_factor->factor_type == 'free' && empty($my_factor->factor_price)) {
+                                                                        echo "رایگان";
+                                                                        } else {
+                                                                            echo number_format($my_course->course_price) . ' تومان';
+                                                                        } ?></span>
+                                                                    <span>قابل پرداخت: <?php if ($my_factor->factor_type == 'free' && empty($my_factor->factor_price)) {
+                                                                            echo "رایگان";
+                                                                        } else {
+                                                                            echo number_format($my_factor->factor_price) . ' تومان';
+                                                                        } ?></span>
+                                                                </div>
+                                                                <div class="text-end">
+                                                                    <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}#comment" ?>"
+                                                                       class="text-info">ثبت دیدگاه</a>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </tr>
+                                        </div>
                                     <?php } ?>
                                     </tbody>
                                 </table>
