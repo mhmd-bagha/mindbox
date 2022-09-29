@@ -52,9 +52,21 @@
                                 <td><?= $menu->create_time ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="#" title="غیرفعال"
-                                           class="btn btn-sm btn-outline-secondary shadow-none"><i
-                                                    class="fa-solid fa-toggle-off"></i></a>
+                                        <?php switch ($menu->status_show) {
+                                            case "hide":
+                                                ?>
+                                                <a href="#" title="غیرفعال"
+                                                   class="btn btn-sm btn-outline-secondary shadow-none"
+                                                   onclick="enable('<?= $menu->id ?>', 'آیا میخواهید این آیتم را را فعال کنید؟', 'menu')"><i
+                                                            class="fa-solid fa-toggle-off"></i></a>
+                                                <?php break;
+                                            case "show": ?>
+                                                <a href="#" title="فعال"
+                                                   class="btn btn-sm btn-outline-success shadow-none"
+                                                   onclick="disable('<?= $menu->id ?>', 'آیا میخواهید این آیتم را غیر فعال کنید؟', 'menu')"><i
+                                                            class="fa-solid fa-toggle-on"></i></a>
+                                                <?php break;
+                                        } ?>
                                         <a data-bs-toggle="modal" data-bs-target="#form" title="ویرایش"
                                            class="btn btn-sm btn-outline-primary shadow-none"><i
                                                     class="fa-solid fa-pen-to-square"></i></a>

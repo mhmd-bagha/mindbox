@@ -5,7 +5,7 @@
         <!-- Successful payment -->
         <div class="card shadow w-lg-50 mx-auto">
             <div class="card-header bg-blue text-center p-4">
-                <img src="<?= DOMAIN ?>/public/images/pubilc-images/svg/success.svg" alt="" width="150">
+                <img src="<?= DOMAIN ?>/public/images/public-images/svg/success.svg" alt="" width="150">
                 <h2 class="text-white fw-bold pb-2">پرداخت موفق !</h2>
                 <h6 class="text-white">کاربر گرامی پرداخت شما موفق بود.</h6>
             </div>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="card-footer d-grid">
-                <a href="<?= DOMAIN ?>/account/user_my_courses" class="btn-blue">رفتن به دوره‌های من</a>
+                <a href="<?= DOMAIN ?>/account/my_courses" class="btn-blue">رفتن به دوره‌های من</a>
             </div>
         </div>
     </div>

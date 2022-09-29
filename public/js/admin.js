@@ -73,7 +73,7 @@ function closeOffCanvas() {
 
 $(document).ready(function () {
     $("#div-price").hide();
-    $("#type-course").change(function () {
+    $("#course_type").change(function () {
         if ($(this).val() == "money") {
             $("#div-price").show();
         } else {
@@ -89,16 +89,16 @@ if ($("#select_courses").length) {
     };
     new TomSelect('#select_courses', settings_discount);
 }
-// tom select lable courses
-if ($('#select_lables').length) {
-    var settings_lables = {
+// tom select label courses
+if ($('#course_labels').length) {
+    var settings_labels = {
         plugins: ['remove_button'],
         persist: false,
         createOnBlur: true,
         create: true,
         maxItems: 23
     };
-    new TomSelect('#select_lables', settings_lables);
+    new TomSelect('#course_labels', settings_labels);
 }
 
 if ($(".lozad").length) {
@@ -127,7 +127,7 @@ function disable(id, message_confirm, type) {
     if (confirm(message_confirm)) {
         var formData = new FormData()
         formData.append('id', id)
-        formData.append('btn_status_' + type + '', true)
+        formData.append('type', type)
         $.ajax({
             url: PATH + "/admin/disable",
             type: "POST",
@@ -162,7 +162,7 @@ function enable(id, message_confirm, type) {
     if (confirm(message_confirm)) {
         var formData = new FormData()
         formData.append('id', id)
-        formData.append('btn_status_' + type + '', true)
+        formData.append('type', type)
         $.ajax({
             url: PATH + "/admin/enable",
             type: "POST",
@@ -191,4 +191,44 @@ function enable(id, message_confirm, type) {
             }
         })
     }
+}
+
+function _(el) {
+    return document.getElementById(el);
+}
+
+function uploadFile(file, file_name, file_name_posted, loaded_n_total = 'loaded_n_total', progressBar = 'progressBar', status = 'status') {
+    _("progressShow").style.display = 'block'
+    var formdata = new FormData();
+    formdata.append("file", file);
+    formdata.append("file_name", file_name)
+    formdata.append("file_name_posted", file_name_posted)
+    var ajax = new XMLHttpRequest();
+    ajax.upload.addEventListener("progress", progressHandler, false);
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.addEventListener("error", errorHandler, false);
+    ajax.addEventListener("abort", abortHandler, false);
+    ajax.open("POST", PATH + "/uploader/setter.php");
+    ajax.setRequestHeader('Access-Control-Allow-Origin', '*');
+    ajax.send(formdata);
+}
+
+function progressHandler(event) {
+    _("loaded_n_total").innerHTML = "آپلود شد " + formatBytes(event.loaded) + " از " + formatBytes(event.total);
+    var percent = (event.loaded / event.total) * 100;
+    _("progressBar").style.width = Math.round(percent) + "%";
+    _("status").innerHTML = Math.round(percent) + " %";
+}
+
+function completeHandler(event) {
+    _("status").innerHTML = event.target.responseText;
+    _("progressBar").style.width = "100%";
+}
+
+function errorHandler() {
+    _("status").innerHTML = "آپلود ناموفق بود";
+}
+
+function abortHandler(event) {
+    _("status").innerHTML = "آپلود لغو شد";
 }

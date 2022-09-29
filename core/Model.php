@@ -140,13 +140,9 @@ class Model
 
     function thumbnail($file, $pathToSave, $w, $h = '', $crop = false)
     {
-
         $new_height = $h;
-
         list($width, $height) = getimagesize($file);
-
         $r = $width / $height;
-
         if ($crop) {
             if ($width > $height) {
                 $width = ceil($width - ($width * abs($r - $w / $h)));
@@ -164,9 +160,7 @@ class Model
                 $newwidth = $w;
             }
         }
-
         $what = getimagesize($file);
-
         switch (strtolower($what['mime'])) {
             case 'image/png':
                 $src = imagecreatefrompng($file);
@@ -179,21 +173,14 @@ class Model
                 $src = imagecreatefromgif($file);
                 break;
             default:
-                //die();
         }
-
         if ($new_height != '') {
             $newheight = $new_height;
         }
-
         $dst = imagecreatetruecolor($newwidth, $newheight);//the new image
         imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);//az function
-
         imagejpeg($dst, $pathToSave, 95);
-
         return $dst;
-
-
     }
 
     function security($value)
@@ -314,7 +301,7 @@ class Model
         return (new static)->$method(...$parameters);
     }
 
-    public static function alert_null_data($text, $class = "alert-warning fs-6")
+    public static function alert_null_data($text = 'داده این موجود نیست', $class = "alert-warning fs-6 text-center")
     {
         $file = file_get_contents(DIR_ROOT . '/views/programs/alert-null-data/index.php');
         $file = str_replace('#text', $text, $file);
@@ -328,6 +315,11 @@ class Model
         $exit = end($array);
         $new_name = "{$new_name}_" . date('Y-m-d_H-i-s') . ".{$exit}";
         return $new_name;
+    }
+
+    public static function time_jalili_en()
+    {
+        return jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
     }
 }
 

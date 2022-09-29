@@ -11,7 +11,7 @@
                     <div class="item">
                         <div class="card course-card h-100">
                             <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course_offer->id ?>"><img
-                                        data-src="<?php echo DOMAIN ?>/public/images/<?php echo $course_offer->course_image ?>"
+                                        data-src="<?php echo DOMAIN ?>/public/images/course/<?php echo $course_offer->course_image . '/' . $course_offer->course_image ?>"
                                         alt="<?php echo $course_offer->course_title ?>" data-alt="<?php echo $course_offer->course_title ?>"
                                         class="card-img-top owl-lazy"></a>
                             <div class="card-body">

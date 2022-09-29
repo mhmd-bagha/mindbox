@@ -1,11 +1,11 @@
 <?php $courses = $data['courses']; ?>
 <div class="row">
-    <?php foreach (paginate($courses, 1) as $course) { ?>
+    <?php foreach (paginate($courses, 20) as $course) { ?>
         <!-- course -->
         <div class="col-12 col-sm-6 col-lg-6 col-xl-4 mb-4">
             <div class="card border-0 course-card h-100 shadow-sm">
                 <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course->id ?>">
-                    <img data-src="<?php echo DOMAIN ?>/public/images/<?php echo $course->course_image ?>" alt="<?php echo $course->course_title ?>" data-alt="<?php echo $course->course_title ?>" class="card-img-top rounded-0 lozad"></a>
+                    <img data-src="<?php echo DOMAIN ?>/public/images/course/<?php echo $course->course_image . '/' . $course->course_image ?>" alt="<?php echo $course->course_title ?>" data-alt="<?php echo $course->course_title ?>" class="card-img-top rounded-0 lozad"></a>
                 <div class="card-body">
                     <h2 class="title-course-card text-truncate mb-3">
                         <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course->id ?>"><?php echo $course->course_title ?></a>

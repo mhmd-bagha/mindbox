@@ -7,10 +7,8 @@ function PhpError($error_code, $error_msg, $error_file, $error_line)
 {
     echo "<br/><b>Error Message: </b>{$error_msg}<br/>";
     echo "<smal>{$error_file} <b>In The Line: {$error_line}</b></smal><br/><br/>";
-    if ($error_code == E_USER_ERROR) : die();
-    endif;
+    die();
 }
-
 set_error_handler("PhpError");
 
 define('SERVERDB', 'localhost');
@@ -25,6 +23,7 @@ define('ADMIN_EMAIL', 'm@gmail.com');
 define('ADMIN_PASSWORD', 'U295cHhCRGVwWWNqUUg2MUg0L3RTZz09');
 define('TYPE_IMG', array('image/png', 'image/jpg', 'image/jpeg'));
 define('SIZE_IMG', 1 * 1024 * 1024);
+define('SIZE_IMG_COURSE', 2 * 1024 * 1024);
 define('EMAIL_PASSWORD', 'rDzMMerF@bebest.ir');
 define('EMAIL_USERNAME', 'info@bebest20.ir');
 define('SMTPSERVER', 'mail.bebest20.ir');

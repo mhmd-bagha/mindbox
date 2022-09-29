@@ -16,8 +16,8 @@ $data_user = $data['data_user'];
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input shadow-none form-check-input-orange" id="wallet" type="radio"
-                           name="flexRadioDefault" <?php if ($data_user->user_money == 0) echo 'disabled' ?>>
-                    <label for="wallet" class="form-check-label">کیف پول (موجودی: <?= $data_user->user_money ?>
+                           name="flexRadioDefault" <?php if ($data_user->user_money < $data['balance_all']) echo 'disabled' ?> disabled>
+                    <label for="wallet" class="form-check-label">کیف پول (موجودی: <?= number_format($data_user->user_money) ?>
                         تومان)</label>
                 </div>
             </div>
@@ -27,7 +27,7 @@ $data_user = $data['data_user'];
     <!-- Wallet balance -->
     <div class="d-flex justify-content-between fs-6 pb-3">
         <span class="text-muted">موجودی کیف پول شما (تومان)</span>
-        <span class="fw-bold"><?= $data_user->user_money ?></span>
+        <span class="fw-bold"><?= number_format($data_user->user_money) ?></span>
     </div>
     <!-- total discounts -->
     <div class="d-flex justify-content-between fs-6 pb-3">

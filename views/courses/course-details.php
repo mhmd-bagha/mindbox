@@ -186,9 +186,12 @@
                             <div class="d-block d-sm-flex d-lg-block d-xl-flex justify-content-between">
                                 <span class="d-block pb-3 pb-sm-0 pb-lg-3 pb-xl-0 text-nowrap">شبکه های اجتماعی</span>
                                 <div class="social-networks text-end ps-4 ps-lg-0 ps-xl-4">
-                                    <a href="#" title="Youtube"><i class="fa-brands fa-youtube"></i></a>
-                                    <a href="#" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
-                                    <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                                    <a href="https://twitter.com/intent/tweet?url=<?= currentUrl() ?>" target="_blank"
+                                       title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                                    <a href="https://t.me/share/url?url=<?= currentUrl() ?>" target="_blank" title="Telegram"><i
+                                                class="fa-brands fa-telegram"></i></a>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=<?= currentUrl() ?>" target="_blank"
+                                       title="Facebook"><i class="fa-brands fa-facebook"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -235,7 +238,7 @@
                                 دوره <?php echo $course_details->course_title ?></h5>
                             <hr>
                             <!-- course image -->
-                            <img src="<?php echo DOMAIN ?>/public/images/<?php echo $course_details->course_image ?>"
+                            <img src="<?php echo DOMAIN ?>/public/images/course/<?php echo $course_details->course_image . '/' . $course_details->course_image ?>"
                                  alt="" class="card-img-top">
                             <!-- course description -->
                             <div class="course-description py-4"><?php echo $course_details->course_description ?></div>

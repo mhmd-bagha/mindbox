@@ -8,7 +8,7 @@ foreach ($courses_id as $course_id) {
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-5 col-lg-6 col-xl-4 mb-3 mb-sm-0">
                     <a href="<?php echo DOMAIN . '/courses/course_details/' . $data_course->id ?>">
-                        <img src="<?php echo DOMAIN ?>/public/images/<?= $data_course->course_image ?>"
+                        <img src="<?php echo DOMAIN ?>/public/images/course/<?= $data_course->course_image . '/' . $data_course->course_image ?>"
                              alt="<?= $data_course->course_title ?>" class="img-fluid">
                     </a>
                 </div>

@@ -43,6 +43,21 @@
                                         <a data-bs-toggle="modal" data-bs-target="#form" title="ویرایش"
                                            class="btn btn-sm btn-outline-primary shadow-none"><i
                                                     class="fa-solid fa-pen-to-square"></i></a>
+                                        <?php switch ($social_network->status_show) {
+                                            case "hide":
+                                                ?>
+                                                <a href="#" title="غیرفعال"
+                                                   class="btn btn-sm btn-outline-secondary shadow-none"
+                                                   onclick="enable('<?= $social_network->id ?>', 'آیا میخواهید این شبکه اجتماعی را را فعال کنید؟', 'social_networks')"><i
+                                                            class="fa-solid fa-toggle-off"></i></a>
+                                                <?php break;
+                                            case "show": ?>
+                                                <a href="#" title="فعال"
+                                                   class="btn btn-sm btn-outline-success shadow-none"
+                                                   onclick="disable('<?= $social_network->id ?>', 'آیا میخواهید این شبکه اجتماعی را غیر فعال کنید؟', 'social_networks')"><i
+                                                            class="fa-solid fa-toggle-on"></i></a>
+                                                <?php break;
+                                        } ?>
                                         <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none"><i
                                                     class="fa-solid fa-trash"></i></a>
                                     </div>

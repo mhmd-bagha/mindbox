@@ -20,7 +20,7 @@ class information extends Controller
     public function rules()
     {
         $this->title = 'قوانین | مایندباکس';
-        $rules = $this->model->getAll('rules');
+        $rules = $this->model->getAllUser('rules');
         $this->view('information/rules', compact('rules'));
     }
 

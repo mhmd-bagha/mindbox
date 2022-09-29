@@ -11,16 +11,16 @@
                             require_once("user-menu.php");
                             ?>
                         </div>
-                        <div class="col-12 col-lg-9 user-content">
+<!--                        <div class="col-12 col-lg-9 user-content">-->
                             <h5>داشبورد کاربری</h5>
                             <hr>
-                            <?php require 'count_dashboard.php' ?>
+<!--                            --><?php //require 'count_dashboard.php' ?>
                             <hr>
-                            <?php require 'information_dashboard.php' ?>
+<!--                            --><?php //require 'information_dashboard.php' ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</main>
+</main>sdsdsdsdsdsdsdsd

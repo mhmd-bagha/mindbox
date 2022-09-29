@@ -5,7 +5,7 @@
             <div class="col-12 col-sm-4">
                 <div class="card border-0 text-center bg-transparent">
                     <div class="card-body d-flex align-items-end  justify-content-center">
-                        <img src="public/images/pubilc-images/svg/users.svg" alt="" class="" width="140"
+                        <img src="public/images/public-images/svg/users.svg" alt="" class="" width="140"
                              height="140">
                         <div class="d-none d-lg-block">
                             <h5 class="text-blue fw-bold purecounter" data-purecounter-start="0"
@@ -24,7 +24,7 @@
             <div class="col-12 col-sm-4">
                 <div class="card border-0 text-center bg-transparent">
                     <div class="card-body d-flex align-items-end  justify-content-center">
-                        <img src="public/images/pubilc-images/svg/minutes.svg" alt="" class="" width="140"
+                        <img src="public/images/public-images/svg/minutes.svg" alt="" class="" width="140"
                              height="140">
                         <div class="d-none d-lg-block">
                             <h5 class="text-blue fw-bold purecounter" data-purecounter-start="0"
@@ -43,7 +43,7 @@
             <div class="col-12 col-sm-4">
                 <div class="card border-0 text-center bg-transparent">
                     <div class="card-body d-flex align-items-end  justify-content-center">
-                        <img src="public/images/pubilc-images/svg/courses.svg" alt="" class="" width="140"
+                        <img src="public/images/public-images/svg/courses.svg" alt="" class="" width="140"
                              height="140">
                         <div class="d-none d-lg-block">
                             <h5 class="text-blue fw-bold purecounter" data-purecounter-start="0"

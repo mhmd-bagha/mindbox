@@ -14,7 +14,7 @@
             </div>
             <!-- vector -->
             <div class="col-12 col-lg-6 col-xl-7 order-0 order-lg-1 d-flex flex-column justify-content-center">
-                <img src="../../../public/images/pubilc-images/pages/update.png" alt="" class="img-fluid">
+                <img src="../../../public/images/public-images/pages/update.png" alt="" class="img-fluid">
             </div>
         </div>
     </div>

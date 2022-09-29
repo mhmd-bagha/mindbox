@@ -50,7 +50,7 @@
                                                 <span class="badge bg-danger p-2">غیرفعال</span>
                                                 <?php break;
                                         } ?></td>
-                                    <td><?= $user->user_money ?></td>
+                                    <td><?= number_format($user->user_money) ?></td>
                                     <td><?= $user->create_time ?></td>
                                     <td>
                                         <div class="btn-group">
@@ -58,8 +58,6 @@
                                                title="شارژ کیف پول"
                                                class="btn btn-sm btn-outline-primary shadow-none"><i
                                                         class="fa-solid fa-wallet"></i></a>
-<!--                                            <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none"><i-->
-<!--                                                        class="fa-solid fa-trash"></i></a>-->
                                         </div>
                                     </td>
                                 </tr>
@@ -80,7 +78,7 @@
                                                             (تومان)</label>
                                                         <input type="tel" class="form-control"
                                                                id="price_replace_wallet_<?= $user->id ?>"/>
-                                                        <small>مبلغ موردنظر جایگزین موجودی کیف پول کاربر می شود.</small>
+                                                        <small>مبلغ موردنظر با موجودی کاربر جمع خواهد شد</small>
                                                     </div>
                                                     <div class="text-end">
                                                         <button type="button" class="btn btn-success"
@@ -109,12 +107,13 @@
         var PATH = "<?= DOMAIN ?>"
         var price_replace = $("#price_replace_wallet_" + id)
         var btn_price_replace_wallet = $("#btn_price_replace_wallet_" + id)
+        var recharge_wallet = $("#recharge-wallet-" + id + "")
         btn_price_replace_wallet.prop('disabled', true)
         price_replace.prop('disabled', true)
         $.ajax({
-            url: PATH + "/admin/",
+            url: PATH + "/admin_users/replace_wallet",
             type: "POST",
-            data: {price_replace: price_replace, id: id, btn_replace_wallet: true},
+            data: {price_replace: price_replace.val().trim(), id: id, btn_replace_wallet: true},
             success: (data) => {
                 let obj = JSON.parse(data)
                 let status = obj.statusCode
@@ -122,6 +121,9 @@
                 switch (status) {
                     case 200:
                         alert_success(message)
+                        setTimeout(() => {
+                            recharge_wallet.modal('hide')
+                        }, 600)
                         break;
                     case 500:
                         alert_error(message)

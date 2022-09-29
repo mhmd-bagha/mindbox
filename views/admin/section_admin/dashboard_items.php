@@ -1,6 +1,6 @@
 <div class="row mb-4">
     <!-- users -->
-    <div class="col-12 col-sm-6 col-xl-3 mb-4 mb-sm-4 mb-xl-0">
+    <div class="col-12 col-sm-6 col-xl-3 my-2">
         <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <div class="d-flex">
@@ -16,7 +16,7 @@
         </div>
     </div>
     <!-- comments -->
-    <div class="col-12 col-sm-6 col-xl-3 mb-4 mb-sm-4 mb-xl-0">
+    <div class="col-12 col-sm-6 col-xl-3 my-2">
         <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <div class="d-flex">
@@ -32,7 +32,7 @@
         </div>
     </div>
     <!-- tickets -->
-    <div class="col-12 col-sm-6 col-xl-3 mb-4 mb-sm-0 mb-xl-0">
+    <div class="col-12 col-sm-6 col-xl-3 my-2">
         <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <div class="d-flex">
@@ -41,14 +41,14 @@
                     </div>
                     <div class="d-flex flex-column justify-content-between ms-2">
                         <h6>مجموع تیکت ها</h6>
-                        <h6 class="fw-bold">0</h6>
+                        <h6 class="fw-bold"><?= $data['count_all_tickets'] ?></h6>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- courses -->
-    <div class="col-12 col-sm-6 col-xl-3 mb-4 mb-sm-0 mb-xl-0">
+    <div class="col-12 col-sm-6 col-xl-3 my-2">
         <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <div class="d-flex">
@@ -58,6 +58,56 @@
                     <div class="d-flex flex-column justify-content-between ms-2">
                         <h6>مجموع دوره ها</h6>
                         <h6 class="fw-bold"><?= $data['count_all_courses'] ?></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <!-- memory -->
+    <div class="col-12 col-sm-6 col-xl-3 my-2">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="bg-primary text-white rounded-1 p-4">
+                        <h4><i class="fa-solid fa-memory"></i></h4>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between ms-2">
+                        <h6>رم</h6>
+                        <h6 class="fw-bold"><?= $data['get_server_memory_usage'] ?></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- cpu -->
+    <div class="col-12 col-sm-6 col-xl-3 my-2">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="bg-secondary text-white rounded-1 p-4">
+                        <h4><i class="fa-solid fa-server"></i></h4>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between ms-2">
+                        <h6>سی پی یو</h6>
+                        <h6 class="fw-bold"><?= $data['get_server_cpu_usage'] ?> %</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- free disk -->
+    <div class="col-12 col-sm-6 col-xl-3 my-2 mb-5">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="bg-orange text-white rounded-1 p-4">
+                        <h4><i class="fa-solid fa-server"></i></h4>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between ms-2">
+                        <h6>فضای خالی</h6>
+                        <h6 class="fw-bold"><?= $data['get_free_disk'] ?></h6>
                     </div>
                 </div>
             </div>

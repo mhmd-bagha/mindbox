@@ -12,7 +12,7 @@
             <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4">
                 <div class="card course-card h-100">
                     <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course_last->id ?>"><img
-                                data-src="<?php echo DOMAIN ?>/public/images/<?php echo $course_last->course_image ?>"
+                                data-src="<?php echo DOMAIN ?>/public/images/course/<?php echo $course_last->course_image . '/' . $course_last->course_image ?>"
                                 alt="<?php echo $course_last->course_title ?>" data-alt="<?php echo $course_last->course_title ?>"
                                 class="card-img-top lozad"></a>
                     <div class="card-body">

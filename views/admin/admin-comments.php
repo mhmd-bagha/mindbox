@@ -115,7 +115,7 @@
                                                             <div class="text-end">
                                                                 <button type="button" class="btn btn-success"
                                                                         id="btn_comment_answer_<?= $comment->id ?>"
-                                                                        onclick="<?php if ($get_answer_comment) { ?>comment_answer('<?= $comment->id ?>', 'edit')<?php } else { ?>comment_answer('<?= $comment->id ?>', 'post')<?php } ?>">
+                                                                        onclick="<?php if ($get_answer_comment) { ?>comment_answer('<?= $comment->id ?>', 'edit', '<?= $comment->course_id ?>')<?php } else { ?>comment_answer('<?= $comment->id ?>', 'post', '<?= $comment->course_id ?>')<?php } ?>">
                                                                     ثبت
                                                                 </button>
                                                             </div>
@@ -138,16 +138,17 @@
 <!-- admin backdrop -->
 <div class="admin-backdrop"></div>
 <script>
-    function comment_answer(id, type) {
+    function comment_answer(id, type, course_id) {
         var btn = $("#btn_comment_answer_" + id)
         var modal = $("#show-more-" + id)
-        var comment_answer = $("#comment_answer_" + id).val().trim()
+        var comment_answer = $("#comment_answer_" + id)
+        var author = "<?= $get_admin->id ?>"
         btn.prop('disabled', true).text('در حال ثبت...')
         comment_answer.prop('disabled', true)
         $.ajax({
-            url: PATH + "/admin/comment_answer",
+            url: PATH + "/admin_comment/comment_answer",
             type: "POST",
-            data: {id: id, comment_answer: comment_answer, btn_comment_answer: true, type: type},
+            data: {id: id, comment_answer: comment_answer.val().trim(), btn_comment_answer: true, type: type, course_id: course_id, author:author},
             success: (data) => {
                 let obj = JSON.parse(data)
                 let status = obj.statusCode
@@ -156,8 +157,8 @@
                     case 200:
                         alert_success(message)
                         setTimeout(() => {
-                            location.reload()
-                        }, 2500)
+                            modal.modal('hide')
+                        }, 600)
                         break;
                     case 500:
                         alert_error(message)

@@ -5,7 +5,6 @@ class App
     public $controller = 'index';
     public $method = 'index';
     public $params = array();
-    protected static $registry = [];
     function __construct()
     {
         if (isset($_GET['url'])) {

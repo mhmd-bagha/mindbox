@@ -1,2 +1,2 @@
 <!-- pagination -->
-<?= paginateView($courses, 1) ?>
+<?= paginateView($courses, 20) ?>

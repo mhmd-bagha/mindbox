@@ -15,7 +15,7 @@
             <?php } else { ?>
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="flex-column">
-                        <img src="<?= DOMAIN ?>/public/images/pubilc-images/cart/empty-cart.png" alt="سبد خرید شما خالی است" class="img-fluid">
+                        <img src="<?= DOMAIN ?>/public/images/public-images/cart/empty-cart.png" alt="سبد خرید شما خالی است" class="img-fluid">
                         <p class="fs-6 text-muted text-center">می‌توانید برای مشاهده محصولات بیشتر به صفحات زیر بروید:</p>
                         <div class="d-flex justify-content-center align-items-center mt-4">
                             <a href="<?= DOMAIN ?>/courses/discounts" class="h5 fw-bold text-info me-5">تخفیف‌ها</a>

@@ -7,14 +7,15 @@ use Response\Response as response;
 
 
 require DIR_ROOT . 'models/model_admin_comment.php';
-require 'admin_users.php';
+require DIR_ROOT . 'models/model_admin_users.php';
 require DIR_ROOT . 'models/model_admin_sliders.php';
-require 'admin_categories.php';
-require 'admin_courses.php';
+require DIR_ROOT . 'models/model_admin_categories.php';
+require DIR_ROOT . 'models/model_admin_courses.php';
 require DIR_ROOT . 'models/model_admin_ticket.php';
 require DIR_ROOT . 'models/model_menu.php';
 require DIR_ROOT . 'models/model_admin_information.php';
 require DIR_ROOT . 'models/model_admin_social_networks.php';
+require DIR_ROOT . 'models/model_admin_discounts.php';
 
 class admin extends Controller
 {
@@ -27,6 +28,7 @@ class admin extends Controller
     private $menu;
     private $information;
     private $social_network;
+    private $discounts;
 
     public function __construct()
     {
@@ -35,14 +37,15 @@ class admin extends Controller
         $this->keywords = '';
         $this->robots = 'noindex, nofollow';
         $this->comment = new model_admin_comment();
-        $this->users = new admin_users();
+        $this->users = new model_admin_users();
         $this->sliders = new model_admin_sliders();
-        $this->categories = new admin_categories();
-        $this->courses = new admin_courses();
+        $this->categories = new model_admin_categories();
+        $this->courses = new model_admin_courses();
         $this->tickets = new model_admin_ticket();
         $this->menu = new model_menu();
         $this->information = new model_admin_information();
         $this->social_network = new model_admin_social_networks();
+        $this->discounts = new model_admin_discounts();
     }
 
     public function index()
@@ -53,9 +56,13 @@ class admin extends Controller
         $end_comments = $this->comment->end_comments();
         $end_users = $this->users->end_users();
         $count_all_users = $this->model->count_all_table('users');
-        $count_all_comments = $this->model->count_all_table('comments');
+        $count_all_comments = $this->model->count_where('comments', 'comment_type', 'user');
         $count_all_courses = $this->model->count_all_table('courses');
-        $this->view('admin/index', compact('end_comments', 'end_users', 'count_all_users', 'count_all_comments', 'count_all_courses'), null, null);
+        $count_all_tickets = $this->tickets->count_all_ticket();
+        $get_server_memory_usage = $this->get_server_memory_usage();
+        $get_server_cpu_usage = $this->get_server_cpu_usage();
+        $get_free_disk = $this->get_free_disk();
+        $this->view('admin/index', compact('end_comments', 'end_users', 'count_all_users', 'count_all_comments', 'count_all_courses', 'count_all_tickets', 'get_server_memory_usage', 'get_server_cpu_usage', 'get_free_disk'), null, null);
     }
 
     public function login()
@@ -71,7 +78,7 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | کاربران';
-        $user_all = $this->users->model_users->all();
+        $user_all = $this->users->all();
         $this->view('admin/admin-users', compact('user_all'), null, null);
     }
 
@@ -80,7 +87,8 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css', 'vendor/datepicker/persian-datepicker.min.css', 'vendor/tom-select/tom-select.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/datepicker/persian-date.min.js', 'vendor/datepicker/persian-datepicker.min.js', 'vendor/tom-select/tom-select.complete.min.js', 'js/admin.js'];
         $this->title = 'ادمین | تخفیف ها';
-        $this->view('admin/admin-discounts', '', null, null);
+        $discount_all = $this->discounts->get_discount();
+        $this->view('admin/discounts/admin-discounts', compact('discount_all'), null, null);
     }
 
     public function wallet()
@@ -105,8 +113,8 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/lozad/lozad.min.js', 'js/admin.js'];
         $this->title = 'ادمین | دسته‌بندی ها';
-        $categories_all = $this->categories->model_categories->all();
-        $this->view('admin/admin-categories', compact('categories_all'), null, null);
+        $categories_all = $this->categories->all();
+        $this->view('admin/categories/admin-categories', compact('categories_all'), null, null);
     }
 
     public function courses()
@@ -114,8 +122,8 @@ class admin extends Controller
         $this->links_path = ['vendor/datatables/datatables.min.css', 'vendor/tom-select/tom-select.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/lozad/lozad.min.js', 'vendor/ckeditor/ckeditor.js', 'vendor/tom-select/tom-select.complete.min.js', 'js/admin.js'];
         $this->title = 'ادمین | دوره‌ها';
-        $courses_all = $this->courses->model_courses->all();
-        $this->view('admin/admin-courses', compact('courses_all'), null, null);
+        $courses_all = $this->courses->all();
+        $this->view('admin/courses/admin-courses', compact('courses_all'), null, null);
     }
 
     public function course_part(int $id = null)
@@ -124,8 +132,8 @@ class admin extends Controller
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | مدیریت دوره';
         if (empty($id)) Model::error404();
-        $id = $this->courses->model_courses->security($id);
-        $course_files = $this->courses->model_courses->where_all('course_files', 'course_id', $id);
+        $id = $this->courses->security($id);
+        $course_files = $this->courses->where_all('course_files', 'course_id', $id);
         $this->view('admin/admin-course-part', compact('course_files'), null, null);
     }
 
@@ -135,7 +143,7 @@ class admin extends Controller
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/admin.js'];
         $this->title = 'ادمین | اسلایدر‌ها';
         $slider_all = $this->sliders->all();
-        $this->view('admin/admin-sliders', compact('slider_all'), null, null);
+        $this->view('admin/sliders/admin-sliders', compact('slider_all'), null, null);
     }
 
     public function comments()
@@ -185,8 +193,15 @@ class admin extends Controller
 
     public function settings()
     {
+        $this->scripts_path = ['js/admin.js'];
         $this->title = 'ادمین | تنظیمات';
         $this->view('admin/admin-settings', '', null, null);
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['admin']);
+        Model::redirect('admin/');
     }
 
     public function login_admin()
@@ -288,15 +303,12 @@ class admin extends Controller
 
     public function disable()
     {
-        $btn_name = 'btn_status_';
         $data = $_POST;
-        if (isset($data['id']) && !empty($data['id'])) {
+        if (isset($data['id'], $data['type']) && !empty($data['id']) && !empty($data['type'])) {
             $id = $this->model->security($data['id']);
-//        comment
-            if (isset($_POST[$btn_name .= 'comment'])) {
-                $query = $this->model->change_status('comments', 'hide', $id);
-                echo ($query) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'نظر با موفقیت غیرفعال شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در غیرفعال کردن نظر']);
-            }
+            $type = $this->model->security($data['type']);
+            $query = $this->model->change_status($type, 'hide', $id);
+            echo ($query) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'آیتم با موفقیت غیرفعال شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در غیرفعال کردن آیتم']);
         } else
             echo response::Json(500, true, [
                 'domain' => DOMAIN,
@@ -306,19 +318,45 @@ class admin extends Controller
 
     public function enable()
     {
-        $btn_name = 'btn_status_';
         $data = $_POST;
-        if (isset($data['id']) && !empty($data['id'])) {
+        if (isset($data['id'], $data['type']) && !empty($data['id']) && !empty($data['type'])) {
             $id = $this->model->security($data['id']);
-//        comment
-            if (isset($_POST[$btn_name .= 'comment'])) {
-                $query = $this->model->change_status('comments', 'show', $id);
-                echo ($query) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'نظر با موفقیت فعال شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در فعال کردن نظر']);
-            }
+            $type = $this->model->security($data['type']);
+            $query = $this->model->change_status($type, 'show', $id);
+            echo ($query) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'آیتم با موفقیت فعال شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در فعال کردن آیتم']);
         } else
             echo response::Json(500, true, [
                 'domain' => DOMAIN,
                 'message' => 'داده های ارسالی ناقص است'
             ]);
+    }
+
+    function get_server_memory_usage()
+    {
+        $si_prefix = array('بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت');
+        $exec_free = explode("\n", trim(shell_exec('free')));
+        $get_mem = preg_split("/[\s]+/", $exec_free[1]);
+        $get_mem = ($get_mem[2] * 1024);
+        $base = 1024;
+        $class = min((int)log(round($get_mem, 1), $base), count($si_prefix) - 1);
+        $mem = sprintf('%1.2f', $get_mem / pow($base, $class)) . ' ' . $si_prefix[$class];
+        return $mem;
+    }
+
+    function get_server_cpu_usage()
+    {
+        $exec_loads = sys_getloadavg();
+        $exec_cores = trim(shell_exec("grep -P '^processor' /proc/cpuinfo|wc -l"));
+        $cpu = round($exec_loads[1] / ($exec_cores + 1) * 100, 0);
+        return $cpu;
+    }
+
+    public function get_free_disk()
+    {
+        $bytes = disk_free_space(".");
+        $si_prefix = array('بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت', 'ترابایت', 'هگزابایت', 'زتابایت', 'یوتابایت');
+        $base = 1024;
+        $class = min((int)log($bytes, $base), count($si_prefix) - 1);
+        return sprintf('%1.2f', $bytes / pow($base, $class)) . ' ' . $si_prefix[$class];
     }
 }

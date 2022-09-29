@@ -26,6 +26,55 @@
                             <button type="button" class="btn-orange px-5 fs-6 py-2" id="btn_comment">ثبت</button>
                         </div>
                     </form>
+                <script>
+                    var btn_comment = $("#btn_comment")
+                    var id = "<?= $course_details->id ?>"
+                    var user_id = "<?php $email = $this->model->decrypt(Model::SessionGet('user')); echo $this->model->where('users', 'user_email', $email)->id; ?>"
+                    var input_comment = $("#comment")
+                    var click_collapse = $("#click_collapse")
+                    $(document).ready(() => {
+                        btn_comment.click(() => {
+                            var comment_text = $("#comment").val().trim()
+                            if (!empty(comment_text)) {
+                                sendComment(id, user_id, comment_text)
+                            } else {
+                                alert_error('نظر خود را بنویسید')
+                            }
+                        })
+                    })
+
+                    function sendComment(course_id, user_id, comment) {
+                        var PATH = "<?= DOMAIN ?>"
+                        btn_comment.text('در حال ثبت...').prop('disabled', true)
+                        input_comment.prop('disabled', true)
+                        $.ajax({
+                            url: PATH + "/courses/comment",
+                            type: "POST",
+                            data: {course_id: course_id, user_id: user_id, comment: comment, btn_comment: true},
+                            success: (data) => {
+                                var obj = JSON.parse(data)
+                                var message = obj.data.message
+                                var status_code = obj.statusCode
+                                switch (status_code) {
+                                    case 200:
+                                        alert_success(message)
+                                        click_collapse.click()
+                                        break;
+                                    case 500:
+                                        alert_error(message)
+                                        break;
+                                }
+                                btn_comment.text('ثبت').prop('disabled', false)
+                                input_comment.prop('disabled', false).val('')
+                            },
+                            error: () => {
+                                alert_error('خطا در برقراری ارتباط با سرور')
+                                btn_comment.text('ثبت').prop('disabled', false)
+                                input_comment.prop('disabled', false)
+                            }
+                        })
+                    }
+                </script>
                 <?php } else {
                     ?>
                     <div class="alert alert-warning fs-6 my-3">برای ثبت نظر باید در دوره ثبت نام کنید</div>
@@ -81,54 +130,5 @@
         } else { ?>
             <div class="alert alert-warning my-3 text-center"><h5 class="h5">نظری تا کنون ثبت نشده است</h5></div>
         <?php } ?>
-        <script>
-            var btn_comment = $("#btn_comment")
-            var id = "<?= $course_details->id ?>"
-            var user_id = "<?php $email = $this->model->decrypt(Model::SessionGet('user')); echo $this->model->where('users', 'user_email', $email)->id; ?>"
-            var input_comment = $("#comment")
-            var click_collapse = $("#click_collapse")
-            $(document).ready(() => {
-                btn_comment.click(() => {
-                    var comment_text = $("#comment").val().trim()
-                    if (!empty(comment_text)) {
-                        sendComment(id, user_id, comment_text)
-                    } else {
-                        alert_error('نظر خود را بنویسید')
-                    }
-                })
-            })
-
-            function sendComment(course_id, user_id, comment) {
-                var PATH = "<?= DOMAIN ?>"
-                btn_comment.text('در حال ثبت...').prop('disabled', true)
-                input_comment.prop('disabled', true)
-                $.ajax({
-                    url: PATH + "/courses/comment",
-                    type: "POST",
-                    data: {course_id: course_id, user_id: user_id, comment: comment, btn_comment: true},
-                    success: (data) => {
-                        var obj = JSON.parse(data)
-                        var message = obj.data.message
-                        var status_code = obj.statusCode
-                        switch (status_code) {
-                            case 200:
-                                alert_success(message)
-                                click_collapse.click()
-                                break;
-                            case 500:
-                                alert_error(message)
-                                break;
-                        }
-                        btn_comment.text('ثبت').prop('disabled', false)
-                        input_comment.prop('disabled', false).val('')
-                    },
-                    error: () => {
-                        alert_error('خطا در برقراری ارتباط با سرور')
-                        btn_comment.text('ثبت').prop('disabled', false)
-                        input_comment.prop('disabled', false)
-                    }
-                })
-            }
-        </script>
     </div>
 </div>

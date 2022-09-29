@@ -5,7 +5,7 @@
         <!-- Payment failed -->
         <div class="card shadow w-lg-50 mx-auto">
             <div class="card-header bg-blue text-center p-4">
-                <img src="<?= DOMAIN ?>/public/images/pubilc-images/svg/failed.svg" alt="" width="150">
+                <img src="<?= DOMAIN ?>/public/images/public-images/svg/failed.svg" alt="" width="150">
                 <h3 class="fw-bold text-white">پرداخت ناموفق !</h3>
                 <h6 class="text-white">کاربر گرامی پرداخت شما ناموفق بود.</h6>
             </div>

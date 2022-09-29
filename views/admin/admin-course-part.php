@@ -72,8 +72,21 @@
                                 } ?></td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="#" title="فعال" class="btn btn-sm btn-outline-success shadow-none"><i
-                                                class="fa-solid fa-toggle-on"></i></a>
+                                    <?php switch ($course_file->status_show) {
+                                        case "hide":
+                                            ?>
+                                            <a href="#" title="غیرفعال"
+                                               class="btn btn-sm btn-outline-secondary shadow-none"
+                                               onclick="enable('<?= $course_file->id ?>', 'آیا میخواهید این فایل را را فعال کنید؟', 'course_files')"><i
+                                                        class="fa-solid fa-toggle-off"></i></a>
+                                            <?php break;
+                                        case "show": ?>
+                                            <a href="#" title="فعال"
+                                               class="btn btn-sm btn-outline-success shadow-none"
+                                               onclick="disable('<?= $course_file->id ?>', 'آیا میخواهید این فایل را غیر فعال کنید؟', 'course_files')"><i
+                                                        class="fa-solid fa-toggle-on"></i></a>
+                                            <?php break;
+                                    } ?>
                                     <a href="#" title="ویرایش" class="btn btn-sm btn-outline-primary shadow-none"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
                                     <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none"><i

@@ -47,7 +47,7 @@ class model_courses extends Model
 
     public function get_comments($course_id, $status_show = 'show')
     {
-        $query = $this->Select("SELECT * FROM `comments` WHERE `reply_id` IS NULL AND `course_id` = ? AND `status_show` = ?", [$course_id, $status_show]);
+        $query = $this->Select("SELECT * FROM `comments` WHERE `reply_id` IS NULL AND `course_id` = ? AND `status_show` = ? ORDER BY id DESC", [$course_id, $status_show]);
         return ($query) ? $query : false;
     }
 
