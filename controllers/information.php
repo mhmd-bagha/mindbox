@@ -14,7 +14,8 @@ class information extends Controller
     {
         $this->title = 'درباره ما | مایندباکس';
         $about_me = $this->model->get('about_me');
-        $this->view('information/about-me', compact('about_me'));
+        $benefits = $this->model->where_all('information', 'information_type', 'benefits');
+        $this->view('information/about-me', compact('about_me', 'benefits'));
     }
 
     public function rules()
@@ -29,5 +30,12 @@ class information extends Controller
         $this->title = 'تماس با ما | مایندباکس';
         $contact_us = $this->model->get('contact_us');
         $this->view('information/contact-us', compact('contact_us'));
+    }
+
+    public function update()
+    {
+        if (!$this->model->where('information', 'information_type', 'update')) Model::redirect('');
+        $this->title = 'در حال بروزرسانی';
+        $this->view('pages/update/update', '', '', '');
     }
 }

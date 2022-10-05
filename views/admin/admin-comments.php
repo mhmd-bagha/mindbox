@@ -64,13 +64,13 @@
                                                 ?>
                                                 <a href="#" title="غیرفعال"
                                                    class="btn btn-sm btn-outline-secondary shadow-none"
-                                                   onclick="enable('<?= $comment->id ?>', 'آیا میخواهید این نظر را را فعال کنید؟', 'comment')"><i
+                                                   onclick="enable('<?= $comment->id ?>', 'آیا میخواهید این نظر را را فعال کنید؟', 'comments')"><i
                                                             class="fa-solid fa-toggle-off"></i></a>
                                                 <?php break;
                                             case "show": ?>
                                                 <a href="#" title="فعال"
                                                    class="btn btn-sm btn-outline-success shadow-none"
-                                                   onclick="disable('<?= $comment->id ?>', 'آیا میخواهید این نظر را غیر فعال کنید؟', 'comment')"><i
+                                                   onclick="disable('<?= $comment->id ?>', 'آیا میخواهید این نظر را غیر فعال کنید؟', 'comments')"><i
                                                             class="fa-solid fa-toggle-on"></i></a>
                                                 <?php break;
                                         } ?>

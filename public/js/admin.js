@@ -4,6 +4,7 @@ const adminBackdrop = document.querySelector(".admin-backdrop")
 let isOffCanvasOpen = false;
 const debounceAction = debounce(() => resizeAction())
 let width = window.innerWidth;
+var message_data;
 
 // event click toggle
 toggle.addEventListener("click", () => {
@@ -115,12 +116,13 @@ function get_data_item(id, path, type = 'POST', msg_error = 'خطا در برق�
             alert_error(msg_error)
         }
     }).done((data) => {
-        console.log(data)
         var obj = JSON.parse(data)
         var status_code = obj.statusCode
-        var message = obj.data.message[0]
-        return message
+        message_data = [obj.data.message, status_code]
     })
+    return message_data
+    // const ajaxSend = () => {}
+    // if (ajaxSend()) return message_data
 }
 
 function disable(id, message_confirm, type) {

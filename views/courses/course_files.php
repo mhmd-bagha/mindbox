@@ -1,5 +1,3 @@
-<?php $email = $this->model->decrypt(Model::SessionGet('user'));
-$get_user = $this->model->where('users', 'user_email', $email); ?>
 <!-- course meetings -->
 <div class="card rounded-3 border-0 box-shadow mb-5">
     <div class="card-body content-session hide-content">
@@ -32,7 +30,9 @@ $get_user = $this->model->where('users', 'user_email', $email); ?>
                                 <span class="text-muted"><?php echo $course_file->course_time ?></span>
                                 <?php switch ($course_file->course_type) {
                                     case "free":
-                                        if (Model::SessionGet('user')) { ?>
+                                        if (Model::SessionGet('user')) {
+                                            $email = $this->model->decrypt(Model::SessionGet('user'));
+                                            $get_user = $this->model->where('users', 'user_email', $email); ?>
                                             <a href="<?php echo DOMAIN ?>/courses/download/<?= $this->model->encrypt($course_details->id) . '/' . $this->model->encrypt($get_user->id) . '/' . $this->model->encrypt($course_file->id) ?>"
                                                class="course-icon-download active ms-3" target="_blank"><i
                                                         class="fa-solid fa-download"></i></a>
@@ -47,7 +47,7 @@ $get_user = $this->model->where('users', 'user_email', $email); ?>
                                         if (Model::SessionGet('user')) {
                                             if ($this->exist_course_to_factors($course_details->id)) {
                                                 ?>
-                                                <a href="<?php echo DOMAIN ?>/public/course-files/<?php echo $course_details->course_title . '-' . $course_details->id ?>/<?php echo $course_file->course_file ?>"
+                                                <a href="<?php echo DOMAIN ?>/courses/download/<?= $this->model->encrypt($course_details->id) . '/' . $this->model->encrypt($get_user->id) . '/' . $this->model->encrypt($course_file->id) ?>"
                                                    class="course-icon-download active ms-3" target="_blank"><i
                                                             class="fa-solid fa-download"></i></a>
                                             <?php } else {

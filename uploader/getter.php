@@ -1,4 +1,6 @@
 <?php
+require 'helper.php';
+
 // variable
 define('ROOT', $_SERVER['DOCUMENT_ROOT'] . '/mindbox/');
 const TYPE_FILE = array('image/png', 'image/jpg', 'image/jpeg', 'application/vnd.rar', 'application/zip');
@@ -62,7 +64,11 @@ if (isset($_FILES['slider'])) {
     if (in_array($file_img_type, TYPE_FILE)) {
         mkdir(ROOT . "public/images/sliders/{$file_name}");
         $upload = move_uploaded_file($file_tmp, ROOT . "public/images/sliders/{$file_name}/{$file_name}");
-        return $upload ? "فایل با موفقیت آپلود شد" : "خطا در اپلود فایل";
+        if ($upload) {
+            resize_img(ROOT . "public/images/sliders/{$file_name}/{$file_name}", ROOT . "public/images/sliders/{$file_name}/{$file_name}", 2880, 600);
+            return "فایل با موفقیت آپلود شد";
+        } else return "خطا در اپلود فایل";
+
     } else {
         return "پسوند های مجاز است png یا jpg یا jpeg";
     }
@@ -106,5 +112,21 @@ if (isset($_FILES['course_file'])) {
         }
     } else {
         return "پسوند های مجاز zip یا rar است";
+    }
+}
+
+// course_image
+if (isset($_FILES['header'])) {
+    $data_file = $_FILES['header'];
+    $file_name = $data_file['name'];
+    $file_tmp = $data_file['tmp_name'];
+    $file_img_size = $data_file['size'];
+    $file_img_type = $data_file['type'];
+    if (in_array($file_img_type, TYPE_FILE)) {
+        mkdir(ROOT . "public/images/public-images/logo/{$file_name}");
+        $upload = move_uploaded_file($file_tmp, ROOT . "public/images/public-images/logo/{$file_name}/{$file_name}");
+        return $upload ? "فایل با موفقیت آپلود شد" : "خطا در اپلود فایل";
+    } else {
+        return "پسوند های مجاز است png یا jpg یا jpeg";
     }
 }

@@ -6,11 +6,13 @@ function currentDomain()
     $currentUrl = $_SERVER['HTTP_HOST'];
     return $httpProtocol . $currentUrl;
 }
+
 // currentUrl url now
 function currentUrl()
 {
     return currentDomain() . $_SERVER['REQUEST_URI'];
 }
+
 // paginate items page
 function paginate($data, $perPage)
 {
@@ -23,6 +25,7 @@ function paginate($data, $perPage)
     $data = array_slice($data, $currentRow, $perPage);
     return $data;
 }
+
 // paginateView number page
 function paginateView($data, $perPage)
 {
@@ -48,6 +51,7 @@ function paginateView($data, $perPage)
     $paginateView .= ($current_page != $total_pages) ? '<a href="' . paginateUrl($total_pages) . '" class="page">&gt;</a>' : '';
     return '<div class="pagination-layer text-center pt-3">' . $paginateView . '</div>';
 }
+
 // paginateUrl url page
 function paginateUrl($page)
 {

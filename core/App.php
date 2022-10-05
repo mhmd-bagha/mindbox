@@ -5,6 +5,23 @@ class App
     public $controller = 'index';
     public $method = 'index';
     public $params = array();
+    // page is update web
+    protected $no_pages_update = [
+        'admin',
+        'admin_categories',
+        'admin_comment',
+        'admin_courses',
+        'admin_discounts',
+        'admin_information',
+        'admin_sliders',
+        'admin_social_networks',
+        'admin_ticket',
+        'admin_users',
+        'api',
+        'errors',
+        'information'
+    ];
+
     function __construct()
     {
         if (isset($_GET['url'])) {
@@ -14,7 +31,7 @@ class App
             unset($url[0]);
             if (isset($url[1]))
                 $this->method = $url[1];
-                unset($url[1]);
+            unset($url[1]);
             $this->params = array_values($url);
         }
         $controllerUrl = "controllers/{$this->controller}.php";
@@ -28,6 +45,12 @@ class App
             }
         } else
             Model::error404();
+        // redirect page update web site
+        if ((new Model())->where('information', 'information_type', 'update')) {
+            if (!in_array($this->controller, $this->no_pages_update)) {
+                Model::update_web_page();
+            }
+        }
     }
 
     function parseUrl($url)

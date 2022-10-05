@@ -2,7 +2,7 @@
 require dirname(dirname(__DIR__)) . '/core/Model.php';
 require dirname(dirname(__DIR__)) . '/core/config.php';
 
-class Create_table_information extends Db
+class Create_table_discounts extends Db
 {
     public $db;
 
@@ -13,14 +13,16 @@ class Create_table_information extends Db
 
     public function Create()
     {
-        return $this->db->CreateTable('information', [
+        return $this->db->CreateTable('discounts', [
             "
             id INT(11) AUTO_INCREMENT,
-            information_type ENUM('rules', 'about_me', 'contact_us', 'header', 'footer', 'update', 'benefits') NOT NULL,
-            information_data LONGTEXT NOT NULL,
+            course_id VARCHAR(11) NOT NULL,
+            discount VARCHAR(11) NOT NULL,
+            time_start VARCHAR(50) NOT NULL,
+            time_end VARCHAR(50) NOT NULL,
+            author VARCHAR(255) NOT NULL,
             ip VARCHAR(255) NOT NULL,
             create_time VARCHAR(50) NOT NULL,
-            update_time VARCHAR(50) NULL,
             status_show ENUM('show', 'hide') NOT NULL,
             PRIMARY KEY (id)
             "
@@ -28,7 +30,7 @@ class Create_table_information extends Db
     }
 }
 
-$Create_db = new Create_table_information();
+$Create_db = new Create_table_discounts();
 $Create = $Create_db->Create();
 if ($Create == true)
     echo "successful create table";

@@ -18,7 +18,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="img" class="mb-1">تصویر</label>
-                        <input type="file" class="form-control" id="img">
+                        <input type="file" class="form-control" id="img" accept=".jpg, .png, .jpeg">
                         <div id="progressShow" style="display: none">
                             <div class="progress progress_load">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar"

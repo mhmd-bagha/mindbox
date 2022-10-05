@@ -28,9 +28,14 @@
     var path = "<?= DOMAIN ?>/admin_sliders/get_slider_id/"
 
     function get_data_slider_id(id) {
-        var get_data = get_data_item(id, path)
-
-        console.log(get_data)
-
+        var get_data
+        get_data = get_data_item(id, path)
+        if (typeof get_data == 'undefined') {
+            get_data = get_data_item(id, path)
+            console.log(get_data)
+        } else {
+            get_data = get_data_item(id, path)
+            console.log(get_data)
+        }
     }
 </script>

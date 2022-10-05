@@ -138,49 +138,28 @@ class Model
         return ($query) ? true : false;
     }
 
-    function thumbnail($file, $pathToSave, $w, $h = '', $crop = false)
+    function resize_img($file, $pathToSave, $w, $h)
     {
-        $new_height = $h;
-        list($width, $height) = getimagesize($file);
-        $r = $width / $height;
-        if ($crop) {
-            if ($width > $height) {
-                $width = ceil($width - ($width * abs($r - $w / $h)));
-            } else {
-                $height = ceil($height - ($height * abs($r - $w / $h)));
-            }
-            $newwidth = $w;
-            $newheight = $h;
-        } else {
-            if ($w / $h > $r) {
-                $newwidth = $h * $r;
-                $newheight = $h;
-            } else {
-                $newheight = $w / $r;
-                $newwidth = $w;
-            }
-        }
-        $what = getimagesize($file);
-        switch (strtolower($what['mime'])) {
+        list($width_src, $height_src) = getimagesize($file);
+        $width = ceil($w);
+        $height = ceil($h);
+        $img_type = getimagesize($file);
+        switch (strtolower($img_type['mime'])) {
             case 'image/png':
-                $src = imagecreatefrompng($file);
-
+                $img = imagecreatefrompng($file);
                 break;
             case 'image/jpeg':
-                $src = imagecreatefromjpeg($file);
+                $img = imagecreatefromjpeg($file);
                 break;
             case 'image/gif':
-                $src = imagecreatefromgif($file);
+                $img = imagecreatefromgif($file);
                 break;
-            default:
         }
-        if ($new_height != '') {
-            $newheight = $new_height;
-        }
-        $dst = imagecreatetruecolor($newwidth, $newheight);//the new image
-        imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);//az function
-        imagejpeg($dst, $pathToSave, 95);
-        return $dst;
+        $new_img = imagecreatetruecolor($w, $h);
+        imagecopyresampled($new_img, $img, 0, 0, 0, 0, $width, $height, $width_src, $height_src);
+        imagepng($new_img, $pathToSave);
+        imagedestroy($new_img);
+        return $new_img;
     }
 
     function security($value)
@@ -196,7 +175,7 @@ class Model
     {
         $URI = DOMAIN . '/' . $URI;
         if ($back === null) {
-            @header("Location: " . $URI);
+            header("Location: " . $URI);
             echo "<meta http-equiv='refresh' content='0; url={$URI}' />";
             echo "<script>window.location.href = '{$URI}';</script>";
         } else {
@@ -210,6 +189,11 @@ class Model
     public static function error404()
     {
         self::redirect('errors/error404');
+    }
+
+    public static function update_web_page()
+    {
+        self::redirect('information/update');
     }
 
     public static function SessionStart()
@@ -321,6 +305,13 @@ class Model
     {
         return jdate('Y/m/d H:i:s', time(), '', 'Asia/Tehran', 'en');
     }
+
+    public function number_en($value)
+    {
+        $fa = array("۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹");
+        $en = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+        return str_replace($fa, $en, $value);
+    }
 }
 
 class Db
@@ -408,10 +399,6 @@ class helper
         $file = str_replace('#PayTime', $pay_time, $file);
         $file = str_replace('#SiteEmail', $site_email, $file);
         $file = str_replace('#MsgGateway', $msg_gateway, $file);
-//        $file_style = (file_get_contents(DIR_ROOT . '/public/css/styles.css'));
-//        $file_bootstrap = (file_get_contents(DIR_ROOT . '/public/css/bootstrap.rtl.min.css'));
-//        $file = str_replace('/* style internal(styles) */', $file_style, $file);
-//        $file = str_replace('/* style external(bootstrap) */', $file_bootstrap, $file);
         return html_entity_decode($file);
     }
 

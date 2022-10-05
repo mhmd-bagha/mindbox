@@ -1,4 +1,3 @@
-
 $(document).ready(() => {
     // search
     let bg_matte = $(".bg-matte")
@@ -96,7 +95,7 @@ $(document).ready(() => {
             responsiveClass: true,
             responsive: {
                 0: {
-                    items: 1
+                    items: 1.2
                 },
                 375: {
                     items: 1.2
@@ -108,10 +107,10 @@ $(document).ready(() => {
                     items: 2.2
                 },
                 992: {
-                    items: 3.2
+                    items: 3.3
                 },
                 1200: {
-                    items: 4.2
+                    items: 4.3
                 }
             }
         });

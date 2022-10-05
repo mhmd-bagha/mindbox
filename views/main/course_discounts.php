@@ -1,5 +1,5 @@
 <?php if (is_array($data['course_discounts']) || is_object($data['course_discounts'])) { ?>
-    <!-- suggested courses -->
+    <!-- discounts courses -->
     <div class="container-fluid py-5">
         <div class="container">
             <div class="d-flex justify-content-between pb-4">

@@ -57,12 +57,11 @@ class courses extends Controller
         if ($id == null) Model::error404();
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/app.js'];
         $id = $this->model->security($id);
-        $category = $this->model->category($id);
+        $courses = $this->model->category($id);
         $get_category = $this->model->get_category($id)[0];
-        if ($category == false) Model::error404();
-        $this->title = "دوره های دسته بندی {$get_category->category_title}| مایندباکس";
-        $data = ['courses' => $category];
-        $this->view('courses/index', $data);
+        if ($courses == false) Model::error404();
+        $this->title = "دوره های دسته بندی {$get_category->category_title}| مایندباکس";;
+        $this->view('courses/index', compact('courses'));
     }
 
     public function comment()
