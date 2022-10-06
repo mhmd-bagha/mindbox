@@ -70,4 +70,45 @@ class model_courses extends Model
         $query = $this->Query("INSERT INTO `comments`(`course_id`, `comment_text`, `comment_type`, `user_id`, `author`, `ip`, `create_time`, `status_show`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [$course_id, $comment, $comment_type, $user_id, $user_id, $ip, $create_time, $status_show]);
         return ($query) ? true : false;
     }
+
+    public function filter($type, $order, $discount, $level, $category)
+    {
+        $status_show = 'show';
+        if (empty($category)) {
+            if (!empty($type)) :
+                if ($type != 'all')
+                    $query = $this->Select("SELECT * FROM `courses` WHERE `course_type` = ? AND `status_show` = ? ORDER BY `id` DESC", [$type, $status_show]);
+                else
+                    $query = $this->Select("SELECT * FROM `courses` WHERE `status_show` = ? ORDER BY `id` DESC", [$status_show]);
+            endif;
+            if (!empty($order))
+                $query = $this->Select("SELECT * FROM `courses` WHERE `status_show` = ? ORDER BY `id` {$order}", [$status_show]);
+            if (!empty($discount))
+                $query = $this->Select("SELECT * FROM `courses` WHERE `course_discount` IS NOT NULL AND `status_show` = ? ORDER BY `id` DESC", [$status_show]);
+            if (!empty($level)) :
+                if ($level != 'all')
+                    $query = $this->Select("SELECT * FROM `courses` WHERE `course_level` = ? AND `status_show` = ? ORDER BY `id` DESC", [$level, $status_show]);
+                else
+                    $query = $this->Select("SELECT * FROM `courses` WHERE `status_show` = ? ORDER BY `id` DESC", [$status_show]);
+            endif;
+        } else {
+            if (!empty($type)) :
+                if ($type != 'all')
+                    $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `course_type` = ? AND `status_show` = ? ORDER BY `id` DESC", [$category, $type, $status_show]);
+                else
+                    $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `status_show` = ? ORDER BY `id` DESC", [$category, $status_show]);
+            endif;
+            if (!empty($order))
+                $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `status_show` = ? ORDER BY `id` {$order}", [$status_show]);
+            if (!empty($discount))
+                $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `course_discount` IS NOT NULL AND `status_show` = ? ORDER BY `id` DESC", [$category, $status_show]);
+            if (!empty($level)) :
+                if ($level != 'all')
+                    $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `course_level` = ? AND `status_show` = ? ORDER BY `id` DESC", [$category, $level, $status_show]);
+                else
+                    $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `status_show` = ? ORDER BY `id` DESC", [$category, $status_show]);
+            endif;
+        }
+        return $query;
+    }
 }

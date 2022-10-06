@@ -17,9 +17,8 @@ class courses extends Controller
     {
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/app.js'];
         $courses = $this->model->courses();
-        $data = ['courses' => $courses];
         $this->title = 'دوره های آموزشی مایندباکس';
-        $this->view('courses/index', $data);
+        $this->view('courses/index', compact('courses'));
     }
 
     public function course_details($course_id = null)
@@ -57,8 +56,33 @@ class courses extends Controller
         if ($id == null) Model::error404();
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/app.js'];
         $id = $this->model->security($id);
-        $courses = $this->model->category($id);
         $get_category = $this->model->get_category($id)[0];
+        if (!isset($_GET['level']) && !isset($_GET['sort']) && !isset($_GET['type'])) {
+            $courses = $this->model->category($id);
+        } else {
+            $data_get = $_GET;
+            if (isset($data_get['type']))
+                $type = $this->model->security($data_get['type']);
+            else
+                $type = '';
+            if (isset($data_get['sort']))
+                $order = $this->model->security($data_get['sort']);
+            else
+                $order = '';
+            if (isset($data_get['discount']))
+                $discount = $this->model->security($data_get['discount']);
+            else
+                $discount = '';
+            if (isset($data_get['level']))
+                $level = $this->model->security($data_get['level']);
+            else
+                $level = '';
+            if (isset($data_get['category']))
+                $category = $this->model->security($data_get['category']);
+            else
+                $category = '';
+            $courses = $this->filter($type, $order, $discount, $level, $category);
+        }
         if ($courses == false) Model::error404();
         $this->title = "دوره های دسته بندی {$get_category->category_title}| مایندباکس";;
         $this->view('courses/index', compact('courses'));
@@ -130,5 +154,26 @@ class courses extends Controller
                 }
             }
         }
+    }
+
+    private function filter($type, $order, $discount, $level, $category)
+    {
+        $type = $this->model->security($type);
+        $order = $this->model->security($order);
+        $discount = $this->model->security($discount);
+        $level = $this->model->security($level);
+        $category = $this->model->security($category);
+        switch ($order) {
+            case 'new':
+                $sort = 'DESC';
+                break;
+            case 'old':
+                $sort = 'ASC';
+                break;
+            default:
+                $sort = '';
+                break;
+        }
+        return $this->model->filter($type, $sort, $discount, $level, $category);
     }
 }
