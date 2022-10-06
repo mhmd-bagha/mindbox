@@ -5,5 +5,6 @@ $errors = [
     'format_img' => 'پسوند های مجاز jpg یا png یا jpeg است',
     'format_file' => 'پسوند های مجاز zip یا rar است',
     'empty_data' => 'اطلاعات ارسالی ناقص است',
+    'size_img' => 'اندازه تصویر نامعتبر است',
 ];
 define("errors", $errors);

@@ -228,8 +228,10 @@ class admin_information extends \Controller
                 $img_name = $image['name'];;
                 $img_size = $image['size'];
                 $img_type = $image['type'];
+                $img_tmp = $image['tmp_name'];
                 $image_name = $this->model->add_name_file_time($img_name, 'image');
                 $img_upload = true;
+                list($width, $height) = getimagesize($img_tmp);
                 if (!in_array($img_type, TYPE_IMG)):
                     echo response::Json(500, true, [
                         'domain' => DOMAIN,
@@ -241,6 +243,13 @@ class admin_information extends \Controller
                     echo response::Json(500, true, [
                         'domain' => DOMAIN,
                         'message' => errors['capacity_size_of_img']
+                    ]);
+                    die();
+                endif;
+                if ($width != 115 || $height != 35):
+                    echo response::Json(500, true, [
+                        'domain' => DOMAIN,
+                        'message' => errors['size_img'] . '(30*115)'
                     ]);
                     die();
                 endif;

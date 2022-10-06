@@ -1,22 +1,21 @@
 <?php $header_setting = (new Model())->where('information', 'information_type', 'header');
-$header_setting = json_decode($header_setting);
-if ($header_setting) {
+$header_setting = json_decode($header_setting->information_data);
+if ($header_setting):
     ?>
     <style>
         .bg-header_custom {
-            background: <?= $header_setting->bg_header ?> !important;
+            background: <?= $header_setting->color ?> !important;
         }
     </style>
-    <?php
-}
-?>
+<?php endif; ?>
 <div class="container-fluid bg-white">
     <div class="row align-items-center py-2">
         <!-- logo -->
         <div class="col-lg-2 col-xxl-1 d-none d-lg-block text-center">
-            <a href="<?php echo DOMAIN ?>"><img src="<?php echo DOMAIN ?>/public/images/public-images/logo/mindbox.svg"
-                                                alt="mindbox"
-                                                class="img-fluid"></a>
+            <a href="<?php echo DOMAIN ?>"><img
+                        src="<?php echo DOMAIN ?>/public/images/public-images/logo/<?= $header_setting ? $header_setting->image . '/' . $header_setting->image : 'mindbox.svg/mindbox.svg'; ?>"
+                        alt="mindbox"
+                        class="img-fluid"></a>
         </div>
         <!-- form search -->
         <div class="col-7 col-sm-7 col-md-5 col-lg-5 col-xl-6 col-xxl-7">
@@ -85,16 +84,17 @@ if ($header_setting) {
     </div>
 </div>
 <!-- menu -->
-<nav class="navbar navbar-expand-xl menu-header <?= ($header_setting) ? 'bg-header_custom' : ''; ?>">
+<nav class="navbar navbar-expand-xl menu-header<?= ($header_setting) ? ' bg-header_custom' : ''; ?>">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu">
             <span class="navbar-icon text-white"><i class="fa-solid fa-align-right"></i></span>
         </button>
-        <div class="offcanvas offcanvas-start menu-header <?= ($header_setting) ? 'bg-header_custom' : ''; ?>"
-             tabindex="-1" id="offcanvasExample">
+        <div class="offcanvas offcanvas-start menu-header<?= ($header_setting) ? ' bg-header_custom' : ''; ?>"
+             tabindex="-1" id="menu">
             <div class="offcanvas-header">
                 <a href="<?php echo DOMAIN ?>"><img
-                            src="<?php echo DOMAIN ?>/public/images/public-images/logo/logo-menu.svg" alt=""
+                            src="<?php echo DOMAIN ?>/public/images/public-images/logo/<?= $header_setting ? $header_setting->image . '/' . $header_setting->image : 'logo-menu.svg/logo-menu.svg'; ?>"
+                            alt="مایندباکس"
                             class="img-fluid"></a>
                 <button type="button" class="btn border-0 text-white" data-bs-dismiss="offcanvas"><i
                             class="fa-solid fa-xmark"></i></button>

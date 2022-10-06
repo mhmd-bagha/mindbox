@@ -2,7 +2,7 @@
 <section class="header-content">
     <span class="toggle-menu"><i class="fa-solid fa-bars"></i></span>
     <a href="#" data-bs-toggle="modal" data-bs-target="#update_web">بروزرسانی</a>
-    <a href="<?= DOMAIN ?>"><img src="<?= DOMAIN ?>/public/images/public-images/logo/mindbox.svg" alt=""
+    <a href="<?= DOMAIN ?>"><img src="<?= DOMAIN ?>/public/images/public-images/logo/mindbox.svg/mindbox.svg" alt=""
                                  class="img-fluid"></a>
 </section>
 
