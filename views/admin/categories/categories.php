@@ -1,19 +1,19 @@
 <!-- card -->
 <?php if (!empty($data['categories_all'])) { ?>
-<div class="card border-0 shadow-sm">
-    <div class="card-body">
-        <!-- table -->
-        <table id="table" class="table table-borderless table-striped table-hover text-center">
-            <thead class="table-dark text-nowrap sticky-top">
-            <tr>
-                <th>#</th>
-                <th>نام دسته بندی</th>
-                <th>تاریخ ایجاد</th>
-                <th>عملیات</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($data['categories_all'] as $category) { ?>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <!-- table -->
+            <table id="table" class="table table-borderless table-striped table-hover text-center">
+                <thead class="table-dark text-nowrap sticky-top">
+                <tr>
+                    <th>#</th>
+                    <th>نام دسته بندی</th>
+                    <th>تاریخ ایجاد</th>
+                    <th>عملیات</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($data['categories_all'] as $category) { ?>
                     <tr>
                         <td><?= $category->id ?></td>
                         <td><?= $category->category_title ?></td>
@@ -42,8 +42,6 @@
                                 <a data-bs-toggle="modal" data-bs-target="#form" title="ویرایش"
                                    class="btn btn-sm btn-outline-primary shadow-none"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none"><i
-                                            class="fa-solid fa-trash"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -57,15 +55,16 @@
                                             data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img data-src="<?= DOMAIN ?>/public/images/category/<?= $category->category_image . '/' . $category->category_image ?>" alt=""
+                                    <img data-src="<?= DOMAIN ?>/public/images/category/<?= $category->category_image . '/' . $category->category_image ?>"
+                                         alt=""
                                          class="img-fluid lozad">
                                 </div>
                             </div>
                         </div>
                     </div>
                 <?php } ?>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<?php }else Model::alert_null_data(); ?>
+<?php } else Model::alert_null_data(); ?>

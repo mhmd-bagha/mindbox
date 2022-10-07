@@ -17,14 +17,14 @@ const validate_password = (pass) => {
 // replace text
 function replace_text(text, element) {
     element = $(element)
-    element.html(text)
+    element.text(text)
 }
 
 function formatBytes(bytes, decimals = 1) {
     if (bytes === 0) return '0 بایت';
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت', 'ترابایت', 'پتابایت', 'هگزابایت', 'زتابایت', 'یوتابایت'];
+    const sizes = ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }

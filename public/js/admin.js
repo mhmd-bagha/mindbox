@@ -195,6 +195,42 @@ function enable(id, message_confirm, type) {
     }
 }
 
+function deleteItem(id, table, directory = '', message_confirm = 'آیا از حذف این آیتم اطمینان دارید؟') {
+    if (confirm(message_confirm)) {
+        var formData = new FormData()
+        if (!empty(directory)) formData.append('directory', directory)
+        formData.append('id', id)
+        formData.append('table', table)
+        $.ajax({
+            url: PATH + "/admin/deleteItem",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: (data) => {
+                let obj = JSON.parse(data)
+                let status = obj.statusCode
+                let message = obj.data.message
+                switch (status) {
+                    case 200:
+                        alert_success(message)
+                        setTimeout(() => {
+                            location.reload()
+                        }, 2400)
+                        break;
+                    case 500:
+                        alert_error(message)
+                        break;
+                }
+            },
+            error: () => {
+                alert_error('خطا در انجام عملیات')
+            }
+        })
+    }
+}
+
 function _(el) {
     return document.getElementById(el);
 }

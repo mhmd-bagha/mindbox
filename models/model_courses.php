@@ -99,7 +99,7 @@ class model_courses extends Model
                     $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `status_show` = ? ORDER BY `id` DESC", [$category, $status_show]);
             endif;
             if (!empty($order))
-                $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `status_show` = ? ORDER BY `id` {$order}", [$status_show]);
+                $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `status_show` = ? ORDER BY `id` {$order}", [$category, $status_show]);
             if (!empty($discount))
                 $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `course_discount` IS NOT NULL AND `status_show` = ? ORDER BY `id` DESC", [$category, $status_show]);
             if (!empty($level)) :

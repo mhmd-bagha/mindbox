@@ -138,6 +138,11 @@ class Model
         return ($query) ? true : false;
     }
 
+    public function Delete($table, $id)
+    {
+        return $this->Query("DELETE FROM `{$table}` WHERE `id` = ?", [$id]);
+    }
+
     function resize_img($file, $pathToSave, $w, $h)
     {
         list($width_src, $height_src) = getimagesize($file);

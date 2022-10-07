@@ -18,4 +18,18 @@ class Uploader
         curl_close($ch);
         return ($ch_exec) ? true : false;
     }
+
+    public function delete($url, $directory, $key_posted)
+    {
+        $data = [$key_posted => $directory];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        $ch_exec = curl_exec($ch);
+        curl_close($ch);
+        return ($ch_exec) ? true : false;
+    }
 }

@@ -124,8 +124,6 @@
                             <a data-bs-toggle="modal" data-bs-target="#form"
                                class="btn btn-sm btn-outline-primary shadow-none"><i
                                     class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none"><i
-                                    class="fa-solid fa-trash"></i></a>
                         </div>
                     </td>
                 </tr>

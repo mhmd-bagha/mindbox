@@ -16,7 +16,28 @@ class courses extends Controller
     public function index()
     {
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/app.js'];
-        $courses = $this->model->courses();
+        if (!isset($_GET['level']) && !isset($_GET['sort']) && !isset($_GET['type']) && !isset($_GET['discount'])) {
+            $courses = $this->model->courses();
+        } else {
+            $data_get = $_GET;
+            if (isset($data_get['type']))
+                $type = $this->model->security($data_get['type']);
+            else
+                $type = '';
+            if (isset($data_get['sort']))
+                $order = $this->model->security($data_get['sort']);
+            else
+                $order = '';
+            if (isset($data_get['discount']))
+                $discount = $this->model->security($data_get['discount']);
+            else
+                $discount = '';
+            if (isset($data_get['level']))
+                $level = $this->model->security($data_get['level']);
+            else
+                $level = '';
+            $courses = $this->filter($type, $order, $discount, $level, '');
+        }
         $this->title = 'دوره های آموزشی مایندباکس';
         $this->view('courses/index', compact('courses'));
     }
@@ -57,7 +78,7 @@ class courses extends Controller
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/app.js'];
         $id = $this->model->security($id);
         $get_category = $this->model->get_category($id)[0];
-        if (!isset($_GET['level']) && !isset($_GET['sort']) && !isset($_GET['type'])) {
+        if (!isset($_GET['level']) && !isset($_GET['sort']) && !isset($_GET['type']) && !isset($_GET['discount'])) {
             $courses = $this->model->category($id);
         } else {
             $data_get = $_GET;
@@ -77,8 +98,8 @@ class courses extends Controller
                 $level = $this->model->security($data_get['level']);
             else
                 $level = '';
-            if (isset($data_get['category']))
-                $category = $this->model->security($data_get['category']);
+            if (isset($data_get['url']))
+                $category = explode('/', $this->model->security($data_get['url']))[2];
             else
                 $category = '';
             $courses = $this->filter($type, $order, $discount, $level, $category);

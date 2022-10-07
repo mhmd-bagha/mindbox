@@ -41,9 +41,7 @@
                                                 class="fa-solid fa-toggle-on"></i></a>
                                     <?php break;
                             } ?>
-                            <a href="<?= DOMAIN ?>/admin_sliders/get_id/<?= $slider->id ?>" title="حذف"
-                               class="btn btn-sm btn-outline-danger shadow-none"><i
-                                    class="fa-solid fa-trash"></i></a>
+                            <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none" onclick="deleteItem(<?= $slider->id ?>, 'sliders', '<?= $this->image_path_dl . 'sliders/' . $slider->slider_image ?>')"><i class="fa-solid fa-trash"></i></a>
                         </div>
                     </div>
                 </div>

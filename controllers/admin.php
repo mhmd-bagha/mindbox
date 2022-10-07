@@ -345,6 +345,27 @@ class admin extends Controller
             ]);
     }
 
+    public function deleteItem()
+    {
+        $file_uploader = new file_uploader();
+        $data = $_POST;
+        if (isset($data['id'], $data['table']) && !empty($data['id']) && !empty($data['table'])) {
+            if (isset($data['directory'])):
+                $dir = $data['directory'];
+                $del = $file_uploader->delete(DL_DOMAIN . '/uploader/delete.php', $dir, 'directory');
+            endif;
+            die();
+            $id = $this->model->security($data['id']);
+            $table = $this->model->security($data['table']);
+            $query = $this->model->delete($table, $id);
+            echo ($query) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'آیتم با موفقیت حذف شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در حذف کردن آیتم']);
+        } else
+            echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'داده های ارسالی ناقص است'
+            ]);
+    }
+
     function get_server_memory_usage()
     {
         $si_prefix = array('بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت');

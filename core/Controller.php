@@ -5,6 +5,7 @@ class Controller
     public $title = 'مایندباکس', $keywords = 'مایندباکس, فروش دوره, دوره انگیزشی, دوره آموزشی, دکتر چشمی, محمد چشمی,Mohammad Cheshmi, Cheshmi, mindbox, training course, Incentive period, Sale course', $description = '', $author = 'mindbox', $robots = 'index, follow';
     protected $scripts_path, $links_path;
     protected $body_class = '';
+    protected $image_path_dl = DL_DOMAIN . '/public/images/';
 
     function __construct()
     {

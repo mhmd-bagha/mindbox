@@ -23,3 +23,10 @@ function resize_img($file, $pathToSave, $w, $h)
     imagedestroy($new_img);
     return $new_img;
 }
+
+function deleteDir($dir)
+{
+    // loop through the files one by one
+    $del = realpath($dir);
+    var_dump($del);
+}
