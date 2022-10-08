@@ -26,11 +26,8 @@ class model_admin_discounts extends Model
         return $query;
     }
 
-    public function start(){
-
-    }
-
-    public function end(){
-
+    public function deleteDiscount($discount)
+    {
+        return $this->Query("UPDATE `courses` SET `course_discount` = ? WHERE `id` = ?", [null, $discount]);
     }
 }

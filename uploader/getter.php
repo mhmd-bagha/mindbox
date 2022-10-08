@@ -1,11 +1,6 @@
 <?php
 require 'helper.php';
 
-// variable
-define('ROOT', $_SERVER['DOCUMENT_ROOT'] . '/mindbox/');
-const TYPE_FILE = array('image/png', 'image/jpg', 'image/jpeg', 'application/vnd.rar', 'application/zip');
-const SIZE_IMG = 1 * 1024 * 1024;
-
 // posted file on ticket
 if (isset($_FILES['image_ticket'])) {
     $data_file = $_FILES['image_ticket'];

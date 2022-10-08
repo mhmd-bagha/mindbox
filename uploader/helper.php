@@ -1,4 +1,9 @@
 <?php
+// variable
+define('ROOT', $_SERVER['DOCUMENT_ROOT'] . '/mindbox/');
+const TYPE_FILE = array('image/png', 'image/jpg', 'image/jpeg', 'application/vnd.rar', 'application/zip');
+const SIZE_IMG = 1 * 1024 * 1024;
+
 // resizing image
 function resize_img($file, $pathToSave, $w, $h)
 {
@@ -27,6 +32,10 @@ function resize_img($file, $pathToSave, $w, $h)
 function deleteDir($dir)
 {
     // loop through the files one by one
-    $del = realpath($dir);
-    var_dump($del);
+    $directories = glob($dir . '/*');
+    foreach ($directories as $directory):
+        $del = unlink($directory);
+    endforeach;
+    $del = rmdir($dir);
+    return $del;
 }

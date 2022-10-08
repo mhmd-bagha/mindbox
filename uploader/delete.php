@@ -4,7 +4,7 @@ require 'helper.php';
 if (isset($_POST['directory'])) :
     $data = $_POST;
     $directory = $data['directory'];
+    $directory = ROOT . $directory;
     $delete = deleteDir($directory);
-    var_dump($delete);
-    echo $delete ? 'دایرکتوری با موفقیت حذف شد' : 'خطا در حذف دایرکتوری';
+    return $delete ? 'دایرکتوری با موفقیت حذف شد' : 'خطا در حذف دایرکتوری';
 endif;

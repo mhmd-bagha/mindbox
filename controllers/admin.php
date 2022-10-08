@@ -354,9 +354,12 @@ class admin extends Controller
                 $dir = $data['directory'];
                 $del = $file_uploader->delete(DL_DOMAIN . '/uploader/delete.php', $dir, 'directory');
             endif;
-            die();
             $id = $this->model->security($data['id']);
             $table = $this->model->security($data['table']);
+            if ($table == 'discounts'):
+                $discount = $this->model->where('discounts', 'id', $id)->course_id;
+                $this->discounts->deleteDiscount($discount);
+            endif;
             $query = $this->model->delete($table, $id);
             echo ($query) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'آیتم با موفقیت حذف شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در حذف کردن آیتم']);
         } else

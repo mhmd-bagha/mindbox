@@ -74,8 +74,6 @@
                                                             class="fa-solid fa-toggle-on"></i></a>
                                                 <?php break;
                                         } ?>
-                                        <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none"><i
-                                                    class="fa-solid fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
