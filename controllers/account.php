@@ -26,8 +26,8 @@ class account extends Controller
         $this->title = 'ویرایش پروفایل';
         $this->view('profile/user-edit-profile');
     }
-    public function information_edit(){
-        $this->title = "ویرایش اطلاعات";
+    public function information_edit()
+    {
         $name = $_POST["name"];
         $family = $_POST["family"];
         $phone = $_POST["phone"];
@@ -39,6 +39,29 @@ class account extends Controller
     {
         $this->title = '';
         $this->view('profile/user-change-password');
+    }
+
+    public function change_password()
+    {
+        $current_password = $_POST["current_password"];
+        $password = $_POST["password"];
+        $encrypted_email = $_SESSION["user"];
+        $encrypted_password = $this->model->encrypt($current_password);
+        $encrypted_newpassword = $this->model->encrypt($password);
+        $email = $this->model->decrypt($encrypted_email);
+
+
+        if (
+            isset($password) && isset($encrypted_email) &&
+            !empty($password) && !empty($encrypted_email)
+        ) {
+            $result = $this->model->change_password($email, $encrypted_password, $encrypted_newpassword);
+        } else {
+            echo json_encode([
+                "status" => "error",
+                "message" => "variables haven't sent to the server"
+            ]);
+        }
     }
 
     public function user_wallet()
@@ -88,6 +111,5 @@ class account extends Controller
 
     public function count_my_course()
     {
-
     }
 }
