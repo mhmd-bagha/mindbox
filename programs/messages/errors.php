@@ -6,5 +6,6 @@ $errors = [
     'format_file' => 'پسوند های مجاز zip یا rar است',
     'empty_data' => 'اطلاعات ارسالی ناقص است',
     'size_img' => 'اندازه تصویر نامعتبر است',
+    'captcha' => 'کپچا الزامی میباشد',
 ];
 define("errors", $errors);

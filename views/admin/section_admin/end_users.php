@@ -32,7 +32,7 @@
                                         <span class="badge bg-danger p-2">غیرفعال</span>
                                         <?php break;
                                 } ?></td>
-                            <td><?= $end_user->user_money ?></td>
+                            <td><?= number_format($end_user->user_money) ?></td>
                             <td><?= $end_user->create_time ?></td>
                         </tr>
                     <?php } ?>

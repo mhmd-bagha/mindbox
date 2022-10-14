@@ -9,15 +9,28 @@
 <!-- script ui -->
 <script src="<?php echo DOMAIN ?>/public/js/ui.js"></script>
 <?php
-if (!empty($this->scripts_path))
-    foreach ($this->scripts_path as $script_path) {
-        if (!empty($script_path)) {
-            if (file_exists("public/{$script_path}")) {
+// script storage
+if (!empty($this->scripts_path)):
+    foreach ($this->scripts_path as $script_path) :
+        if (!empty($script_path)) :
+            if (file_exists("public/{$script_path}")) :
                 echo "<!-- " . explode('/', $script_path)[1] . " -->";
                 ?>
                 <script src="<?php echo DOMAIN ?>/public/<?= $script_path ?>" defer></script>
-                <?php
-            }
-        }
-    }
+            <?php
+            endif;
+        endif;
+    endforeach;
+endif;
+// script cdn
+if (!empty($this->scripts_cdn)):
+    foreach ($this->scripts_cdn as $script_cdn) :
+        if (!empty($script_cdn)) :
+            echo "<!-- " . $script_cdn . " -->";
+            ?>
+            <script src="<?= $script_cdn ?>" defer></script>
+        <?php
+        endif;
+    endforeach;
+endif;
 ?>

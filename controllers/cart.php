@@ -110,7 +110,7 @@ class cart extends Controller
         }
     }
 
-    public function delete()
+    public function delete_cart()
     {
         if (isset($_POST['delete_cart'])) {
             $data = $_POST;
@@ -130,7 +130,7 @@ class cart extends Controller
                     $update_cart = $this->model->update($courses_id, $user_id, $status, $time);
                 } else {
                     $get_cart = $this->model->find('status', 'waiting');
-                    $update_cart = $this->model->delete($get_cart->id);
+                    $update_cart = $this->model->delete_cart($get_cart->id);
                 }
                 if ($update_cart)
                     echo response::Json(200, true, [

@@ -15,34 +15,36 @@
                         <div class="col-12 col-lg-9 user-content">
                             <h5>دوره های من</h5>
                             <hr>
-                            <div class="table-responsive overflow-y-auto">
-                                <!-- table -->
-                                <table class="table table-striped table-hover table-bordered text-center text-nowrap">
-                                    <thead class="table-dark sticky-top">
-                                    <tr>
-                                        <th>عنوان آموزش</th>
-                                        <th>تاریخ آخرین بروزرسانی</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php foreach ($my_courses as $my_course) {
-                                        $my_course = $my_course[0]; ?>
+                            <?php if (!empty($my_courses)): ?>
+                                <div class="table-responsive overflow-y-auto">
+                                    <!-- table -->
+                                    <table class="table table-striped table-hover table-bordered text-center text-nowrap">
+                                        <thead class="table-dark sticky-top">
                                         <tr>
-                                            <td><a href="<?= DOMAIN ?>/courses/course_details/<?= $my_course->id ?>" class="text-blue"><?= $my_course->course_title ?></a>
-                                            </td>
-                                            <td><?php switch ($my_course->update_time) {
-                                                    case null:
-                                                        echo $my_course->create_time;
-                                                        break;
-                                                    case !null:
-                                                        echo $my_course->update_time;
-                                                        break;
-                                                } ?></td>
+                                            <th>عنوان آموزش</th>
+                                            <th>تاریخ آخرین بروزرسانی</th>
                                         </tr>
-                                    <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($my_courses as $my_course) {
+                                            $my_course = $my_course[0]; ?>
+                                            <tr>
+                                                <td><a href="<?= DOMAIN ?>/courses/course_details/<?= $my_course->id ?>" class="text-blue"><?= $my_course->course_title ?></a>
+                                                </td>
+                                                <td><?php switch ($my_course->update_time) {
+                                                        case null:
+                                                            echo $my_course->create_time;
+                                                            break;
+                                                        case !null:
+                                                            echo $my_course->update_time;
+                                                            break;
+                                                    } ?></td>
+                                            </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php else: Model::alert_null_data('دوره ای خریداری نشده', 'alert-primary fs-6 text-center'); endif; ?>
                         </div>
                     </div>
                 </div>

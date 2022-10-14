@@ -17,7 +17,7 @@ class email
     function __construct()
     {
         $this->mail = new PHPMailer(true);
-        $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $this->mail->SMTPDebug = SMTP::DEBUG_OFF;
         $this->mail->isSMTP();
         $this->mail->Host = SMTPSERVER;
         $this->mail->SMTPAuth = true;
@@ -36,7 +36,7 @@ class email
         $this->mail->Subject = $subject;
         $this->mail->Body = $body;
 //        $this->mail->addEmbeddedImage(DIR_ROOT . 'public/images/public-images/logo/mindbox.svg', 'logo', 'mindbox.svg');
-        $this->method_send();
+        return $this->method_send();
     }
 
     private function method_send()

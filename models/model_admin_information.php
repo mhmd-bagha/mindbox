@@ -73,10 +73,32 @@ class model_admin_information extends Model
         return $query;
     }
 
+    public function footer($type, $data, $ip, $time, $status)
+    {
+        if ($this->footerExist() == 1)
+            $query = $this->Query("UPDATE `information` SET `information_data` = ?, `update_time` = ? WHERE `information_type` = ?", [$data, $time, $type]);
+        else
+            $query = $this->Query("INSERT INTO `information` (`information_type`, `information_data`, `ip`, `create_time`, `status_show`) VALUES (?, ?, ?, ?, ?)", [$type, $data, $ip, $time, $status]);
+        return $query;
+    }
+
     private function headerExist()
     {
         $type = 'header';
         $query = $this->Select("SELECT * FROM `information` WHERE `information_type` = ?", [$type], 'fetchAll', PDO::FETCH_OBJ, true);
+        return $query;
+    }
+
+    private function footerExist()
+    {
+        $type = 'footer';
+        $query = $this->Select("SELECT * FROM `information` WHERE `information_type` = ?", [$type], 'fetchAll', PDO::FETCH_OBJ, true);
+        return $query;
+    }
+
+    public function edit($information_data, $time, $id)
+    {
+        $query = $this->Query("UPDATE `information` SET `information_data` = ?, `update_time` = ? WHERE `id` = ?", [$information_data, $time, $id]);
         return $query;
     }
 }

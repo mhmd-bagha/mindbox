@@ -24,7 +24,7 @@ $factors_active = '';
 $tickets_active = '';
 $index_active = '';
 switch ($url_active_user) {
-    case "edit_profile":
+    case "edit":
         $edit_profile_active = "active";
         break;
     case "change_password":
@@ -55,7 +55,7 @@ switch ($url_active_user) {
         </a>
     </li>
     <li class="<?= $edit_profile_active ?>">
-        <a href="<?php echo DOMAIN ?>/account/edit_profile">
+        <a href="<?php echo DOMAIN ?>/account/edit">
             <span class="menu-icon"><i class="bi bi-person"></i></span>
             <span class="menu-text text-truncate">ویرایش پروفایل</span>
         </a>

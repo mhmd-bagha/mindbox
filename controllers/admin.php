@@ -50,7 +50,7 @@ class admin extends Controller
 
     public function index()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->title = 'ادمین | داشبورد';
         $this->scripts_path = ['js/admin.js'];
         $end_comments = $this->comment->end_comments();
@@ -65,16 +65,26 @@ class admin extends Controller
         $this->view('admin/index', compact('end_comments', 'end_users', 'count_all_users', 'count_all_comments', 'count_all_courses', 'count_all_tickets', 'get_server_memory_usage', 'get_server_cpu_usage', 'get_free_disk'), null, null);
     }
 
+    private function isAdmin($login = false)
+    {
+        $get_admin = Model::SessionGet('admin');
+        if ($login) {
+            if ($get_admin) Model::redirect('admin');
+        } else {
+            if (!$get_admin) Model::redirect('admin/login');
+        }
+    }
+
     public function login()
     {
-        if (Model::SessionGet('admin')) Model::redirect('admin');
+        $this->isAdmin(true);
         $this->title = 'ادمین | ورود';
         $this->view('admin/admin-login', '', null, null);
     }
 
     public function users()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | کاربران';
@@ -84,7 +94,7 @@ class admin extends Controller
 
     public function discounts()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css', 'vendor/datepicker/persian-datepicker.min.css', 'vendor/tom-select/tom-select.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/datepicker/persian-date.min.js', 'vendor/datepicker/persian-datepicker.min.js', 'vendor/tom-select/tom-select.complete.min.js', 'js/admin.js'];
         $this->title = 'ادمین | تخفیف ها';
@@ -95,26 +105,27 @@ class admin extends Controller
 
     public function wallet()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | کیف پول';
-        $this->view('admin/admin-wallet', '', null, null);
+        $wallet_payments = $this->model->where_all('payment', 'payment_type', 'user_wallet');
+        $this->view('admin/wallet/admin-wallet', compact('wallet_payments'), null, null);
     }
 
     public function social_networks()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | شبکه های اجتماعی';
         $social_networks = $this->social_network->all();
-        $this->view('admin/admin-social-networks', compact('social_networks'), null, null);
+        $this->view('admin/social-networks/admin-social-networks', compact('social_networks'), null, null);
     }
 
     public function categories()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/lozad/lozad.min.js', 'js/admin.js'];
         $this->title = 'ادمین | دسته‌بندی ها';
@@ -124,7 +135,7 @@ class admin extends Controller
 
     public function courses()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css', 'vendor/tom-select/tom-select.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/lozad/lozad.min.js', 'vendor/ckeditor/ckeditor.js', 'vendor/tom-select/tom-select.complete.min.js', 'js/admin.js'];
         $this->title = 'ادمین | دوره‌ها';
@@ -134,7 +145,7 @@ class admin extends Controller
 
     public function course_part(int $id = null)
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | مدیریت دوره';
@@ -146,7 +157,7 @@ class admin extends Controller
 
     public function sliders()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->scripts_path = ['vendor/lozad/lozad.min.js', 'js/admin.js'];
         $this->title = 'ادمین | اسلایدر‌ها';
         $slider_all = $this->sliders->all();
@@ -155,7 +166,7 @@ class admin extends Controller
 
     public function comments()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | نظرات';
@@ -165,7 +176,7 @@ class admin extends Controller
 
     public function tickets()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | تیکت‌ها';
@@ -175,7 +186,7 @@ class admin extends Controller
 
     public function ticket(int $id = null)
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         if (empty($id)) Model::error404();
         $this->scripts_path = ['js/admin.js'];
         $get_ticket = $this->tickets->where('tickets', 'id', $id);
@@ -186,17 +197,17 @@ class admin extends Controller
 
     public function menus()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | منو‌ها';
         $menu_all = $this->menu->all();
-        $this->view('admin/admin-menus', compact('menu_all'), null, null);
+        $this->view('admin/menu/admin-menus', compact('menu_all'), null, null);
     }
 
     public function pages()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/ckeditor/ckeditor.js', 'js/admin.js'];
         $this->title = 'ادمین | صفحات';
@@ -206,7 +217,7 @@ class admin extends Controller
 
     public function settings()
     {
-        if (!Model::SessionGet('admin')) Model::redirect('admin/login');
+        $this->isAdmin();
         $this->scripts_path = ['js/admin.js'];
         $this->title = 'ادمین | تنظیمات';
         $this->view('admin/settings/admin-settings', '', null, null);

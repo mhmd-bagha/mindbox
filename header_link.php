@@ -33,4 +33,4 @@
     <meta name="robots" content="<?php echo $this->robots ?>"/>
     <title><?php echo $this->title ?></title>
 </head>
-<body class="<?php if (!empty($this->body_class)) echo $this->body_class ?>">
+<body <?php if (!empty($this->body_class)): ?>class="<?= $this->body_class ?>"<?php endif; ?>>

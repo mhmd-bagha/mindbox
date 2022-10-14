@@ -22,6 +22,7 @@ class Create_table_factors extends Db
             factor_price VARCHAR(500) NULL,
             factor_status ENUM('waiting', 'paid', 'unsuccessful') NOT NULL,
             factor_number VARCHAR(1000) NOT NULL,
+            factor_payment ENUM('zarinpal', 'wallet') NOT NULL,
             ip VARCHAR(255) NOT NULL,
             create_time VARCHAR(50) NOT NULL,
             update_time VARCHAR(50) NULL,

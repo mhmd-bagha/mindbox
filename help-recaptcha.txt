@@ -1,0 +1,21 @@
+bebest20.ir
+Use this site key in the HTML code your site serves to users.
+👇👇👇👇👇👇👇👇👇👇👇
+6Lc6kHoiAAAAAIlRAchgMLRvBNAg33v7eAK5_5ws
+
+Use this secret key for communication between your site and reCAPTCHA.
+👇👇👇👇👇👇👇👇👇👇👇
+6Lc6kHoiAAAAAGHQsArie1DZr7-woxLK78wHeaa_
+
+
+
+
+
+localhost
+Use this site key in the HTML code your site serves to users.
+👇👇👇👇👇👇👇👇👇👇👇
+6LchlXoiAAAAAMIJm9C3QJXH4TzxUHmyhsRek8BO
+
+Use this secret key for communication between your site and reCAPTCHA.
+👇👇👇👇👇👇👇👇👇👇👇
+6LchlXoiAAAAAByWxTrTNQ776g4fZoRAnQS96578

@@ -16,7 +16,7 @@ class Create_table_information extends Db
         return $this->db->CreateTable('information', [
             "
             id INT(11) AUTO_INCREMENT,
-            information_type ENUM('rules', 'about_me', 'contact_us', 'header', 'footer', 'update', 'benefits') NOT NULL,
+            information_type ENUM('rules', 'about_me', 'contact_us', 'header', 'footer', 'update', 'benefits', 'price_offer_wallet') NOT NULL,
             information_data LONGTEXT NOT NULL,
             ip VARCHAR(255) NOT NULL,
             create_time VARCHAR(50) NOT NULL,

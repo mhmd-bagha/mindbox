@@ -1,3 +1,7 @@
+<?php
+$data_header = $this->model->where('information', 'information_type', 'header');
+if ($data_header) $get_header = json_decode($data_header->information_data);
+?>
 <!-- content -->
 <div class="tab-pane fade show active" id="tab-header">
     <!-- form -->
@@ -19,7 +23,7 @@
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-3">
                 <label for="bg_color" class="mb-1">رنگ پس زمینه منو</label>
-                <input type="color" class="form-control" id="bg_color" value="#153248">
+                <input type="color" class="form-control" id="bg_color" value="<?= $data_header ? $get_header->color : '#153248' ?>">
                 <small>مقدار رنگ پیشفرض کد #153248 می باشد.</small>
             </div>
         </div>

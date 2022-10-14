@@ -125,3 +125,19 @@ if (isset($_FILES['header'])) {
         return "پسوند های مجاز است png یا jpg یا jpeg";
     }
 }
+
+// footer symbols
+if (isset($_FILES['footer'])) {
+    $data_file = $_FILES['footer'];
+    $file_name = $data_file['name'];
+    $file_tmp = $data_file['tmp_name'];
+    $file_img_size = $data_file['size'];
+    $file_img_type = $data_file['type'];
+    if (in_array($file_img_type, TYPE_FILE)) {
+        mkdir(ROOT . "public/images/public-images/logo-symbol/{$file_name}");
+        $upload = move_uploaded_file($file_tmp, ROOT . "public/images/public-images/logo-symbol/{$file_name}/{$file_name}");
+        return $upload ? "فایل با موفقیت آپلود شد" : "خطا در اپلود فایل";
+    } else {
+        return "پسوند های مجاز است png یا jpg یا jpeg";
+    }
+}

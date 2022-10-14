@@ -14,6 +14,7 @@
                         <div class="col-12 col-lg-9 user-content">
                             <h5>فاکتور ها</h5>
                             <hr>
+                            <?php if (!empty($data['my_factors'])): ?>
                             <div class="table-responsive overflow-y-auto">
                                 <!-- table -->
                                 <table class="table table-striped table-hover table-bordered text-center text-nowrap">
@@ -64,16 +65,18 @@
                                                             $my_course = $this->model->where('courses', 'id', $my_course_id); ?>
                                                             <div class="row factor-details">
                                                                 <div class="col-12 col-sm-6 mb-4 mb-sm-0">
-                                                                    <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>" target="_blank"><img
+                                                                    <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"
+                                                                       target="_blank"><img
                                                                                 src="<?= DOMAIN . '/public/images/course/' . $my_course->course_image . '/' . $my_course->course_image ?>"
                                                                                 alt="<?= $my_course->course_title ?>"
                                                                                 class="img-fluid lozad"></a>
                                                                 </div>
                                                                 <div class="col-12 col-sm-6">
-                                                                    <span><a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>" target="_blank"><?= $my_course->course_title ?></a></span>
+                                                                    <span><a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"
+                                                                             target="_blank"><?= $my_course->course_title ?></a></span>
                                                                     <span class="text-truncate"><?= $my_course->course_description ?></span>
                                                                     <span>مبلغ دوره: <?php if ($my_factor->factor_type == 'free' && empty($my_factor->factor_price)) {
-                                                                        echo "رایگان";
+                                                                            echo "رایگان";
                                                                         } else {
                                                                             echo number_format($my_course->course_price) . ' تومان';
                                                                         } ?></span>
@@ -98,6 +101,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <?php else: Model::alert_null_data('فاکتوری موجود نیست', 'alert-primary fs-6 text-center'); endif; ?>
                         </div>
                     </div>
                 </div>

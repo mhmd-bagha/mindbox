@@ -11,10 +11,12 @@ class register extends Controller
         parent::__construct();
         Model::SessionStart();
         $this->scripts_path = ['js/app.js'];
+        if (Model::SessionGet('user')) Model::redirect('account');
     }
 
     public function index()
     {
+        $this->scripts_cdn = ['https://www.google.com/recaptcha/api.js'];
         $this->title = 'ثبت نام | مایندباکس';
         $this->view('register/index', null, null, null);
     }
@@ -31,12 +33,15 @@ class register extends Controller
             $password = $this->model->security($data['password']);
             $password_hash = $this->model->encrypt($password);
             $re_password = $this->model->security($data['re_password']);
+            $captcha = $this->model->security($data['captcha']);
             $user_status = "disable";
             $user_hash = $this->model->buildNum('users', 'user_hash', mt_rand(10000, 99999));
             $ip = $_SERVER['REMOTE_ADDR'];
             $user_agent = $_SERVER['HTTP_USER_AGENT'];
             $create_time = jdate("Y/m/d H:i:s", time(), '', 'Asia/Tehran', 'en');
-            if (isset($first_name, $last_name, $phone_mobile, $email, $password, $re_password) && !empty($first_name) && !empty($last_name) && !empty($phone_mobile) && !empty($email) && !empty($password) && !empty($re_password)) {
+            if (isset($first_name, $last_name, $phone_mobile, $email, $password, $re_password, $captcha) && !empty($first_name) && !empty($last_name) && !empty($phone_mobile) && !empty($email) && !empty($password) && !empty($re_password) && !empty($captcha)) {
+                if (!helper::captcha_result($captcha)): echo response::Json(500, true, ['domain' => DOMAIN, 'message' => errors['captcha']]);
+                    die(); endif;
                 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     if ($password === $re_password) {
                         if ($this->model->existUser($email, $phone_mobile)) {
@@ -88,6 +93,8 @@ class register extends Controller
                     $message = "لطفا فیلد رمز عبور را پر کنید";
                 if (empty($re_password))
                     $message = "لطفا فیلد تکرار رمز عبور را پر کنید";
+                if (empty($captcha))
+                    $message = errors['captcha'];
                 echo response::Json(500, true, [
                     'domain' => DOMAIN,
                     'message' => $message
@@ -96,5 +103,3 @@ class register extends Controller
         }
     }
 }
-
-new register();

@@ -1,3 +1,5 @@
+<?php $get_contact = $this->model->where('information', 'information_type', 'contact_us');
+if ($get_contact) $contact = json_decode($get_contact->information_data) ?>
 <!-- content -->
 <div class="tab-pane fade" id="tab-contact-us">
     <!-- form -->
@@ -5,20 +7,20 @@
           id="form_contact_us">
         <div class="mb-3">
             <label for="contact_us_address" class="mb-1">آدرس</label>
-            <textarea rows="2" class="form-control" id="contact_us_address"></textarea>
+            <textarea rows="2" class="form-control" id="contact_us_address"><?= $get_contact ? $contact->address : '' ?></textarea>
         </div>
         <div class="row">
             <div class="col-12 col-md-6 mb-3">
                 <label for="contact_us_phone_mobile" class="mb-1">شماره تلفن</label>
-                <input type="tel" class="form-control" id="contact_us_phone_mobile">
+                <input type="tel" class="form-control" id="contact_us_phone_mobile" value="<?= $get_contact ? $contact->phone_mobile : '' ?>">
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label for="contact_us_email" class="mb-1">ایمیل</label>
-                <input type="email" class="form-control" id="contact_us_email">
+                <input type="email" class="form-control" id="contact_us_email" value="<?= $get_contact ? $contact->email : '' ?>">
             </div>
         </div>
         <div class="text-end">
-            <button type="button" class="btn btn-success" id="btn_contact_us">ثبت</button>
+            <button type="button" class="btn btn-success py-2 px-5" id="btn_contact_us">ثبت</button>
         </div>
     </form>
 </div>

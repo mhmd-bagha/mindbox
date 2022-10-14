@@ -49,10 +49,11 @@
                                             class="fa-solid fa-toggle-on"></i></a>
                                 <?php break;
                         } ?>
-                        <a data-bs-toggle="modal" data-bs-target="#form"
+                        <a data-bs-toggle="modal" data-bs-target="#edit_rule_<?= $rule->id ?>"
                            class="btn btn-sm btn-outline-primary shadow-none"><i
                                     class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none" onclick="deleteItem(<?= $rule->id ?>, 'information')"><i
+                        <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none"
+                           onclick="deleteItem(<?= $rule->id ?>, 'information')"><i
                                     class="fa-solid fa-trash"></i></a>
                     </div>
                 </td>
@@ -76,10 +77,44 @@
                     </div>
                 </div>
             </div>
+            <!-- modal edit -->
+            <div class="modal fade" id="edit_rule_<?= $rule->id ?>" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">دوره</h5>
+                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            <form action="<?= htmlspecialchars($_SERVER['REMOTE_ADDR']) ?>" method="post"
+                                  class="border-form"
+                                  id="form_rule_edit_<?= $rule->id ?>">
+                                <div class="mb-3">
+                                    <label for="information_title" class="mb-1">عنوان</label>
+                                    <input type="text" class="form-control" id="information_title_edit_<?= $rule->id ?>"
+                                           value="<?= $rule_data->rule_title ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="information_description" class="mb-1">توضیحات</label>
+                                    <textarea class="form-control"
+                                              id="information_description_edit_<?= $rule->id ?>"><?= $rule_data->rule_description ?></textarea>
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-success py-2 px-5"
+                                            id="btn_rule_edit_<?= $rule->id ?>"
+                                            onclick="edit_rule(<?= $rule->id ?>, 'information_title_edit_<?= $rule->id ?>', 'information_description_edit_<?= $rule->id ?>', 'btn_rule_edit_<?= $rule->id ?>', 'form_rule_edit_<?= $rule->id ?>')">
+                                        ثبت
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <?php } ?>
         </tbody>
     </table>
-    <!-- modal edit & add -->
+    <!-- modal add -->
     <div class="modal fade" id="form" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -99,7 +134,7 @@
                             <textarea class="form-control" id="information_description"></textarea>
                         </div>
                         <div class="text-end">
-                            <button type="button" class="btn btn-success" id="btn_rule">ثبت</button>
+                            <button type="button" class="btn btn-success py-2 px-5" id="btn_rule">ثبت</button>
                         </div>
                     </form>
                 </div>
@@ -109,7 +144,7 @@
 </div>
 <script>
     var btn_rule = $("#btn_rule")
-    var form_rule = $("#form_rule input textarea button")
+    var form_rule = $("#form_rule input, #form_rule textarea")
     $(document).ready(() => {
         var btn_rule = $("#btn_rule")
         btn_rule.click(() => {
@@ -120,12 +155,12 @@
     })
 
     function add_rule(information_title, information_description) {
-        btn_rule.text('در حال ثبت ...')
+        btn_rule.text('در حال ثبت...').prop('disabled', true).addClass('disabled pointer-events btn_success_dot-flashing')
         form_rule.prop('disabled', true)
         $.ajax({
-            url: PATH + "/admin_information/add_rules",
+            url: PATH + "/admin_information/rules",
             type: "POST",
-            data: {title: information_title, description: information_description, btn_rule: true},
+            data: {title: information_title, description: information_description, type: 'add'},
             success: (data) => {
                 let obj = JSON.parse(data)
                 let message = obj.data.message
@@ -133,9 +168,7 @@
                 switch (status_code) {
                     case 200:
                         alert_success(message)
-                        setTimeout(() => {
-                            window.location.href = obj.data.redirect
-                        }, 3000)
+                        setTimeout(() => location.reload(), 3000)
                         break;
                     case 500:
                         alert_error(message)
@@ -144,13 +177,53 @@
                 }
             },
             error: () => {
-                form_rule.prop('disabled', true)
                 alert_error('خطا در افزودن قانون')
-                btn_rule.text('ثبت')
             }
         }).done(() => {
-            btn_rule.text('ثبت')
+            btn_rule.text('ثبت').prop('disabled', false).removeClass('disabled pointer-events btn_success_dot-flashing')
             form_rule.prop('disabled', false)
         })
+    }
+
+    function edit_rule(id, title, description, button, form) {
+        // form and button
+        var btn_rule = $("#" + button + "")
+        var form_rule = $("#" + form + " input, #" + form + " textarea")
+        // var
+        var information_title = $("#" + title + "").val().trim()
+        var information_description = $("#" + description + "").val().trim()
+        if (!empty(information_title) && !empty(information_description)) {
+            btn_rule.text('در حال ثبت...').prop('disabled', true).addClass('disabled pointer-events btn_success_dot-flashing')
+            form_rule.prop('disabled', true)
+            $.ajax({
+                url: PATH + "/admin_information/rules",
+                type: "POST",
+                data: {title: information_title, description: information_description, id: id, type: 'edit'},
+                success: (data) => {
+                    let obj = JSON.parse(data)
+                    let message = obj.data.message
+                    let status_code = obj.statusCode
+                    switch (status_code) {
+                        case 200:
+                            alert_success(message)
+                            setTimeout(() => location.reload(), 3000)
+                            break;
+                        case 500:
+                            alert_error(message)
+                            form_rule.prop('disabled', false)
+                            break;
+                    }
+                },
+                error: () => {
+                    alert_error('خطا در افزودن قانون')
+                }
+            }).done(() => {
+                btn_rule.text('ثبت').prop('disabled', false).removeClass('disabled pointer-events btn_success_dot-flashing')
+                form_rule.prop('disabled', false)
+            })
+        } else {
+            if (empty(information_title)) alert_error('فیلد عنوان اجباری است')
+            if (empty(information_description)) alert_error('فیلد توضیحات اجباری است')
+        }
     }
 </script>

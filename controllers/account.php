@@ -18,6 +18,7 @@ class account extends Controller
 
     public function index()
     {
+        $this->isUser();
         $this->title = 'پنل کاربری';
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
         $register_you_history = $this->register_you_history($get_user->create_time);
@@ -26,27 +27,33 @@ class account extends Controller
         $this->view('profile/index', compact('register_you_history', 'count_my_course', 'get_user', 'count_my_ticket'));
     }
 
-    public function edit_profile()
+    public function edit()
     {
+        $this->isUser();
         $this->title = 'ویرایش پروفایل';
         $this->view('profile/user-edit-profile');
     }
 
     public function change_password()
     {
+        $this->isUser();
         $this->title = '';
         $this->view('profile/user-change-password');
     }
 
     public function wallet()
     {
+        $isUser = $this->isUser();
         $this->title = '';
-        $this->view('profile/user-wallet');
+        $wallet_payment = $this->model->wallet_payment('user_wallet', $isUser->id);
+        $this->view('profile/user-wallet', compact('wallet_payment'));
     }
 
     public function my_courses()
     {
+        $this->isUser();
         $this->title = '';
+        $my_courses = [];
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
         $my_courses_factors = $this->model->my_courses_factor($get_user->id);
         foreach ($my_courses_factors as $courses_factor) {
@@ -60,6 +67,7 @@ class account extends Controller
 
     public function factors()
     {
+        $this->isUser();
         $this->scripts_path = ['vendor/lozad/lozad.min.js'];
         $this->title = '';
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
@@ -69,6 +77,7 @@ class account extends Controller
 
     public function tickets()
     {
+        $this->isUser();
         $this->title = 'مایندباکس‌ | تیکت‌ها';
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
         $tickets_all = $this->model->tickets_all($get_user->id);
@@ -77,6 +86,7 @@ class account extends Controller
 
     public function ticket(int $id = null)
     {
+        $this->isUser();
         if (empty($id)) Model::error404();
         $id = $this->model->security($id);
         $get_ticket = $this->model->where('tickets', 'id', $id);
@@ -87,6 +97,7 @@ class account extends Controller
 
     public function add_ticket()
     {
+        $this->isUser();
         $this->title = 'مایندباکس‌ | ایجاد تیکت';
         $this->view('profile/user-add-ticket');
     }
@@ -300,4 +311,91 @@ class account extends Controller
             }
         }
     }
+
+    public function edit_profile()
+    {
+        $this->msgUserNot();
+        $data = $_POST;
+        $first_name = $this->model->security($data['first_name']);
+        $last_name = $this->model->security($data['last_name']);
+        $user_id = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')))->id;
+        if (isset($first_name, $last_name) && !empty($first_name) && !empty($last_name)):
+            $edit = $this->model->edit_profile($first_name, $last_name, $user_id);
+            echo ($edit) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'پروفایل با موفقیت ویرایش شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در ویرایش پروفایل']);
+        else:
+            if (empty($first_name)) echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'فیلد نام اجباری است'
+            ]);
+            if (empty($last_name)) echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'فیلد نام خانوادگی اجباری است'
+            ]);
+        endif;
+    }
+
+    public function password_edit()
+    {
+        $this->msgUserNot();
+        $data = $_POST;
+        $current_password = $this->model->security($data['current_password']);
+        $password = $this->model->security($data['password']);
+        $re_password = $this->model->security($data['re_password']);
+        $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
+        if (isset($current_password, $password, $re_password) && !empty($current_password) && !empty($re_password)):
+            if ($this->model->decrypt($get_user->user_password) != $current_password): echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'رمز عبور وارد شده با رمز فعلی تطابق ندارد'
+            ]);
+                die(); endif;
+            if ($password != $re_password):
+                echo response::Json(500, true, [
+                    'domain' => DOMAIN,
+                    'message' => 'رمز عبور وارد شده با رمز فعلی تطابق ندارد'
+                ]);
+                die(); endif;
+            $password = $this->model->encrypt($password);
+            $edit = $this->model->password_edit($password, $get_user->id);
+            echo ($edit) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'رمز عبور با موفقیت ویرایش شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در ویرایش رمز عبور']);
+        else:
+            if (empty($current_password)) echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'فیلد رمز عبور فعلی اجباری است'
+            ]);
+            if (empty($password)) echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'فیلد رمز عبور جدید اجباری است'
+            ]);
+            if (empty($re_password)) echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'فیلد تکرار رمز عبور اجباری است'
+            ]);
+        endif;
+    }
+
+    private function msgUserNot()
+    {
+        if (!Model::SessionGet('user')):
+            echo response::Json(500, true, [
+                'domain' => DOMAIN,
+                'message' => 'اطلاعات ارسالی ناقص است'
+            ]);
+            die();
+        endif;
+    }
+
+    private function isUser($login = false)
+    {
+        $get_session_user = Model::SessionGet('user');
+        if ($login) {
+            if ($get_session_user) Model::redirect('account');
+        } else {
+            if (!$get_session_user) Model::redirect('login');
+            if ($get_session_user):
+                $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
+                return ($get_user) ? $get_user : $this->logout();
+            endif;
+        }
+    }
+
 }

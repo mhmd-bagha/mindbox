@@ -17,6 +17,7 @@
                                 <a href="<?= DOMAIN ?>/account/add_ticket" class="btn-blue">تیکت جدید</a>
                             </div>
                             <hr>
+                            <?php if (!empty($data['tickets_all'])): ?>
                             <div class="table-responsive overflow-y-auto">
                                 <!-- table -->
                                 <table class="table table-striped table-hover table-bordered text-center text-nowrap">
@@ -50,6 +51,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                        <?php else: Model::alert_null_data('تیکتی موجود نیست', 'alert-primary fs-6 text-center'); endif; ?>
                         </div>
                     </div>
                 </div>

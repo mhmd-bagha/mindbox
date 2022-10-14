@@ -1,3 +1,5 @@
+<?php $get_about = $this->model->where('information', 'information_type', 'about_me');
+if ($get_about) $about = json_decode($get_about->information_data) ?>
 <!-- content -->
 <div class="tab-pane fade" id="tab-about-us">
     <!-- form -->
@@ -5,14 +7,14 @@
           id="form_about_me">
         <div class="col-12 col-md-6 col-xl-4 mb-3">
             <label for="about_me_title" class="mb-1">عنوان</label>
-            <input type="text" class="form-control" id="about_me_title">
+            <input type="text" class="form-control" id="about_me_title" value="<?= $get_about ? $about->title : '' ?>">
         </div>
         <div class="mb-3">
             <label for="about_me_description" class="mb-1">متن</label>
-            <textarea class="form-control" id="about_me_description"></textarea>
+            <textarea class="form-control" id="about_me_description"><?= $get_about ? $about->description : '' ?></textarea>
         </div>
         <div class="text-end">
-            <button type="button" class="btn btn-success" id="btn_about_me">ثبت</button>
+            <button type="button" class="btn btn-success py-2 px-5" id="btn_about_me">ثبت</button>
         </div>
     </form>
 </div>

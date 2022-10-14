@@ -81,4 +81,21 @@ class model_account extends Model
         $query = $this->Select("SELECT * FROM `courses` WHERE `id` = ?", [$course_id]);
         return $query;
     }
+
+    public function edit_profile($first_name, $last_name, $user_id)
+    {
+        $query = $this->Query("UPDATE `users` SET `first_name` = ?, `last_name` = ? WHERE `id` = ?", [$first_name, $last_name, $user_id]);
+        return $query;
+    }
+
+    public function password_edit($password, $user_id)
+    {
+        $query = $this->Query("UPDATE `users` SET `user_password` = ? WHERE `id` = ?", [$password, $user_id]);
+        return $query;
+    }
+
+    public function wallet_payment($payment_type, $user_id){
+        $query = $this->Select("SELECT * FROM `payment` WHERE `payment_type` = ? AND `user_id` = ?", [$payment_type, $user_id]);
+        return $query;
+    }
 }

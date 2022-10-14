@@ -1,26 +1,13 @@
-<!DOCTYPE html>
-<html lang="fa">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فراموشی رمز عبور</title>
-    <!-- css -->
-    <link rel="stylesheet" href="../../public/css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../public/css/styles.css">
-</head>
-
-<body>
-    <!-- forgot passwords -->
+<!-- forgot passwords -->
+<main>
     <div class="container-fluid">
         <div class="row min-vh-100">
             <div class="col-12 col-lg-5 col-xl-4 d-flex flex-column justify-content-center align-items-center">
                 <div class="w-75 py-5">
                     <!-- back button -->
                     <div class="pb-4">
-                        <a href="../../index.php" class="btn bg-light fw-bold shadow"><i class="fa-solid fa-arrow-right pe-2"></i>بازگشت</a>
+                        <a href="<?= DOMAIN ?>/login" class="btn bg-light fw-bold shadow"><i
+                                    class="fa-solid fa-arrow-right pe-2"></i>بازگشت</a>
                     </div>
                     <!-- title -->
                     <div>
@@ -28,13 +15,13 @@
                     </div>
                     <hr class="my-4">
                     <!-- form -->
-                    <form action="" method="" class="border-form">
+                    <form action="<?= currentUrl() ?>" method="post" class="border-form">
                         <div class="mb-3">
-                            <label class="mb-1">ایمیل</label>
-                            <input type="text" class="form-control" placeholder="">
+                            <label for="email" class="mb-1">ایمیل</label>
+                            <input type="email" class="form-control" id="email" placeholder="example@example.com">
                         </div>
                         <div class="d-grid">
-                            <button class="btn-orange">ارسال کد تایید</button>
+                            <button type="button" class="btn-orange" id="btn_send_email_link">ارسال لینک تایید</button>
                         </div>
                     </form>
                 </div>
@@ -44,12 +31,36 @@
             </div>
         </div>
     </div>
-    <!-- js -->
-    <script src="../../public/js/jquery-3.6.0.min.js"></script>
-    <script src="../../public/js/popper.min.js"></script>
-    <script src="../../public/js/bootstrap.min.js"></script>
-    <!-- fontawesome js -->
-    <script src="../../public/js/fontawesome.js"></script>
-</body>
+</main>
+<script>
+    var btn_send_email_link = $("#btn_send_email_link")
+    var PATH = "<?= DOMAIN ?>"
+    $(document).ready(() => {
+        btn_send_email_link.click(() => {
+            var email = $("#email").val().trim()
+            if (!empty(email)) {
+                if (validate_email(email)) {
+                    send_email_link(email)
+                } else alert_error('فرمت ایمیل نامعتبر است')
+            } else alert_error('فیلد ایمیل اجباری است')
+        })
+    })
 
-</html>
+    function send_email_link(email) {
+        btn_send_email_link.text('در حال بررسی').addClass('disabled btn_dot-flashing pointer-events').prop('disabled', true)
+        $.post(PATH + "/forgot_password/send_link", {email: email}, (data) => {
+            let obj = JSON.parse(data)
+            let message = obj.data.message
+            let status_code = obj.statusCode
+            switch (status_code) {
+                case 200:
+                    alert_success(message)
+                    break;
+                case 500:
+                    alert_error(message)
+                    break;
+            }
+            btn_send_email_link.text('ارسال لینک تایید').removeClass('disabled btn_dot-flashing pointer-events').prop('disabled', false)
+        })
+    }
+</script>

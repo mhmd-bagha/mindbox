@@ -1,5 +1,5 @@
 <?php
-require '../core/config.php';
+require '../core/bootstrap.php';
 require DIR_ROOT . 'vendor/autoload.php';
 require DIR_ROOT . 'vendor/api-file-uploader/api-file-uploader/uploader/Uploader.php';
 

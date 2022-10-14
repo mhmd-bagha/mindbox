@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="text-end">
-                        <button type="button" class="btn btn-success" id="btn_slider">ثبت</button>
+                        <button type="button" class="btn btn-success py-2 px-5" id="btn_slider">ثبت</button>
                     </div>
                 </form>
             </div>
@@ -64,7 +64,7 @@
 
     function slider(data, image) {
         form_slider.prop('disabled', true)
-        btn_slider.prop('disabled', false).text('در حال افزودن')
+        btn_slider.prop('disabled', true).text('در حال افزودن')
         $.ajax({
             url: PATH + "/admin_sliders/add",
             type: "POST",
@@ -80,9 +80,7 @@
                     case 200:
                         alert_success(message, 'success', 1400)
                         uploadFile(image, obj.data.img_name, 'slider')
-                        setTimeout(() => {
-                            alert_success("<?= warnings['file_uploading'] ?>", 'warning')
-                        }, 1500)
+                        setTimeout(() => alert_success("<?= warnings['file_uploading'] ?>", 'warning'), 1500)
                         break;
                     case 500:
                         alert_error(message)

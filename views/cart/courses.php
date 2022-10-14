@@ -40,7 +40,7 @@ foreach ($courses_id as $course_id) {
     function delete_cart(course_id) {
         delete_course_cart.prop('disabled', true)
         $.ajax({
-            url: PATH + "/cart/delete",
+            url: PATH + "/cart/delete_cart",
             type: "POST",
             data: {course_id: course_id, delete_cart: true},
             success: (data) => {

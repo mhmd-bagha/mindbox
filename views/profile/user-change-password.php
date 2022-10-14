@@ -15,7 +15,7 @@
                             <h5>تغییر رمز عبور</h5>
                             <hr>
                             <!-- form -->
-                            <form action="" method="" class="border-form">
+                            <form action="<?= currentUrl() ?>" method="post" class="border-form">
                                 <div class="mb-3">
                                     <label class="mb-1">رمز عبور فعلی</label>
                                     <input type="password" id="current-password-input" class="form-control">
@@ -45,24 +45,39 @@
 <script>
     const submitBtn = $("#submit-button");
     $(document).ready(() => {
-        console.log("Test print");
         submitBtn.click(() => {
             let currentPasswordInput = $("#current-password-input").val().trim();
-            let newPasswordInput = $("#password-input");
-            console.log("new pass variable: " + newPasswordInput.val());
-            let repassInput = $("#repass-input");
-            console.log("Hello world");
-            $.post(
-                //PATH + "/account/change_password",
-                "https://www.google.com", {
-                    password: newPasswordInput.val().trim(),
-
-                },
-                (data, status) => {
-                    console.log(data);
-                }
-            );
-
+            let newPasswordInput = $("#password-input").val().trim();
+            let repassInput = $("#repass-input").val().trim();
+            if (!empty(currentPasswordInput) && !empty(newPasswordInput) && !empty(repassInput)) {
+                if (repassInput === newPasswordInput) {
+                    if (validate_password(newPasswordInput)) {
+                        $.post(PATH + "/account/password_edit", {
+                            current_password: currentPasswordInput,
+                            password: newPasswordInput,
+                            re_password: repassInput
+                        }, (data, status) => {
+                            let obj = JSON.parse(data)
+                            let message = obj.data.message
+                            let status_code = obj.statusCode
+                            switch (status_code) {
+                                case 200:
+                                    alert_success(message)
+                                    setTimeout(() => location.reload(), 3000)
+                                    break;
+                                case 500:
+                                    alert_error(message)
+                                    break;
+                            }
+                        });
+                    } else alert_error('رمز عبور قوی نیست')
+                } else alert_error('رمز عبور و تکرار آن برابر نیست')
+            } else {
+                if (empty(currentPasswordInput)) alert_error('فیلد رمز عبور فعلی اجباری است')
+                if (empty(newPasswordInput)) alert_error('فیلد رمز عبور جدید اجباری است')
+                if (empty(repassInput)) alert_error('فیلد تکرار رمز عبور اجباری است')
+            }
         });
     });
 </script>
+<?php $this->model->SessionGet('user');

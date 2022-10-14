@@ -12,6 +12,7 @@ class login extends Controller
     {
         parent::__construct();
         $this->scripts_path = ['js/app.js'];
+        if (Model::SessionGet('user')) Model::redirect('account');
     }
 
     public function index()

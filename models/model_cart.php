@@ -27,7 +27,7 @@ class model_cart extends Model
         return $query;
     }
 
-    public function delete($id)
+    public function delete_cart($id)
     {
         $query = $this->Query("DELETE FROM `cart` WHERE `id` = ?", [$id]);
         return $query;

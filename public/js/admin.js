@@ -37,17 +37,17 @@ sidebar.addEventListener("mouseleave", () => {
     }
 })
 
-// event resize 
+// event resize
 window.addEventListener("resize", debounceAction)
 
-// function resizeAction 
+// function resizeAction
 function resizeAction() {
     if (width >= 992) {
         closeOffCanvas();
     }
 }
 
-// function debounce 
+// function debounce
 function debounce(func, timeout = 100) {
     let timer;
     return (...args) => {
@@ -65,7 +65,7 @@ function openOffCanvas() {
     adminBackdrop.style.opacity = 1;
 }
 
-// function closeOffCanvas 
+// function closeOffCanvas
 function closeOffCanvas() {
     sidebar.classList.remove("open");
     adminBackdrop.style.visibility = "hidden";
@@ -278,4 +278,60 @@ function abortHandler(event) {
 function type_file(value) {
     var allowedExtensions = /(\.zip|\.rar)$/i;
     return (allowedExtensions.exec(value)) ? true : false;
+}
+
+function uploadFile_ajax(file, file_name, file_name_posted, progressShow = 'progressShow', loaded_n_total = 'loaded_n_total', progressBar = 'progressBar', status = 'status') {
+    // variable
+    progressShow = $("#" + progressShow + "")
+    loaded_n_total = $("#" + loaded_n_total + "")
+    progressBar = $("#" + progressBar + "")
+    status = $("#" + status + "")
+    var percentValue = '0%';
+    // form data
+    let data = new FormData();
+    data.append("file", file);
+    data.append("file_name", file_name)
+    data.append("file_name_posted", file_name_posted)
+    $.ajax({
+        xhr: () => {
+            var xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function (evt) {
+                if (evt.lengthComputable) {
+                    var percentComplete = (evt.loaded / evt.total) * 100;
+                    percentValue = percentComplete + '%';
+                    progressBar.animate({width: '' + percentValue + ''}, {
+                        duration: 3000, easing: "linear", step: function (x) {
+                            var percentText = Math.round(x * 100 / percentComplete);
+                            status.text(percentText + "%");
+                            loaded_n_total.text("آپلود شد " + formatBytes(evt.loaded) + " از " + formatBytes(evt.total));
+                            if (percentText == 100) location.reload()
+                        }
+                    });
+                }
+            }, false);
+            return xhr;
+        },
+        url: PATH + "/uploader/setter.php",
+        type: "POST",
+        data: data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        beforeSend: function () {
+            progressShow.show()
+            progressBar.width(percentValue);
+            status.text(percentValue);
+        },
+        error: () => {
+            alert_error('خطا در اپلود فایل')
+        },
+        complete: (xhr) => {
+            if (xhr.responseText != "error") {
+                loaded_n_total.text(xhr.responseText);
+            } else {
+                loaded_n_total.text("خطایی در آپلود فایل پیش آمده");
+                progressBar.stop();
+            }
+        }
+    })
 }

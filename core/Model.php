@@ -420,4 +420,32 @@ class helper
         $file = str_replace('#SiteEmail', $site_email, $file);
         return html_entity_decode($file);
     }
+
+    public static function forgotPassword($link_user_email)
+    {
+        $file = file_get_contents(DIR_ROOT . '/views/email/forgot-password/index.php');
+        $file = str_replace('#LinkUserEmail', $link_user_email, $file);
+        return html_entity_decode($file);
+    }
+
+    public static function contactUs($fullName, $phoneMobile, $email, $message)
+    {
+        $file = file_get_contents(DIR_ROOT . '/views/email/contact-us/index.php');
+        $file = str_replace('#FullName', $fullName, $file);
+        $file = str_replace('#PhoneMobile', $phoneMobile, $file);
+        $file = str_replace('#Email', $email, $file);
+        $file = str_replace('#Message', $message, $file);
+        return html_entity_decode($file);
+    }
+
+    public static function captcha_result($recaptcha_response, $secret_key = SECRETKEY_CAPTCHA)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $recaptcha_response);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($response);
+        return $response->success;
+    }
 }

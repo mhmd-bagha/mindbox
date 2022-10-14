@@ -24,9 +24,9 @@
                 <td><?= $discount->time_end ?></td>
                 <td>
                     <div class="btn-group">
-                        <a data-bs-toggle="modal" data-bs-target="#form" title="ویرایش"
-                           class="btn btn-sm btn-outline-primary shadow-none"><i
-                                class="fa-solid fa-pen-to-square"></i></a>
+<!--                        <a data-bs-toggle="modal" data-bs-target="#form" title="ویرایش"-->
+<!--                           class="btn btn-sm btn-outline-primary shadow-none"><i-->
+<!--                                class="fa-solid fa-pen-to-square"></i></a>-->
                         <a href="#" title="حذف" class="btn btn-sm btn-outline-danger shadow-none" onclick="deleteItem(<?= $discount->id ?>, 'discounts')"><i
                                 class="fa-solid fa-trash"></i></a>
                     </div>

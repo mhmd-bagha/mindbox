@@ -41,8 +41,14 @@
                             <label for="re_password" class="mb-1">تکرار رمزعبور</label>
                             <input type="password" class="form-control" id="re_password" placeholder="********">
                         </div>
-                        <div class="d-grid">
-                            <button type="button" class="btn-orange" id="btn_register">ثبت نام</button>
+                        <div class="mb-3">
+                            <label class="mb-1">کپچا</label>
+                            <div class="g-recaptcha"
+                                 data-sitekey="<?= KEY_RECAPTCHA ?>"></div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <a href="<?= DOMAIN ?>/login" class="btn-transparent w-100">ورود</a>
+                            <button type="button" class="btn-orange w-100" id="btn_register">ثبت نام</button>
                         </div>
                     </form>
                 </div>
@@ -59,6 +65,7 @@
     let form_register_input = $("#form_register input")
     $(document).ready(() => {
         btn_register.click(() => {
+            var captcha = grecaptcha.getResponse()
             let first_name = $("#first_name").val().trim()
             let last_name = $("#last_name").val().trim()
             let phone_mobile = $("#phone_mobile").val().trim()
@@ -69,7 +76,7 @@
                 if (validate_email(email)) {
                     if (password === re_password) {
                         if (validate_password(password)) {
-                            register(first_name, last_name, phone_mobile, email, password, re_password)
+                            register(first_name, last_name, phone_mobile, email, password, re_password, captcha)
                         } else {
                             alert_error('یک رمز عبور قوی بنویسید')
                         }
@@ -96,9 +103,9 @@
         })
     })
 
-    function register(first_name, last_name, phone_mobile, email, password, re_password) {
+    function register(first_name, last_name, phone_mobile, email, password, re_password, captcha) {
         var back_url
-        btn_register.text('در حال بررسی...').prop('disabled', true)
+        btn_register.text('در حال بررسی...').prop('disabled', true).addClass('disabled pointer-events btn_dot-flashing')
         form_register_input.prop('disabled', true)
         <?php if (isset($_GET['back'])){ ?>
         back_url = "<?= $_GET['back'] ?>";
@@ -115,6 +122,7 @@
                 email: email,
                 password: password,
                 re_password: re_password,
+                captcha: captcha,
                 btn_user_register: true
             },
             success: (data) => {
@@ -137,7 +145,7 @@
                 }
             },
             error: () => {
-                btn_register.text('ثبت نام').prop('disabled', false)
+                btn_register.text('ثبت نام').prop('disabled', false).removeClass('disabled pointer-events btn_dot-flashing')
                 form_register_input.prop('disabled', false)
                 alert_error('خطا در برقراری ارتباط با سرور')
             }

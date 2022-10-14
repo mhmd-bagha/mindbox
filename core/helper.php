@@ -1,4 +1,7 @@
 <?php
+
+use Response\Response as response;
+
 // currentDomain url domain
 function currentDomain()
 {
@@ -66,4 +69,35 @@ function paginateUrl($page)
     } else {
         return currentUrl() . '?page=' . $page;
     }
+}
+
+function validate_image(array $file, $type = true, $size = true, $w = '', $h = '')
+{
+    $message = '';
+    $tmp_file = $file['tmp_name'];
+    $size_file = $file['size'];
+    $type_file = $file['type'];
+    // format(type)
+    if ($type):
+        if (!in_array($type_file, TYPE_IMG)) $message = errors['format_img'];
+    endif;
+    // size(compress)
+    if ($size):
+        if ($size_file <= SIZE_IMG) $message = errors['capacity_size_of_img'];
+    endif;
+    // width or height
+    if (!empty($w) || !empty($h)):
+        list($width, $height) = getimagesize($tmp_file);
+        if (!empty($w)):
+            if ($w != $width) $message = 'عرض تصویر نامعتبر است';
+        endif;
+        if (!empty($h)):
+            if ($h != $height) $message = 'طول تصویر نامعتبر است';
+        endif;
+    endif;
+    // return result
+    if (!empty($message))
+        return response::unJson(500, false, ['domain' => DOMAIN, 'message' => $message]); // return result object
+    else
+        return true;
 }
