@@ -31,13 +31,6 @@ class model_index extends Model
         return ($query) ? $query : 0;
     }
 
-    public function courses_min_all()
-    {
-        $status_show = 'show';
-        $query = $this->Select("SELECT TIME_TO_SEC(course_time) FROM `course_files` WHERE `status_show` = ?", [$status_show], 'fetchAll', PDO::FETCH_ASSOC);
-        return $query;
-    }
-
     public function course_offer()
     {
         $course_offer = 'on';

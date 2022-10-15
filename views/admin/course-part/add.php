@@ -35,12 +35,12 @@
                     <div class="row">
                         <div class="col-12 col-sm-6 mb-3">
                             <label for="course_number" class="mb-1">ترتیب شماره</label>
-                            <input type="number" class="form-control" id="course_number" placeholder="36">
+                            <input type="number" class="form-control" id="course_number" placeholder="36"
+                                   value="<?= $this->courses->get_number_part() ?>">
                         </div>
                         <div class="col-12 col-sm-6 mb-3">
                             <label for="course_type" class="mb-1">نوع فایل</label>
                             <select class="form-control" id="course_type">
-                                <option disabled selected>انتخاب کنید...</option>
                                 <option value="lock">نقدی</option>
                                 <option value="free">رایگان</option>
                             </select>
@@ -67,7 +67,7 @@
             var course_time = $("#course_time").val().trim()
             var course_number = $("#course_number").val().trim()
             var course_type = $("#course_type").val()
-            if (!empty(course_title) && !empty(course_file) && !empty(course_title) && !empty(course_time) && !empty(course_number) && !empty(course_type)) {
+            if (!empty(course_file) && !empty(course_title) && !empty(course_time) && !empty(course_number) && !empty(course_type)) {
                 var course_file_name = course_file.name
                 if (type_file(course_file_name)) {
                     form_data.append('course_file', course_file)
@@ -87,7 +87,7 @@
 
     function course_part(data, file) {
         form_course_file.prop('disabled', true)
-        btn_course_file.prop('disabled', true).text('در حال بررسی...')
+        btn_course_file.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_success_dot-flashing')
         $.ajax({
             url: PATH + "/admin_courses/add_file",
             type: "POST",
@@ -114,12 +114,10 @@
             },
             error: () => {
                 alert_error('خطا در ارسال اطلاعات')
-                form_course_file.prop('disabled', false)
-                btn_course_file.prop('disabled', false).text('ثبت')
             }
         }).done(() => {
             form_course_file.prop('disabled', false)
-            btn_course_file.prop('disabled', false).text('ثبت')
+            btn_course_file.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
         })
     }
 </script>

@@ -317,6 +317,41 @@ class Model
         $en = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
         return str_replace($fa, $en, $value);
     }
+
+    public function courses_min_all()
+    {
+        $status_show = 'show';
+        $query = $this->Select("SELECT TIME_TO_SEC(course_time) FROM `course_files` WHERE `status_show` = ?", [$status_show], 'fetchAll', PDO::FETCH_ASSOC);
+        return $query;
+    }
+
+    public function get_time_all_course($course_id)
+    {
+        $status_show = 'show';
+        $query = $this->Select("SELECT TIME_TO_SEC(course_time) FROM `course_files` WHERE `course_id` = ? AND `status_show` = ?", [$course_id, $status_show], 'fetchAll', PDO::FETCH_ASSOC);
+        return $query;
+    }
+
+    public function time_course_all(mixed $gmdate = 'H:i:s', $course_id = '')
+    {
+        $total_course_time_all = 0;
+
+        if (!empty($course_id)):
+            $get_time_all_course = $this->get_time_all_course($course_id);
+            foreach ($get_time_all_course as $time_all_course) {
+                $time_sec_all = $time_all_course['TIME_TO_SEC(course_time)']; // get time sec all course files
+                $total_course_time_all = $total_course_time_all + $time_sec_all;
+            }
+        else:
+            $course_time_all = $this->courses_min_all();
+            foreach ($course_time_all as $time_all_course) {
+                $time_min_all = $time_all_course['TIME_TO_SEC(course_time)'];
+                $total_course_time_all = $total_course_time_all + $time_min_all;
+            }
+        endif;
+
+        return $total_course_time_all = gmdate($gmdate, $total_course_time_all);
+    }
 }
 
 class Db

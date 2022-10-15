@@ -30,7 +30,7 @@
                 <i class="bi bi-display"></i>
             </div>
             <div class="card-body">
-                <h4 class="fw-bold"><?= $data['count_my_course'] ?></h4>
+                <h4 class="fw-bold"><?= ($data['count_my_course']) ? $data['count_my_course'] : 0 ?></h4>
                 <span class="text-muted">تعداد دوره های شما</span>
             </div>
         </div>

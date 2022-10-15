@@ -58,13 +58,6 @@ class model_courses extends Model
         return ($query) ? $query : false;
     }
 
-    public function get_time_all_course($course_id)
-    {
-        $status_show = 'show';
-        $query = $this->Select("SELECT TIME_TO_SEC(course_time) FROM `course_files` WHERE `course_id` = ? AND `status_show` = ?", [$course_id, $status_show], 'fetchAll', PDO::FETCH_ASSOC);
-        return $query;
-    }
-
     public function comment($course_id, $user_id, $comment, $comment_type, $ip, $status_show, $create_time)
     {
         $query = $this->Query("INSERT INTO `comments`(`course_id`, `comment_text`, `comment_type`, `user_id`, `author`, `ip`, `create_time`, `status_show`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [$course_id, $comment, $comment_type, $user_id, $user_id, $ip, $create_time, $status_show]);

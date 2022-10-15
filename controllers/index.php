@@ -12,7 +12,6 @@ class index extends Controller
 
     public function index()
     {
-        $total_course_time_all = 0;
         $sliders = $this->model->sliders();
         $categories = $this->model->categories();
         $users_count = $this->model->users_count();
@@ -20,12 +19,7 @@ class index extends Controller
         $course_offer = $this->model->course_offer();
         $course_discounts = $this->model->course_discounts();
         $course_last = $this->model->course_last();
-        $course_time_all = $this->model->courses_min_all();
-        foreach ($course_time_all as $time_all_course) {
-            $total_course_time_all = $time_all_course['TIME_TO_SEC(course_time)'];
-            $total_course_time_all = $total_course_time_all + $total_course_time_all;
-        }
-        $total_course_time_all = (gmdate("i", $total_course_time_all));
+        $total_course_time_all = $this->model->time_course_all('i');
         $stories = $this->model->stories();
         $benefits = $this->model->where_all('information', 'information_type', 'benefits');
         $data = ['sliders' => $sliders, 'categories' => $categories, 'users_count' => $users_count, 'course_offer' => $course_offer, 'course_discounts' => $course_discounts, 'course_last' => $course_last, 'courses_count' => $courses_count, 'total_course_time_all' => $total_course_time_all, 'stories' => $stories, 'benefits' => $benefits];

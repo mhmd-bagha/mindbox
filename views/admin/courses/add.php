@@ -15,9 +15,12 @@
                             <input type="text" class="form-control" id="course_name">
                         </div>
                         <div class="col-12 col-md-4 mb-3">
-                            <label for="course_teacher_name" class="mb-1">مدرس دوره</label>
+                            <label for="course_teacher_name_show" class="mb-1">مدرس دوره</label>
                             <input type="text" class="form-control disabled" disabled
                                    value="<?= $get_admin->first_name . ' ' . $get_admin->last_name ?>"
+                                   id="course_teacher_name_show">
+                            <input type="hidden" class="form-control"
+                                   value="<?= $get_admin->id ?>"
                                    id="course_teacher_name">
                         </div>
                         <div class="col-12 col-md-4 mb-3">
@@ -106,7 +109,7 @@
 <script>
     var for_data = new FormData()
     var btn_course = $("#btn_course")
-    var form_course = $("#form_course input")
+    var form_course = $("#form_course input, #form_course select, #form_course textarea")
     $(document).ready(() => {
         btn_course.click(() => {
             var course_name = $("#course_name").val().trim()
@@ -140,7 +143,7 @@
     })
 
     function course(data) {
-        btn_course.prop('disabled', true).text('در حال بررسی...')
+        btn_course.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_success_dot-flashing')
         form_course.prop('disabled', true)
         $.ajax({
             url: PATH + "/admin_courses/add",
@@ -170,7 +173,7 @@
                 alert_error('خطا در اضافه کردن دوره')
             },
         }).done(() => {
-            btn_course.prop('disabled', false).text('ثبت')
+            btn_course.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
             form_course.prop('disabled', false)
 
         })

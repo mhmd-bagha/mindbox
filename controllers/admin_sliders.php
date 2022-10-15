@@ -49,7 +49,6 @@ class admin_sliders extends Controller
         $slider_name = $this->model->security($data['slider_name']);
         $slider_address = $this->model->security($data['slider_address']);
         $id = $this->model->security($data['id']);
-        $status_show = 'show';
         $time = Model::time_jalili_en();
         $img_upload = false;
         $get_old_img = $this->model->where('sliders', 'id', $id)->slider_image;
@@ -69,9 +68,13 @@ class admin_sliders extends Controller
             }
             if (!filter_var($slider_address, FILTER_VALIDATE_URL)): echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'لینک نامعتبر است']);
                 die();endif;
-            if ($img_upload): $file_uploader->delete(DL_DOMAIN . '/uploader/delete.php', $this->image_path_dl . 'sliders/' . $get_old_img, 'directory'); endif;
             $edit = $this->model->edit($slider_name, $slider_address, $img_name, $time, $id);
-            echo ($edit) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'اسلایدر با موفقیت ویرایش شد', 'img_name' => $img_name, 'upload_img' => $img_upload]) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در ویرایش اسلایدر']);
+            if ($edit) {
+                echo response::Json(200, true, ['domain' => DOMAIN, 'message' => 'اسلایدر با موفقیت ویرایش شد', 'img_name' => $img_name, 'upload_img' => $img_upload]);
+                if ($img_upload) $file_uploader->delete(DL_DOMAIN . '/uploader/delete.php', $this->image_path_dl . 'sliders/' . $get_old_img, 'directory');
+            } else {
+                echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در ویرایش اسلایدر']);
+            }
         } else {
             if (empty($slider_name)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'عنوان اسلایدر اجباری است']);
             if (empty($slider_address)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'آدرس اسلایدر اجباری است']);

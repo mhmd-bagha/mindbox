@@ -146,6 +146,60 @@ class admin_courses extends Controller
         }
     }
 
+    public function edit()
+    {
+        $file_uploader = new file_uploader();
+        $data = $_POST;
+        $data_file = $_FILES;
+        $course_name = $this->model->security($data['course_name']);
+        $course_labels = $this->model->security($data['course_labels']);
+        $course_category = $this->model->security($data['course_category']);
+        $course_level = $this->model->security($data['course_level']);
+        $course_status = $this->model->security($data['course_status']);
+        $course_type = $this->model->security($data['course_type']);
+        $course_price = $this->model->security($data['course_price']);
+        $course_description = $this->model->security($data['course_description']);
+        $course_video_demo = $this->model->security($data['course_video_demo']);
+        $id = $this->model->security($data['id']);
+        $time = $this->model->time_jalili_en();
+        $img_upload = false;
+        $img_old_courses = $this->model->where('courses', 'id', $id)->course_image;
+        if (isset($course_name, $course_labels, $course_category, $course_level, $course_status, $course_type, $course_description, $course_video_demo, $id) && !empty($course_name) && !empty($course_labels) && !empty($course_category) && !empty($course_level) && !empty($course_status) && !empty($course_type) && !empty($course_description) && !empty($course_video_demo) && !empty($id)) {
+            if ($course_type == 'money') {
+                if (!isset($course_price) && empty($course_price)) {
+                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد قیمت دوره اجباری است']);
+                    die();
+                }
+            }
+            if (isset($data_file) && !empty($data_file)) {
+                $data_file = $data_file['course_image'];
+                $img_name = $data_file['name'];
+                $img_name = $this->model->add_name_file_time($img_name, 'image');
+                $validate_image = validate_image($data_file);
+                $img_upload = true;
+                if (!$validate_image):
+                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => $validate_image->data->message]);
+                    die();
+                endif;
+            } else $img_name = $img_old_courses;
+            $edit = $this->model->edit($course_name, $course_labels, $course_category, $course_level, $course_status, $course_type, $course_price, $course_description, $course_video_demo, $img_name, $time, $id);
+            if ($edit) {
+                echo response::Json(200, true, ['domain' => DOMAIN, 'message' => 'دوره با موفقیت ویرایش شد', 'img_name' => $img_name, 'img_upload' => $img_upload]);
+                if ($img_upload) $file_uploader->delete(DL_DOMAIN . '/uploader/delete.php', $this->image_path_dl . "course/{$img_old_courses}", 'directory');
+            } else echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در ویرایش دوره']);
+        } else {
+            if (empty($course_name)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد نام دوره اجباری است']);
+            if (empty($course_labels)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد برچسب دوره اجباری است']);
+            if (empty($course_category)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد دسته بندی دوره اجباری است']);
+            if (empty($course_level)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد سطح دوره اجباری است']);
+            if (empty($course_status)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد وضعیت دوره اجباری است']);
+            if (empty($course_type)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد نوع دوره اجباری است']);
+            if (empty($course_description)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد توضیحات دوره اجباری است']);
+            if (empty($course_video_demo)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد فیلم دمو دوره اجباری است']);
+            if (empty($id)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => errors['empty_data']]);
+        }
+    }
+
     public function add_file()
     {
         if (isset($_POST['btn_course_file'])) {
@@ -205,6 +259,47 @@ class admin_courses extends Controller
                         'message' => 'اطلاعات ارسالی ناقص است'
                     ]);
             }
+        }
+    }
+
+    public function edit_file()
+    {
+        $file_uploader = new file_uploader();
+        $data = $_POST;
+        $data_file = $_FILES;
+        $course_title = $this->model->security($data['course_title']);
+        $course_time = $this->model->security($data['course_time']);
+        $course_number = $this->model->security($data['course_number']);
+        $course_type = $this->model->security($data['course_type']);
+        $id = $this->model->security($data['id']);
+        $time = $this->model->time_jalili_en();
+        $get_file_course = $this->model->where('course_files', 'id', $id);
+        $course_id = $get_file_course->course_id;
+        $get_old_file = $get_file_course->course_file;
+        $upload_file = false;
+        $file_name_course_id = '';
+        if (isset($course_title, $course_time, $course_number, $course_type, $id) && !empty($course_title) && !empty($course_time) && !empty($course_number) && !empty($course_type) && !empty($id)) {
+            if (isset($data_file) && !empty($data_file)) {
+                $data_file = $data_file['course_file'];
+                $course_file_name = $data_file['name'];
+                $file_name = $this->model->add_name_file_time($course_file_name, 'file');
+                $file_name_course_id = $file_name . '@' . $this->model->encrypt($course_id);
+                $validate_file = validate_file($data_file);
+                if (!$validate_file): echo response::Json(500, true, ['domain' => DOMAIN, 'message' => $validate_file->data->message]);
+                    die();endif;
+                $upload_file = true;
+            } else $file_name = $get_old_file;
+            $edit = $this->model->edit_file($course_title, $course_time, $course_number, $course_type, $file_name, $time, $id);
+            if ($edit) {
+                echo response::Json(200, true, ['domain' => DOMAIN, 'message' => 'فایل با موفقیت ویرایش شد', 'file_name' => $file_name_course_id, 'upload_file' => $upload_file]);
+                if ($upload_file) $file_uploader->delete(DL_DOMAIN . '/uploader/delete.php', $this->file_path_dl . $this->model->encrypt($course_id) . '/' . $get_old_file, 'directory');
+            } else echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در ویرایش فایل']);
+        } else {
+            if (empty($course_title)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد عنوان دوره اجباری است']);
+            if (empty($course_time)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد تصویر دوره اجباری است']);
+            if (empty($course_number)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد ترتیب شماره اجباری است']);
+            if (empty($course_type)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد نوع فایل اجباری است']);
+            if (empty($id)) echo response::Json(500, true, ['domain' => DOMAIN, 'message' => errors['empty_data']]);
         }
     }
 }

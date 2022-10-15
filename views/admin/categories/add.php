@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="text-end">
-                        <button type="button" class="btn btn-success" id="btn_category">ثبت</button>
+                        <button type="button" class="btn btn-success py-2 px-5" id="btn_category">ثبت</button>
                     </div>
                 </form>
             </div>
@@ -37,7 +37,7 @@
 </div>
 <script>
     var btn_category = $("#btn_category")
-    var form_category = $("#form_category input button")
+    var form_category = $("#form_category input")
     var author = "<?= $get_admin->id ?>"
     $(document).ready(() => {
         btn_category.click(() => {
@@ -48,7 +48,6 @@
                 formData.append('category_name', title_category)
                 formData.append('category_image', img_category)
                 formData.append('author', author)
-                formData.append('btn_category', true)
                 category(formData, img_category)
             } else {
                 if (empty(title_category))
@@ -61,7 +60,7 @@
 
     function category(data, image) {
         form_category.prop('disabled', true)
-        btn_category.prop('disabled', false).text('در حال افزودن')
+        btn_category.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_success_dot-flashing')
         $.ajax({
             url: PATH + "/admin_categories/add",
             type: "POST",
@@ -77,22 +76,19 @@
                     case 200:
                         alert_success(message, 'success', 1400)
                         uploadFile(image, obj.data.img_name, 'category')
-                        setTimeout(() => {
-                            alert_success("<?= warnings['file_uploading'] ?>", 'warning')
-                        }, 1500)
+                        setTimeout(() => alert_success("<?= warnings['file_uploading'] ?>", 'warning'), 1500)
                         break;
                     case 500:
                         alert_error(message)
                         break;
                 }
-                form_category.prop('disabled', false)
-                btn_category.prop('disabled', false).text('ثبت')
             },
             error: () => {
                 alert_error('خطا در ارسال اطلاعات')
-                form_category.prop('disabled', false)
-                btn_category.prop('disabled', false).text('ثبت')
             }
+        }).done(() => {
+            form_category.prop('disabled', false)
+            btn_category.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
         })
     }
 </script>

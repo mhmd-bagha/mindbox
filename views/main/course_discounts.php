@@ -21,7 +21,7 @@
                                 </h2>
                                 <div class="d-flex justify-content-between">
                             <span class="user-course-card text-muted"><i
-                                        class="fa-solid fa-user me-1"></i><?php echo $course_discounts->course_teacher ?></span>
+                                        class="fa-solid fa-user me-1"></i><?php $course_teacher = $this->model->where('admins', 'id', $course_discounts->course_teacher); echo $course_teacher->first_name . ' ' . $course_teacher->last_name ?></span>
                                     <?php if ($course_discounts->course_discount != null) { ?>
                                         <span class="fw-bold badge bg-danger">٪<?php echo $course_discounts->course_discount ?> تخفیف</span>
                                     <?php } ?>

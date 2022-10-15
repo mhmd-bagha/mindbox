@@ -18,7 +18,7 @@ class model_account extends Model
     public function count_my_ticket($user_id, $ticket_type)
     {
         $query = $this->Select("SELECT `id` FROM `tickets` WHERE `user_id` = ? AND `ticket_type` = ? AND `ticket_reply` IS NULL ", [$user_id, $ticket_type], 'fetchAll', PDO::FETCH_OBJ, true);
-        return $query;
+        return $query ? $query : 0;
     }
 
     public function my_factors($user_id)
@@ -94,7 +94,8 @@ class model_account extends Model
         return $query;
     }
 
-    public function wallet_payment($payment_type, $user_id){
+    public function wallet_payment($payment_type, $user_id)
+    {
         $query = $this->Select("SELECT * FROM `payment` WHERE `payment_type` = ? AND `user_id` = ?", [$payment_type, $user_id]);
         return $query;
     }

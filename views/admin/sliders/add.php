@@ -40,7 +40,7 @@
 </div>
 <script>
     var btn_slider = $("#btn_slider")
-    var form_slider = $("#form_slider input button")
+    var form_slider = $("#form_slider input")
     $(document).ready(() => {
         btn_slider.click(() => {
             var title = $("#title").val().trim()

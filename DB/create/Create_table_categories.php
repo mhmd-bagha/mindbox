@@ -21,6 +21,7 @@ class Create_table_categories extends Db
             author VARCHAR(255) NOT NULL,
             ip VARCHAR(255) NOT NULL,
             create_time VARCHAR(50) NOT NULL,
+            update_time VARCHAR(50) NULL,
             status_show ENUM('show', 'hide') NOT NULL,
             PRIMARY KEY (id)
             "

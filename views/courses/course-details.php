@@ -64,7 +64,8 @@
                                 <li class="pb-3 text-truncate">
                                 <span class="text-muted"><i
                                             class="fa-solid fa-user text-blue me-3"></i>مدرس دوره:</span>
-                                    <span><?php echo $course_details->course_teacher ?></span>
+                                    <span><?php $course_teacher = $this->model->where('admins', 'id', $course_details->course_teacher);
+                                        echo $course_teacher->first_name . ' ' . $course_teacher->last_name ?></span>
                                 </li>
                                 <li class="pb-3 text-truncate">
                                 <span class="text-muted"><i
@@ -188,9 +189,11 @@
                                 <div class="social-networks text-end ps-4 ps-lg-0 ps-xl-4">
                                     <a href="https://twitter.com/intent/tweet?url=<?= currentUrl() ?>" target="_blank"
                                        title="Twitter"><i class="fa-brands fa-twitter"></i></a>
-                                    <a href="https://t.me/share/url?url=<?= currentUrl() ?>" target="_blank" title="Telegram"><i
+                                    <a href="https://t.me/share/url?url=<?= currentUrl() ?>" target="_blank"
+                                       title="Telegram"><i
                                                 class="fa-brands fa-telegram"></i></a>
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u=<?= currentUrl() ?>" target="_blank"
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=<?= currentUrl() ?>"
+                                       target="_blank"
                                        title="Facebook"><i class="fa-brands fa-facebook"></i></a>
                                 </div>
                             </div>

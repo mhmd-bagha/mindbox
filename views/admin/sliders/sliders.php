@@ -117,7 +117,7 @@
             form_data.append('id', id)
             // disabled form and btn
             form_slider.prop('disabled', true)
-            btn_slider.prop('disabled', true).text('در حال افزودن').addClass('disabled pointer-events btn_success_dot-flashing')
+            btn_slider.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_success_dot-flashing')
             $.ajax({
                 url: PATH + "/admin_sliders/edit",
                 type: "POST",
@@ -133,6 +133,8 @@
                         case 200:
                             if (!obj.data.upload_img) {
                                 alert_success(message)
+                                form_slider.prop('disabled', false)
+                                btn_slider.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
                             } else {
                                 alert_success(message, 'success', 1400)
                                 uploadFile_ajax(img, obj.data.img_name, 'slider', progressShow, loaded_n_total, progressBar, status)
@@ -141,6 +143,8 @@
                             break;
                         case 500:
                             alert_error(message)
+                            form_slider.prop('disabled', false)
+                            btn_slider.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
                             break;
                     }
                     form_slider.prop('disabled', false)
@@ -148,10 +152,9 @@
                 },
                 error: () => {
                     alert_error('خطا در ارسال اطلاعات')
+                    form_slider.prop('disabled', false)
+                    btn_slider.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
                 }
-            }).done(() => {
-                form_slider.prop('disabled', false)
-                btn_slider.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
             })
         } else {
             if (empty(title)) alert_error('عنوان اسلایدر اجباری است')

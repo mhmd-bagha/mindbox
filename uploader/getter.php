@@ -95,7 +95,7 @@ if (isset($_FILES['course_file'])) {
     $file_img_size = $data_file['size'];
     $file_img_type = $data_file['type'];
     if (in_array($file_img_type, TYPE_FILE)) {
-        if (file_exists(ROOT . 'public/public/course-files')) {
+        if (file_exists(ROOT . "public/course-files/{$course_id}")) {
             mkdir(ROOT . "public/course-files/{$course_id}/{$file_name}");
             $upload = move_uploaded_file($file_tmp, ROOT . "public/course-files/{$course_id}/{$file_name}/{$file_name}");
             return $upload ? "فایل با موفقیت آپلود شد" : "خطا در اپلود فایل";

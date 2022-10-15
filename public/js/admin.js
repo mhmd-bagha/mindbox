@@ -72,16 +72,15 @@ function closeOffCanvas() {
     adminBackdrop.style.opacity = 0;
 }
 
-$(document).ready(function () {
-    $("#div-price").hide();
-    $("#course_type").change(function () {
-        if ($(this).val() == "money") {
-            $("#div-price").show();
-        } else {
-            $("#div-price").hide();
-        }
-    });
-});
+function change_type_course(select_element, price_element) {
+    select_element = $("#" + select_element + "")
+    price_element = $("#" + price_element + "")
+    if (select_element.val() == "money") {
+        price_element.show();
+    } else {
+        price_element.hide();
+    }
+}
 
 // tom select discount
 if ($("#select_courses").length) {
@@ -100,6 +99,17 @@ if ($('#course_labels').length) {
         maxItems: 23
     };
     new TomSelect('#course_labels', settings_labels);
+}
+
+function tom_select_input(el) {
+    var settings_labels = {
+        plugins: ['remove_button'],
+        persist: false,
+        createOnBlur: true,
+        create: true,
+        maxItems: 23
+    };
+    new TomSelect('#' + el + '', settings_labels);
 }
 
 if ($(".lozad").length) {
@@ -300,7 +310,7 @@ function uploadFile_ajax(file, file_name, file_name_posted, progressShow = 'prog
                     var percentComplete = (evt.loaded / evt.total) * 100;
                     percentValue = percentComplete + '%';
                     progressBar.animate({width: '' + percentValue + ''}, {
-                        duration: 3000, easing: "linear", step: function (x) {
+                        duration: 4000, easing: "linear", step: function (x) {
                             var percentText = Math.round(x * 100 / percentComplete);
                             status.text(percentText + "%");
                             loaded_n_total.text("آپلود شد " + formatBytes(evt.loaded) + " از " + formatBytes(evt.total));
@@ -329,7 +339,7 @@ function uploadFile_ajax(file, file_name, file_name_posted, progressShow = 'prog
             if (xhr.responseText != "error") {
                 loaded_n_total.text(xhr.responseText);
             } else {
-                loaded_n_total.text("خطایی در آپلود فایل پیش آمده");
+                loaded_n_total.text('خطا در اپلود فایل');
                 progressBar.stop();
             }
         }

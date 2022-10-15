@@ -61,13 +61,7 @@ class courses extends Controller
         $count_course_files = $this->model->count_course_files($course_id);
         $get_course_file = $this->model->get_course_file($course_id);
         $get_course_comments = $this->model->get_comments($course_id);
-        $get_time_all_course = $this->model->get_time_all_course($course_id);
-        $total_course_time_all = 0;
-        foreach ($get_time_all_course as $time_all_course) {
-            $total_course_time_all = $time_all_course['TIME_TO_SEC(course_time)'];
-            $total_course_time_all = $total_course_time_all + $total_course_time_all;
-        }
-        $total_course_time_all = gmdate("H:i:s", $total_course_time_all);
+        $total_course_time_all = $this->model->time_course_all('H:i:s', $course_id);
         $data = ['course_details' => $course_details, 'count_course_files' => $count_course_files, 'get_course_file' => $get_course_file, 'get_course_comments' => $get_course_comments, 'get_time_all_course' => $total_course_time_all];
         $this->view('courses/course-details', $data);
     }

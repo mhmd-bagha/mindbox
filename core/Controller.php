@@ -6,6 +6,7 @@ class Controller
     protected $scripts_path, $scripts_cdn, $links_path;
     protected $body_class = '';
     protected $image_path_dl = 'public/images/';
+    protected $file_path_dl = 'public/course-files/';
 
     function __construct()
     {

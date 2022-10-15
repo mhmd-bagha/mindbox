@@ -22,8 +22,8 @@ class admin extends Controller
     private $comment;
     private $users;
     private $sliders;
-    private $categories;
-    private $courses;
+    protected $categories;
+    protected $courses;
     private $tickets;
     private $menu;
     private $information;

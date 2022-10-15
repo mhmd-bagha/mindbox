@@ -101,3 +101,18 @@ function validate_image(array $file, $type = true, $size = true, $w = '', $h = '
     else
         return true;
 }
+
+function validate_file(array $file, $type = true)
+{
+    $message = '';
+    $type_file = $file['type'];
+    // format(type)
+    if ($type):
+        if (!in_array($type_file, TYPE_FILE)) $message = errors['format_file'];
+    endif;
+    // return result
+    if (!empty($message))
+        return response::unJson(500, false, ['domain' => DOMAIN, 'message' => $message]); // return result object
+    else
+        return true;
+}
