@@ -49,7 +49,7 @@
 <script>
     var btn_add_ticket = $("#add_ticket")
     let ticket_image = ''
-    var form_ticket_input = $("#form_ticket input textarea")
+    var form_ticket_input = $("#form_ticket input, #form_ticket textarea")
     $("#ticket_image").change(() => {
         ticket_image = $("#ticket_image").prop('files')[0]
     })
@@ -76,7 +76,7 @@
     })
 
     function ticket(data) {
-        btn_add_ticket.text('در‌حال ایجاد...')
+        btn_add_ticket.text('در‌حال ایجاد...').prop('disabled', true).addClass('disabled pointer-events btn_dot-flashing')
         form_ticket_input.prop('disabled', true)
         $.ajax({
             url: PATH + "/account/ticket_add",
@@ -100,11 +100,9 @@
             },
             error: () => {
                 alert_error('خطا در ایجاد تیکت')
-                btn_add_ticket.text('ایجاد تیکت')
-                form_ticket_input.prop('disabled', false)
             },
         }).done(() => {
-            btn_add_ticket.text('ایجاد تیکت')
+            btn_add_ticket.text('ایجاد تیکت').prop('disabled', false).removeClass('disabled pointer-events btn_dot-flashing')
             form_ticket_input.prop('disabled', false)
         })
     }

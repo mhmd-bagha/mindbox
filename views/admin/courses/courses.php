@@ -405,59 +405,70 @@
         var course_video_demo = $("#" + video_demo + "").val().trim()
         var course_image = $("#" + image + "").prop('files')[0]
         var teacher_name = $("#" + teacher_show_name + "")
-        // form data and append
-        var for_data = new FormData()
-        for_data.append('course_name', course_name)
-        for_data.append('course_labels', course_labels)
-        for_data.append('course_category', course_category)
-        for_data.append('course_level', course_level)
-        for_data.append('course_status', course_status)
-        for_data.append('course_type', course_type)
-        for_data.append('course_price', course_price)
-        for_data.append('course_description', course_description)
-        for_data.append('course_demo_video_type', course_demo_video_type)
-        for_data.append('course_video_demo', course_video_demo)
-        for_data.append('course_image', course_image)
-        for_data.append('id', id)
-        // disable btn and form
-        btn_course.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_success_dot-flashing')
-        form_course.prop('disabled', true)
-        $.ajax({
-            url: PATH + "/admin_courses/edit",
-            type: "POST",
-            data: for_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: (data) => {
-                let obj = JSON.parse(data)
-                let message = obj.data.message
-                let status_code = obj.statusCode
-                switch (status_code) {
-                    case 200:
-                        if (!obj.data.img_upload) {
-                            alert_success(message)
-                            setTimeout(() => location.reload(), 3000)
-                        } else {
-                            alert_success(message, 'success', 1400)
-                            uploadFile_ajax(course_image, obj.data.img_name, 'course_image', progressShow, loaded_n_total, progressBar, status_progress)
-                            setTimeout(() => alert_success("<?= warnings['file_uploading'] ?>", 'warning'), 1500)
-                        }
-                        break;
-                    case 500:
-                        alert_error(message)
-                        btn_course.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
-                        form_course.prop('disabled', false)
-                        teacher_name.prop('disabled', true) // after enabled all input in disabled
-                        break;
-                }
-            },
-            error: () => {
-                alert_error('خطا در اضافه کردن دوره')
-                btn_course.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
-                form_course.prop('disabled', false)
-                teacher_name.prop('disabled', true) // after enabled all input in disabled
-            },
-        })
+        if (!empty(course_name) && !empty(course_category) && !empty(course_labels) && !empty(course_level) && !empty(course_status) && !empty(course_type) && !empty(course_description) && !empty(course_video_demo)) {
+            // form data and append
+            var for_data = new FormData()
+            for_data.append('course_name', course_name)
+            for_data.append('course_labels', course_labels)
+            for_data.append('course_category', course_category)
+            for_data.append('course_level', course_level)
+            for_data.append('course_status', course_status)
+            for_data.append('course_type', course_type)
+            for_data.append('course_price', course_price)
+            for_data.append('course_description', course_description)
+            for_data.append('course_demo_video_type', course_demo_video_type)
+            for_data.append('course_video_demo', course_video_demo)
+            for_data.append('course_image', course_image)
+            for_data.append('id', id)
+            // disable btn and form
+            btn_course.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_success_dot-flashing')
+            form_course.prop('disabled', true)
+            $.ajax({
+                url: PATH + "/admin_courses/edit",
+                type: "POST",
+                data: for_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: (data) => {
+                    let obj = JSON.parse(data)
+                    let message = obj.data.message
+                    let status_code = obj.statusCode
+                    switch (status_code) {
+                        case 200:
+                            if (!obj.data.img_upload) {
+                                alert_success(message)
+                                setTimeout(() => location.reload(), 3000)
+                            } else {
+                                alert_success(message, 'success', 1400)
+                                uploadFile_ajax(course_image, obj.data.img_name, 'course_image', progressShow, loaded_n_total, progressBar, status_progress)
+                                setTimeout(() => alert_success("<?= warnings['file_uploading'] ?>", 'warning'), 1500)
+                            }
+                            break;
+                        case 500:
+                            alert_error(message)
+                            btn_course.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
+                            form_course.prop('disabled', false)
+                            teacher_name.prop('disabled', true) // after enabled all input in disabled
+                            break;
+                    }
+                },
+                error: () => {
+                    alert_error('خطا در اضافه کردن دوره')
+                    btn_course.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
+                    form_course.prop('disabled', false)
+                    teacher_name.prop('disabled', true) // after enabled all input in disabled
+                },
+            })
+        } else {
+            if (empty(course_name)) alert_error('فیلد نام دوره اجباری است')
+            if (empty(course_labels)) alert_error('برچسب دوره اجباری است')
+            if (empty(course_category)) alert_error('دسته بندی دوره اجباری است')
+            if (empty(course_level)) alert_error('فیلد سطح دوره اجباری است')
+            if (empty(course_status)) alert_error('فیلد وضعیت دوره اجباری است')
+            if (empty(course_type)) alert_error('نوع دوره اجباری است')
+            if (empty(course_description)) alert_error('فیلد توضیحات دوره اجباری است')
+            if (empty(course_video_demo)) alert_error('فیلد ویدئو دوره اجباری است')
+        }
     }
 </script>

@@ -1,6 +1,7 @@
 <?php
 require dirname(dirname(__DIR__)) . '/core/Model.php';
 require dirname(dirname(__DIR__)) . '/core/config.php';
+require dirname(dirname(__DIR__)) . '/core/bootstrap.php';
 
 class Create_table_ticket extends Db
 {

@@ -95,7 +95,7 @@
     })
 
     function edit_profile(first_name, last_name) {
-        btn_edit_profile.prop('disabled', true)
+        btn_edit_profile.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_dot-flashing')
         $.ajax({
             url: PATH + "/account/edit_profile",
             type: "POST",
@@ -118,7 +118,7 @@
                 alert_error('خطا در ویرایش اطلاعات')
             },
         }).done(() => {
-            btn_edit_profile.prop('disabled', false)
+            btn_edit_profile.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_dot-flashing')
         })
     }
 </script>

@@ -18,19 +18,19 @@ class model_courses extends Model
     public function courses($status_show = 'show')
     {
         $query = $this->Select("SELECT * FROM `courses` WHERE `status_show` = ? ORDER BY `id` DESC", [$status_show]);
-        return ($query) ? $query : false;
+        return $query;
     }
 
     public function category($id, $status_show = 'show')
     {
         $query = $this->Select("SELECT * FROM `courses` WHERE `category_id` = ? AND `status_show` = ? ORDER BY `id` DESC", [$id, $status_show]);
-        return ($query) ? $query : false;
+        return $query;
     }
 
     public function get_category($id, $status_show = 'show')
     {
-        $query = $this->Select("SELECT * FROM `categories` WHERE `id` = ? AND `status_show` = ? ORDER BY `id` DESC", [$id, $status_show]);
-        return ($query) ? $query : false;
+        $query = $this->Select("SELECT * FROM `categories` WHERE `id` = ? AND `status_show` = ? ORDER BY `id` DESC", [$id, $status_show], 'fetch');
+        return $query;
     }
 
     public function count_course_files($course_id, $status_show = 'show')

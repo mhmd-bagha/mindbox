@@ -30,13 +30,13 @@ class admin_courses extends Controller
             $course_description = $this->model->security($data['course_description']);
             $course_demo_video_type = $this->model->security($data['course_demo_video_type']);
             $course_video_demo = $this->model->security($data['course_video_demo']);
-            $course_image = $data_file['course_image'];
             $course_hash = $this->model->buildNum('courses', 'course_hash', time());
             $author = $this->model->security($data['author']);
             $ip = $_SERVER['REMOTE_ADDR'];
             $status_show = 'show';
             $time = $this->model->time_jalili_en();
-            if (isset($course_name, $course_teacher_name, $course_labels, $course_category, $course_level, $course_status, $course_type, $course_description, $course_video_demo, $course_image) && !empty($course_name) && !empty($course_teacher_name) && !empty($course_labels) && !empty($course_category) && !empty($course_level) && !empty($course_status) && !empty($course_type) && !empty($course_description) && !empty($course_video_demo) && !empty($course_image)) {
+            if (isset($course_name, $course_teacher_name, $course_labels, $course_category, $course_level, $course_status, $course_type, $course_description, $course_video_demo, $data_file) && !empty($course_name) && !empty($course_teacher_name) && !empty($course_labels) && !empty($course_category) && !empty($course_level) && !empty($course_status) && !empty($course_type) && !empty($course_description) && !empty($course_video_demo) && !empty($data_file)) {
+                $course_image = $data_file['course_image'];
                 $course_image_name = $course_image['name'];
                 $course_image_name = $this->model->add_name_file_time($course_image_name, 'image');
                 $course_image_tmp = $course_image['tmp_name'];
@@ -165,12 +165,16 @@ class admin_courses extends Controller
         $img_upload = false;
         $img_old_courses = $this->model->where('courses', 'id', $id)->course_image;
         if (isset($course_name, $course_labels, $course_category, $course_level, $course_status, $course_type, $course_description, $course_video_demo, $id) && !empty($course_name) && !empty($course_labels) && !empty($course_category) && !empty($course_level) && !empty($course_status) && !empty($course_type) && !empty($course_description) && !empty($course_video_demo) && !empty($id)) {
-            if ($course_type == 'money') {
-                if (!isset($course_price) && empty($course_price)) {
-                    echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد قیمت دوره اجباری است']);
-                    die();
-                }
-            }
+            switch ($course_type):
+                case "money":
+                    if (!isset($course_price) && empty($course_price)) {
+                        echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فیلد قیمت دوره اجباری است']);
+                        die();
+                    }
+                    break;
+                case "free":
+                    $course_price = null;
+            endswitch;
             if (isset($data_file) && !empty($data_file)) {
                 $data_file = $data_file['course_image'];
                 $img_name = $data_file['name'];

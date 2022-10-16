@@ -33,7 +33,7 @@
                         <div class="col-12 col-md-4 mb-3">
                             <label for="course_category" class="mb-1">دسته بندی دوره</label>
                             <select class="form-control" id="course_category">
-                                <option disabled selected>انتخاب کنید...</option>
+                                <option value="" disabled selected>انتخاب کنید...</option>
                                 <?php $categories = $this->model->where_all('categories', 'status_show', 'show');
                                 foreach ($categories as $category) { ?>
                                     <option value="<?= $category->id ?>"><?= $category->category_title ?></option>
@@ -43,7 +43,7 @@
                         <div class="col-12 col-md-4 mb-3">
                             <label for="course_level" class="mb-1">سطح دوره</label>
                             <select class="form-control" id="course_level">
-                                <option disabled selected>انتخاب کنید...</option>
+                                <option disabled selected value="">انتخاب کنید...</option>
                                 <option value="preliminary">مقدماتی</option>
                                 <option value="medium">متوسط</option>
                                 <option value="advanced">پیشرفته</option>
@@ -110,6 +110,7 @@
     var for_data = new FormData()
     var btn_course = $("#btn_course")
     var form_course = $("#form_course input, #form_course select, #form_course textarea")
+    var course_teacher_name_show = $("#course_teacher_name_show")
     $(document).ready(() => {
         btn_course.click(() => {
             var course_name = $("#course_name").val().trim()
@@ -124,25 +125,38 @@
             var course_demo_video_type = 'external_video'
             var course_video_demo = $("#course_video_demo").val().trim()
             var course_image = $("#course_image").prop('files')[0]
-            for_data.append('course_name', course_name)
-            for_data.append('course_teacher_name', course_teacher_name)
-            for_data.append('course_labels', course_labels)
-            for_data.append('course_category', course_category)
-            for_data.append('course_level', course_level)
-            for_data.append('course_status', course_status)
-            for_data.append('course_type', course_type)
-            for_data.append('course_price', course_price)
-            for_data.append('course_description', course_description)
-            for_data.append('course_demo_video_type', course_demo_video_type)
-            for_data.append('course_video_demo', course_video_demo)
-            for_data.append('course_image', course_image)
-            for_data.append('author', admin_id)
-            for_data.append('btn_course', true)
-            course(for_data)
+            if (!empty(course_name) && !empty(course_teacher_name) && !empty(course_labels) && !empty(course_level) && !empty(course_status) && !empty(course_type) && !empty(course_description) && !empty(course_video_demo) && !empty(course_image) && !empty(course_category)) {
+                for_data.append('course_name', course_name)
+                for_data.append('course_teacher_name', course_teacher_name)
+                for_data.append('course_labels', course_labels)
+                for_data.append('course_category', course_category)
+                for_data.append('course_level', course_level)
+                for_data.append('course_status', course_status)
+                for_data.append('course_type', course_type)
+                for_data.append('course_price', course_price)
+                for_data.append('course_description', course_description)
+                for_data.append('course_demo_video_type', course_demo_video_type)
+                for_data.append('course_video_demo', course_video_demo)
+                for_data.append('course_image', course_image)
+                for_data.append('author', admin_id)
+                for_data.append('btn_course', true)
+                course(for_data, course_status)
+            } else {
+                if (empty(course_name)) alert_error('فیلد نام دوره اجباری است')
+                if (empty(course_teacher_name)) alert_error('نام مدرس دوره اجباری است')
+                if (empty(course_labels)) alert_error('برچسب دوره اجباری است')
+                if (empty(course_category)) alert_error('دسته بندی دوره اجباری است')
+                if (empty(course_level)) alert_error('فیلد سطح دوره اجباری است')
+                if (empty(course_status)) alert_error('فیلد وضعیت دوره اجباری است')
+                if (empty(course_type)) alert_error('نوع دوره اجباری است')
+                if (empty(course_description)) alert_error('فیلد توضیحات دوره اجباری است')
+                if (empty(course_video_demo)) alert_error('فیلد ویدئو دوره اجباری است')
+                if (empty(course_image)) alert_error('تصویر دوره اجباری است')
+            }
         })
     })
 
-    function course(data) {
+    function course(data, course_status_disabled) {
         btn_course.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_success_dot-flashing')
         form_course.prop('disabled', true)
         $.ajax({
@@ -175,7 +189,8 @@
         }).done(() => {
             btn_course.prop('disabled', false).text('ثبت').removeClass('disabled pointer-events btn_success_dot-flashing')
             form_course.prop('disabled', false)
-
+            course_teacher_name_show.prop('disabled', true)
+            course_status_disabled.prop('disabled', true)
         })
     }
 </script>

@@ -17,7 +17,7 @@
                                 <a href="user-add-ticket.php" class="btn-blue" data-bs-toggle="modal"
                                    data-bs-target="#wallet-charging">شارژ حساب</a>
                                 <!-- modal wallet charging -->
-                                <div class="modal fade" id="wallet-charging" tabindex="-1">
+                                <div class="modal fade" id="wallet-charging" tabindex="-1" data-bs-backdrop="static">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">

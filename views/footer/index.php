@@ -29,7 +29,7 @@ if ($get_footer):
         <!-- images -->
         <div class="col-12 col-md-8 col-xl-6 col-xxl-4 order-2 order-md-2 order-xxl-2 mb-4 mb-md-0">
             <div class="row">
-                <?php if ($get_footer): foreach ($footer->symbols as $symbol): ?>
+                <?php if ($get_footer && !empty($footer->symbols)): foreach ($footer->symbols as $symbol): ?>
                     <div class="col-12 col-sm-4 text-sm-end mb-2">
                         <a href="#">
                             <img src="<?php echo DOMAIN ?>/public/images/public-images/logo-symbol/<?= $symbol ?>/<?= $symbol ?>"
