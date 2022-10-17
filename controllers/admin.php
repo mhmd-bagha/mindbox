@@ -59,10 +59,7 @@ class admin extends Controller
         $count_all_comments = $this->model->count_where('comments', 'comment_type', 'user');
         $count_all_courses = $this->model->count_all_table('courses');
         $count_all_tickets = $this->tickets->count_all_ticket();
-        $get_server_memory_usage = $this->get_server_memory_usage();
-        $get_server_cpu_usage = $this->get_server_cpu_usage();
-        $get_free_disk = $this->get_free_disk();
-        $this->view('admin/index', compact('end_comments', 'end_users', 'count_all_users', 'count_all_comments', 'count_all_courses', 'count_all_tickets', 'get_server_memory_usage', 'get_server_cpu_usage', 'get_free_disk'), null, null);
+        $this->view('admin/index', compact('end_comments', 'end_users', 'count_all_users', 'count_all_comments', 'count_all_courses', 'count_all_tickets'), null, null);
     }
 
     private function isAdmin($login = false)
@@ -137,7 +134,8 @@ class admin extends Controller
     {
         $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css', 'vendor/tom-select/tom-select.css'];
-        $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/lozad/lozad.min.js', 'vendor/ckeditor/ckeditor.js', 'vendor/tom-select/tom-select.complete.min.js', 'js/admin.js'];
+        $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/lozad/lozad.min.js', 'vendor/tom-select/tom-select.complete.min.js', 'js/admin.js'];
+        $this->scripts_cdn = ['http://cdn.ckeditor.com/4.20.0/full/ckeditor.js'];
         $this->title = 'ادمین | دوره‌ها';
         $courses_all = $this->courses->all();
         $this->view('admin/courses/admin-courses', compact('courses_all'), null, null);
@@ -209,7 +207,8 @@ class admin extends Controller
     {
         $this->isAdmin();
         $this->links_path = ['vendor/datatables/datatables.min.css'];
-        $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'vendor/ckeditor/ckeditor.js', 'js/admin.js'];
+        $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
+        $this->scripts_cdn = ['http://cdn.ckeditor.com/4.20.0/full/ckeditor.js'];
         $this->title = 'ادمین | صفحات';
         $rules = $this->information->getAll('rules');
         $this->view('admin/pages/admin-pages', compact('rules'), null, null);
@@ -378,34 +377,5 @@ class admin extends Controller
                 'domain' => DOMAIN,
                 'message' => 'داده های ارسالی ناقص است'
             ]);
-    }
-
-    function get_server_memory_usage()
-    {
-        $si_prefix = array('بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت');
-        $exec_free = explode("\n", trim(shell_exec('free')));
-        $get_mem = preg_split("/[\s]+/", $exec_free[1]);
-        $get_mem = ($get_mem[2] * 1024);
-        $base = 1024;
-        $class = min((int)log(round($get_mem, 1), $base), count($si_prefix) - 1);
-        $mem = sprintf('%1.2f', $get_mem / pow($base, $class)) . ' ' . $si_prefix[$class];
-        return $mem;
-    }
-
-    function get_server_cpu_usage()
-    {
-        $exec_loads = sys_getloadavg();
-        $exec_cores = trim(shell_exec("grep -P '^processor' /proc/cpuinfo|wc -l"));
-        $cpu = round($exec_loads[1] / ($exec_cores + 1) * 100, 0);
-        return $cpu;
-    }
-
-    public function get_free_disk()
-    {
-        $bytes = disk_free_space(".");
-        $si_prefix = array('بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت', 'ترابایت', 'هگزابایت', 'زتابایت', 'یوتابایت');
-        $base = 1024;
-        $class = min((int)log($bytes, $base), count($si_prefix) - 1);
-        return sprintf('%1.2f', $bytes / pow($base, $class)) . ' ' . $si_prefix[$class];
     }
 }

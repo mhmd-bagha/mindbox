@@ -2,7 +2,6 @@
 session_start();
 ob_start();
 ini_set('error_reporting', 'On');
-error_reporting(E_ERROR);
 function PhpError($error_code, $error_msg, $error_file, $error_line)
 {
     echo "<br/><b>Error Message: </b>{$error_msg}<br/>";

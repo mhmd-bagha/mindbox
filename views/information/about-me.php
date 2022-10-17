@@ -15,7 +15,7 @@
             </div>
         </div>
     <?php } ?>
-    <?php if (is_array($data['benefits']) || is_object($data['benefits'])) { ?>
+    <?php if (is_array($data['benefits']) && !empty($data['benefits'])) { ?>
         <div class="container-fluid bg-anti-flash-white py-5">
             <div class="container">
                 <!-- title -->

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-12 col-md-6 mb-4">
                 <p>نام و نام خانوادگی</p>
-                <h6 class="fw-bold"><?= $get_user->first_name . ' ' . $get_user->first_name ?></h6>
+                <h6 class="fw-bold"><?= $get_user->first_name . ' ' . $get_user->last_name ?></h6>
             </div>
             <div class="col-12 col-md-6 mb-4">
                 <p>ایمیل</p>

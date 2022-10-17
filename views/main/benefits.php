@@ -1,10 +1,10 @@
-<?php if (is_array($data['benefits']) || is_object($data['benefits'])) { ?>
+<?php $benefits = $data['benefits']; if (is_array($benefits) || is_object($benefits) && !empty($benefits)) { ?>
     <div class="container-fluid bg-anti-flash-white py-5">
         <div class="container">
             <!-- title -->
             <h3 class="fw-bold text-center">مزایای دوره های مایندباکس</h3>
             <div class="row py-4">
-                <?php foreach ($data['benefits'] as $benefit) {
+                <?php foreach ($benefits as $benefit) {
                     $benefit = json_decode($benefit->information_data); ?>
                     <!-- section -->
                     <div class="col-12 col-md-6 mb-4">
