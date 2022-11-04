@@ -1,3 +1,8 @@
+<?php
+if (Model::SessionGet('user')):
+    $get_user = $this->model->where('users', 'user_email', $this->model->decrypt(Model::SessionGet('user')));
+endif;
+?>
 <!-- course meetings -->
 <div class="card rounded-3 border-0 box-shadow mb-5">
     <div class="card-body content-session hide-content">
@@ -31,8 +36,7 @@
                                 <?php switch ($course_file->course_type) {
                                     case "free":
                                         if (Model::SessionGet('user')) {
-                                            $email = $this->model->decrypt(Model::SessionGet('user'));
-                                            $get_user = $this->model->where('users', 'user_email', $email); ?>
+                                            $email = $this->model->decrypt(Model::SessionGet('user')); ?>
                                             <a href="<?php echo DOMAIN ?>/courses/download/<?= $this->model->encrypt($course_details->id) . '/' . $this->model->encrypt($get_user->id) . '/' . $this->model->encrypt($course_file->id) ?>"
                                                class="course-icon-download active ms-3" target="_blank"><i
                                                         class="fa-solid fa-download"></i></a>

@@ -26,13 +26,18 @@ class api extends Controller
             $my_course = $my_course[0];
             $courses_id[] = $my_course->id;
         }
-        return in_array($course_id, $courses_id);
-//        echo (in_array($course_id, $courses_id)) ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'true']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'false']);
+        $exist_course_user = in_array($course_id, $courses_id);
+        return $exist_course_user ? $exist_course_user : false;
     }
 
     public function download_file_course($url, $file_name)
     {
-        $download_file = file_put_contents('' . $file_name, file_get_contents($url));
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $file_name . '"');
+        header('Content-Length: ' . filesize($url));
+        flush();
+        $download_file = readfile($url, true);
         return (bool)$download_file;
     }
 
