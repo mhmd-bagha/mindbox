@@ -43,9 +43,8 @@ $ticket_chats = $data['chat_ticket'] ?>
                                     <!-- image -->
                                     <?php if ($ticket_chat->ticket_image){ ?>
                                     <script>
-                                        $(document).ready(() => {
-                                            var file = new File(["<?= $ticket_chat->ticket_image ?>"], "<?= DL_DOMAIN ?>/public/images/tickets/<?= $ticket_chat->ticket_image ?>/<?= $ticket_chat->ticket_image ?>")
-                                            replace_text(formatBytes(file.size), '#size-file-<?= $ticket_chat->id ?>')
+                                        $(document).ready(()=>{
+                                            GetFile('<?= $ticket_chat->ticket_image ?>', '<?= DL_DOMAIN ?>/public/images/tickets/<?= $ticket_chat->ticket_image ?>/<?= $ticket_chat->ticket_image ?>', '#size-file-<?= $ticket_chat->id ?>')
                                         })
                                     </script>
                                 <?php } ?>
@@ -99,12 +98,6 @@ $ticket_chats = $data['chat_ticket'] ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <script>
-                                        $(document).ready(() => {
-                                            var file = new File(["<?= $ticket_chat->ticket_image ?>"], "<?= DL_DOMAIN ?>/public/images/tickets/<?= $ticket_chat->ticket_image ?>/<?= $ticket_chat->ticket_image ?>")
-                                            replace_text(formatBytes(file.size), '#size-file-<?= $ticket_chat->id ?>')
-                                        })
-                                    </script>
                                 <?php } ?>
                                 <?php break;
                                 case "admin":

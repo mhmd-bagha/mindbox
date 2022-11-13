@@ -91,7 +91,7 @@
                                             data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img data-src="<?= DOMAIN ?>/public/images/category/<?= $category->category_image . '/' . $category->category_image ?>"
+                                    <img data-src="<?= DL_DOMAIN ?>/public/images/category/<?= $category->category_image . '/' . $category->category_image ?>"
                                          alt=""
                                          class="img-fluid lozad">
                                 </div>

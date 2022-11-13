@@ -10,7 +10,7 @@
                         <div class="card bg-transparent border-0">
                             <div class="card-body">
                                 <a href="<?php echo DOMAIN ?>/courses/category/<?php echo $category->id ?>">
-                                    <img data-src="public/images/category/<?php echo $category->category_image . '/' . $category->category_image ?>"
+                                    <img data-src="<?php echo DL_DOMAIN ?>/public/images/category/<?php echo $category->category_image . '/' . $category->category_image ?>"
                                          alt="<?php echo $category->category_title ?>" class="img-fluid owl-lazy"/>
                                     <h6 class="fw-bold text-dark text-truncate"><?php echo $category->category_title ?></h6>
                                 </a>

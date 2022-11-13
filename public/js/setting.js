@@ -28,3 +28,8 @@ function formatBytes(t, e = 1) {
     let a = Math.floor(Math.log(t) / Math.log(1024));
     return parseFloat((t / Math.pow(1024, a)).toFixed(e < 0 ? 0 : e)) + " " + ["بایت", "کیلوبایت", "مگابایت", "گیگابایت"][a]
 }
+
+function GetFile(file_name, file_address, el) {
+    var file = new File([file_name], file_address)
+    replace_text(formatBytes(file.size), el)
+}

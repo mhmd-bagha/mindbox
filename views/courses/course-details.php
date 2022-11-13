@@ -241,7 +241,7 @@
                                 دوره <?php echo $course_details->course_title ?></h5>
                             <hr>
                             <!-- course image -->
-                            <img src="<?php echo DOMAIN ?>/public/images/course/<?php echo $course_details->course_image . '/' . $course_details->course_image ?>"
+                            <img src="<?php echo DL_DOMAIN ?>/public/images/course/<?php echo $course_details->course_image . '/' . $course_details->course_image ?>"
                                  alt="" class="card-img-top">
                             <!-- course description -->
                             <div class="course-description py-4"><?php echo $course_details->course_description ?></div>

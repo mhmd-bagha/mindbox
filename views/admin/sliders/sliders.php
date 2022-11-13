@@ -5,7 +5,7 @@
             <div class="card border-0 shadow-sm h-100">
                 <!-- image slider -->
                 <a href="<?= $slider->slider_link ?>" target="_blank"><img
-                            data-src="<?= DOMAIN ?>/public/images/sliders/<?= $slider->slider_image . '/' . $slider->slider_image ?>"
+                            data-src="<?= DL_DOMAIN ?>/public/images/sliders/<?= $slider->slider_image . '/' . $slider->slider_image ?>"
                             alt="<?= $slider->slider_title ?>"
                             class="card-img-top lozad"/></a>
                 <div class="card-body">

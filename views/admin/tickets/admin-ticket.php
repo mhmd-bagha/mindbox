@@ -1,13 +1,13 @@
 <div class="container-fluid">
     <!-- sidebar -->
     <?php
-    require_once("admin-menu.php");
+    require_once(DIR_ROOT . "views/admin/admin-menu.php");
     ?>
     <!-- content wrapper -->
     <section class="content-wrapper">
         <!-- header content -->
         <?php
-        require_once("admin-header.php");
+        require_once(DIR_ROOT . "views/admin/admin-header.php");
         ?>
         <!-- main content -->
         <section class="main-content px-3">
@@ -18,8 +18,8 @@
             </div>
             <hr>
             <div class="card border-0 shadow-sm">
-                <?php require 'section_admin/ticket_information.php' ?>
-                <?php require 'section_admin/ticket_chat.php' ?>
+                <?php require 'ticket_information.php' ?>
+                <?php require 'ticket_chat.php' ?>
             </div>
         </section>
     </section>

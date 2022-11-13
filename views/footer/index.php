@@ -14,7 +14,7 @@ if ($get_footer):
         <!-- logo -->
         <div class="col-12 col-md-4 col-xl-6 col-xxl-4 order-1 order-md-1 order-xxl-0 mb-4 mb-md-0">
             <a href="index.php"><img
-                        src="<?php echo DOMAIN ?>/public/images/public-images/logo/logo-footer.png/logo-footer.png"
+                        src="<?php echo DL_DOMAIN ?>/public/images/public-images/logo/logo-footer.png/logo-footer.png"
                         alt="" class="img-fluid"></a>
         </div>
         <!-- about -->
@@ -32,8 +32,8 @@ if ($get_footer):
                 <?php if ($get_footer && !empty($footer->symbols)): foreach ($footer->symbols as $symbol): ?>
                     <div class="col-12 col-sm-4 text-sm-end mb-2">
                         <a href="#">
-                            <img src="<?php echo DOMAIN ?>/public/images/public-images/logo-symbol/<?= $symbol ?>/<?= $symbol ?>"
-                                 alt="نمادها" class="bg-white rounded p-2" width="120" height="120"></a>
+                            <img src="<?php echo DL_DOMAIN ?>/public/images/public-images/logo-symbol/<?= $symbol ?>/<?= $symbol ?>"
+                                 alt="نماد" class="bg-white rounded p-2" width="120" height="120"></a>
                     </div>
                 <?php endforeach; endif; ?>
             </div>

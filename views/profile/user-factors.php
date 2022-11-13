@@ -67,7 +67,7 @@
                                                                 <div class="col-12 col-sm-6 mb-4 mb-sm-0">
                                                                     <a href="<?= DOMAIN . "/courses/course_details/{$my_course->id}" ?>"
                                                                        target="_blank"><img
-                                                                                src="<?= DOMAIN . '/public/images/course/' . $my_course->course_image . '/' . $my_course->course_image ?>"
+                                                                                src="<?= DL_DOMAIN . '/public/images/course/' . $my_course->course_image . '/' . $my_course->course_image ?>"
                                                                                 alt="<?= $my_course->course_title ?>"
                                                                                 class="img-fluid lozad"></a>
                                                                 </div>

@@ -12,7 +12,7 @@
                     <div class="item">
                         <div class="card course-card h-100">
                             <a href="<?php echo DOMAIN ?>/courses/course_details/<?php echo $course_discounts->id ?>"><img
-                                        data-src="<?php echo DOMAIN ?>/public/images/course/<?php echo $course_discounts->course_image . '/' . $course_discounts->course_image ?>"
+                                        data-src="<?php echo DL_DOMAIN ?>/public/images/course/<?php echo $course_discounts->course_image . '/' . $course_discounts->course_image ?>"
                                         alt="<?php echo $course_discounts->course_title ?>" data-alt="<?php echo $course_discounts->course_title ?>"
                                         class="card-img-top owl-lazy"></a>
                             <div class="card-body">

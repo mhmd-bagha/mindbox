@@ -4,7 +4,7 @@
             <!-- section -->
             <div class="col-12 col-sm-4">
                 <div class="card border-0 text-center bg-transparent">
-                    <div class="card-body d-flex align-items-end  justify-content-center">
+                    <div class="card-body d-flex align-items-end justify-content-center">
                         <img src="public/images/public-images/svg/users.svg" alt="" class="" width="140"
                              height="140">
                         <div class="d-none d-lg-block">
@@ -23,7 +23,7 @@
             <!-- section -->
             <div class="col-12 col-sm-4">
                 <div class="card border-0 text-center bg-transparent">
-                    <div class="card-body d-flex align-items-end  justify-content-center">
+                    <div class="card-body d-flex align-items-end justify-content-center">
                         <img src="public/images/public-images/svg/minutes.svg" alt="" class="" width="140"
                              height="140">
                         <div class="d-none d-lg-block">
@@ -42,7 +42,7 @@
             <!-- section -->
             <div class="col-12 col-sm-4">
                 <div class="card border-0 text-center bg-transparent">
-                    <div class="card-body d-flex align-items-end  justify-content-center">
+                    <div class="card-body d-flex align-items-end justify-content-center">
                         <img src="public/images/public-images/svg/courses.svg" alt="" class="" width="140"
                              height="140">
                         <div class="d-none d-lg-block">

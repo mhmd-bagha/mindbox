@@ -13,7 +13,7 @@ if ($_getHeader_setting):
         <!-- logo -->
         <div class="col-lg-2 col-xxl-1 d-none d-lg-block text-center">
             <a href="<?php echo DOMAIN ?>"><img
-                        src="<?php echo DOMAIN ?>/public/images/public-images/logo/<?= $_getHeader_setting ? $header_setting->image . '/' . $header_setting->image : 'mindbox.svg/mindbox.svg'; ?>"
+                        src="<?php echo DL_DOMAIN ?>/public/images/public-images/logo/<?= $_getHeader_setting ? $header_setting->image . '/' . $header_setting->image : 'mindbox.svg/mindbox.svg'; ?>"
                         alt="mindbox"
                         class="img-fluid"></a>
         </div>

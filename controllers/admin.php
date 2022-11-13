@@ -179,7 +179,7 @@ class admin extends Controller
         $this->scripts_path = ['vendor/datatables/datatables.min.js', 'js/datatable-config.js', 'js/admin.js'];
         $this->title = 'ادمین | تیکت‌ها';
         $ticket_all = $this->tickets->get_tickets();
-        $this->view('admin/admin-tickets', compact('ticket_all'), null, null);
+        $this->view('admin/tickets/admin-tickets', compact('ticket_all'), null, null);
     }
 
     public function ticket(int $id = null)
@@ -190,7 +190,7 @@ class admin extends Controller
         $get_ticket = $this->tickets->where('tickets', 'id', $id);
         $chat_ticket = $this->tickets->get_ticket($id);
         $this->title = "ادمین | تیکت {$get_ticket->ticket_title}";
-        $this->view('admin/admin-ticket', compact('get_ticket', 'chat_ticket'), null, null);
+        $this->view('admin/tickets/admin-ticket', compact('get_ticket', 'chat_ticket'), null, null);
     }
 
     public function menus()

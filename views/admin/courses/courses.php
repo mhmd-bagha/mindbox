@@ -349,7 +349,7 @@
                                 <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                                <img data-src="<?= DOMAIN ?>/public/images/course/<?= $course->course_image ?>/<?= $course->course_image ?>"
+                                <img data-src="<?= DL_DOMAIN ?>/public/images/course/<?= $course->course_image ?>/<?= $course->course_image ?>"
                                      alt="<?= $course->course_title ?>" class="img-fluid lozad">
                                 <div class="card my-3">
                                     <div class="card-body text-wrap text-justify">

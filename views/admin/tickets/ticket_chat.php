@@ -6,9 +6,8 @@
             <!-- image -->
             <?php if ($ticket_chat->ticket_image){ ?>
             <script>
-                $(document).ready(() => {
-                    var file_<?= $ticket_chat->id ?> = new File(["<?= $ticket_chat->ticket_image ?>"], "<?= DL_DOMAIN ?>/public/images/tickets/<?= $ticket_chat->ticket_image ?>/<?= $ticket_chat->ticket_image ?>")
-                    replace_text(formatBytes(file_<?= $ticket_chat->id ?>.size), '#size-file-<?= $ticket_chat->id ?>')
+                $(document).ready(()=>{
+                    GetFile("<?= $ticket_chat->ticket_image ?>", "<?= DL_DOMAIN ?>/public/images/tickets/<?= $ticket_chat->ticket_image ?>/<?= $ticket_chat->ticket_image ?>", '#size-file-<?= $ticket_chat->id ?>')
                 })
             </script>
         <?php } ?>
@@ -61,12 +60,6 @@
                     </div>
                 </div>
             </div>
-            <script>
-                $(document).ready(() => {
-                    var file_<?= $ticket_chat->id ?> = new File(["<?= $ticket_chat->ticket_image ?>"], "<?= DL_DOMAIN ?>/public/images/tickets/<?= $ticket_chat->ticket_image ?>/<?= $ticket_chat->ticket_image ?>")
-                    replace_text(formatBytes(file_<?= $ticket_chat->id ?>.size), '#size-file-<?= $ticket_chat->id ?>')
-                })
-            </script>
         <?php } ?>
         <?php break;
         case "admin":
