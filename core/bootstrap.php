@@ -32,3 +32,6 @@ define('EMAIL_CONTACT', 'mabrahimibagha@gmail.com');
 // captcha
 define('SECRETKEY_CAPTCHA', '6LchlXoiAAAAAByWxTrTNQ776g4fZoRAnQS96578');
 define('KEY_RECAPTCHA', '6LchlXoiAAAAAMIJm9C3QJXH4TzxUHmyhsRek8BO');
+// site name fa and en
+define('SITE_NAME_FA', 'بی بست'); // fa
+define('SITE_NAME_EN', 'bebest'); // en

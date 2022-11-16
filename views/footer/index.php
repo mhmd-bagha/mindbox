@@ -42,11 +42,12 @@ if ($get_footer):
     <!-- social networks -->
     <div class="social-networks text-center">
         <?php foreach ($social_networks as $social_network) { ?>
-            <a href="<?= $social_network->network_address ?>" title="<?= $social_network->network_name ?>" target="_blank"><i
+            <a href="<?= $social_network->network_address ?>" title="<?= $social_network->network_name ?>"
+               target="_blank"><i
                         class="<?= $social_network->network_icon ?>"></i></a>
         <?php } ?>
     </div>
 </div>
 <div class="container-fluid text-center py-4">
-    <span>تمامی حقوق مادی و معنوی این سایت متعلق به مایندباکس می باشد و هرگونه کپی برداری غیرقانونی محسوب خواهد شد.</span>
+    <span>تمامی حقوق مادی و معنوی این سایت متعلق به <?= SITE_NAME_FA ?> می باشد و هرگونه کپی برداری غیرقانونی محسوب خواهد شد.</span>
 </div>

@@ -2,7 +2,7 @@
     <div class="container-fluid bg-anti-flash-white py-5">
         <div class="container">
             <!-- title -->
-            <h3 class="fw-bold text-center">مزایای دوره های مایندباکس</h3>
+            <h3 class="fw-bold text-center">مزایای دوره های <?= SITE_NAME_FA ?></h3>
             <div class="row py-4">
                 <?php foreach ($benefits as $benefit) {
                     $benefit = json_decode($benefit->information_data); ?>

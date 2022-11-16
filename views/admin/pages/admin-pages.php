@@ -21,7 +21,7 @@
                             <button class="nav-link fw-bold active" data-bs-toggle="pill" data-bs-target="#tab-pages" type="button">صفحات</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#tab-mindbox" type="button">مایندباکس</button>
+                            <button class="nav-link fw-bold" data-bs-toggle="pill" data-bs-target="#tab-mindbox" type="button">بی بست</button>
                         </li>
                     </ul>
                     <div class="tab-content">

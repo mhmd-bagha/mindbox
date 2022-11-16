@@ -62,13 +62,13 @@
                         } ?></td>
                     <td><?php switch ($course->course_level) {
                             case "preliminary":
-                                echo "مقدماتی";
+                                echo "نقره‌ای";
                                 break;
                             case "medium":
-                                echo "متوسط";
+                                echo "طلایی";
                                 break;
                             case "advanced":
-                                echo "پیشرفته";
+                                echo "الماسی";
                                 break;
                         } ?></td>
                     <td><?php switch ($course->course_status) {
@@ -192,13 +192,13 @@
                                                 <option value="<?= $course->course_level ?>"
                                                         selected><?php switch ($course->course_level) {
                                                         case "preliminary":
-                                                            echo "مقدماتی";
+                                                            echo "نقره‌ای";
                                                             break;
                                                         case "medium":
-                                                            echo "متوسط";
+                                                            echo "طلایی";
                                                             break;
                                                         case "advanced":
-                                                            echo "پیشرفته";
+                                                            echo "الماسی";
                                                             break;
                                                     } ?></option>
                                                 <?php switch ($course->course_level):

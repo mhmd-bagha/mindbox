@@ -139,8 +139,7 @@
                 for_data.append('course_video_demo', course_video_demo)
                 for_data.append('course_image', course_image)
                 for_data.append('author', admin_id)
-                for_data.append('btn_course', true)
-                course(for_data, course_status)
+                course(for_data, course_status, course_image)
             } else {
                 if (empty(course_name)) alert_error('فیلد نام دوره اجباری است')
                 if (empty(course_teacher_name)) alert_error('نام مدرس دوره اجباری است')
@@ -156,7 +155,7 @@
         })
     })
 
-    function course(data, course_status_disabled) {
+    function course(data, course_status_disabled, image) {
         btn_course.prop('disabled', true).text('در حال بررسی...').addClass('disabled pointer-events btn_success_dot-flashing')
         form_course.prop('disabled', true)
         $.ajax({
@@ -172,11 +171,9 @@
                 let status_code = obj.statusCode
                 switch (status_code) {
                     case 200:
-                        $("#add_course").modal('hide')
-                        alert_success(message)
-                        setTimeout(() => {
-                            location.reload()
-                        }, 3000)
+                        alert_success(message, 'success', 1400)
+                        uploadFile_ajax(image, obj.data.img_name, 'course_image')
+                        setTimeout(() => alert_success("<?= warnings['file_uploading'] ?>", 'warning'), 1500)
                         break;
                     case 500:
                         alert_error(message)

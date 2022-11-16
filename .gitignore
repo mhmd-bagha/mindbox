@@ -1,4 +1,5 @@
-# Exclude all files from being added to the repository
 *
-# Except itself
 !.gitignore
+.idea
+.git
+vendor

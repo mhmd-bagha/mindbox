@@ -23,13 +23,13 @@
                                     } ?></span>
                                 <span class="left"><?php switch ($course_details->course_level) {
                                         case 'preliminary':
-                                            echo 'مبتدی';
+                                            echo 'نقره‌ای';
                                             break;
                                         case 'medium':
-                                            echo 'متوسط';
+                                            echo 'طلایی';
                                             break;
                                         case 'advanced':
-                                            echo 'پیشرفته';
+                                            echo 'الماسی';
                                             break;
                                     } ?></span>
                             </div>

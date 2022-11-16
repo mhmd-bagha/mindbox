@@ -8,9 +8,9 @@ if (is_array($stories) || is_object($stories)){ ?>
         <div class="card p-3 bg-transparent">
             <div class="card-body">
                 <!-- title history -->
-                <h4 class="history-title mb-3"><?= $story->stories_title ?></h4>
+                <h4 class="history-title mb-3 text-orange"><?= $story->stories_title ?></h4>
                 <!-- text history -->
-                <p class="history-text text-muted"><?= $story->stories_description ?></p>
+                <p class="history-text text-dark"><?= $story->stories_description ?></p>
             </div>
         </div>
     </div>

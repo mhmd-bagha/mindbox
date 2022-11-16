@@ -1,7 +1,7 @@
 <main>
     <div class="container-fluid py-5">
         <div class="container">
-            <h5 class="fw-bold pb-4">دوره های آموزشی مایندباکس</h5>
+            <h5 class="fw-bold pb-4">دوره های آموزشی <?= SITE_NAME_FA ?></h5>
             <div class="row">
                 <?php require 'filters.php' ?>
                 <!-- courses -->

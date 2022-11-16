@@ -1,11 +1,9 @@
 <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 35" width="115" height="35">
-	<title>New Project</title>
 	<style>
 		tspan { white-space:pre } 
 		.t0 { font-size: 24px;fill: #0c4a6e;font-weight: 700;font-family: "DejaVuSans-Bold", "DejaVu Sans" } 
 	</style>
-	<text id="Mindbox" style="transform: matrix(1,0,0,1,57,25.544)" >
-		<tspan x="-57.8" y="0" class="t0">M</tspan><tspan  y="0" class="t0">i</tspan><tspan  y="0" class="t0">n</tspan><tspan  y="0" class="t0">d</tspan><tspan  y="0" class="t0">b</tspan><tspan  y="0" class="t0">o</tspan><tspan  y="0" class="t0">x</tspan><tspan  y="0" class="t0">
-</tspan>
+	<text id="Bebest" style="transform: matrix(1,0,0,1,57,25.544)" >
+		<tspan x="-57.8" y="0" class="t0">B</tspan><tspan  y="0" class="t0">e</tspan><tspan  y="0" class="t0">b</tspan><tspan  y="0" class="t0">e</tspan><tspan  y="0" class="t0">s</tspan><tspan  y="0" class="t0">t</tspan>
 	</text>
 </svg>

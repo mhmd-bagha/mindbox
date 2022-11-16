@@ -11,7 +11,8 @@
                     </div>
                     <!-- title -->
                     <div>
-                        <h3 class="fw-bold"><i class="fa-solid fa-caret-left me-2"></i>ثبت نام در مایندباکس</h3>
+                        <h3 class="fw-bold"><i class="fa-solid fa-caret-left me-2"></i>ثبت نام در <?= SITE_NAME_FA ?>
+                        </h3>
                     </div>
                     <hr class="my-4">
                     <!-- form -->

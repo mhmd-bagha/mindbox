@@ -2,7 +2,7 @@
     <!-- categories bretz -->
     <div class="container-fluid bg-anti-flash-white py-5">
         <div class="container text-center">
-            <h3 class="fw-bold">دسته بندی ها مایندباکس</h3>
+            <h3 class="fw-bold">دسته بندی ها <?= SITE_NAME_FA ?></h3>
             <div class="owl-carousel owl-theme" id="categories-bretz">
                 <!-- category -->
                 <?php foreach ($data['categories'] as $category) { ?>
