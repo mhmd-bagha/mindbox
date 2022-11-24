@@ -1,10 +1,11 @@
-<?php $benefits = $data['benefits']; if (is_array($benefits) || is_object($benefits) && !empty($benefits)) { ?>
+<?php $benefits = $data['benefits'];
+if (!empty($benefits)) : ?>
     <div class="container-fluid bg-anti-flash-white py-5">
         <div class="container">
             <!-- title -->
             <h3 class="fw-bold text-center">مزایای دوره های <?= SITE_NAME_FA ?></h3>
             <div class="row py-4">
-                <?php foreach ($benefits as $benefit) {
+                <?php foreach ($benefits as $benefit) :
                     $benefit = json_decode($benefit->information_data); ?>
                     <!-- section -->
                     <div class="col-12 col-md-6 mb-4">
@@ -16,8 +17,8 @@
                             </div>
                         </div>
                     </div>
-                <?php } ?>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
-<?php } ?>
+<?php endif; ?>
