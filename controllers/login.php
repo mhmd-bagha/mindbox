@@ -17,7 +17,7 @@ class login extends Controller
 
     public function index()
     {
-        $this->title = 'ورود | مایندباکس';
+        $this->title = 'ورود | بی بست';
         $this->view('login/index', null, null, null);
     }
 

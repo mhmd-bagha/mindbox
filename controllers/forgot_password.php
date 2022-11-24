@@ -15,7 +15,7 @@ class forgot_password extends Controller
 
     public function index()
     {
-        $this->title = 'فراموشی رمز عبور | مایندباکس';
+        $this->title = 'فراموشی رمز عبور | بی بست';
         $this->view('pass-forgot/forget-password', '', null, null);
     }
 
@@ -25,7 +25,7 @@ class forgot_password extends Controller
         $email = $this->model->decrypt($email);
         $get_user = $this->model->where('users', 'user_email', $email);
         if (!$get_user) Model::error404();
-        $this->title = 'فراموشی رمز عبور | مایندباکس';
+        $this->title = 'فراموشی رمز عبور | بی بست';
         $this->view('pass-forgot/change-password', '', null, null);
     }
 
@@ -48,7 +48,7 @@ class forgot_password extends Controller
             die(); endif;
         $link_email = DOMAIN . "/forgot_password/accept/{$email_hash}";
         $template_email = helper::forgotPassword($link_email);
-        $send = $email_sender->send($email, $email, 'بازیابی رمز عبور | مایندباکس', $template_email);
+        $send = $email_sender->send($email, $email, 'بازیابی رمز عبور | بی بست', $template_email);
         echo $send ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'ایمیل تاییدیه ارسال شد']) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در ارسال ایمیل تاییدیه']);
     }
 

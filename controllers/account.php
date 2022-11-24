@@ -37,14 +37,14 @@ class account extends Controller
     public function change_password()
     {
         $this->isUser();
-        $this->title = '';
+        $this->title = 'تغییر رمز عبور';
         $this->view('profile/user-change-password');
     }
 
     public function wallet()
     {
         $isUser = $this->isUser();
-        $this->title = '';
+        $this->title = 'کیف پول';
         $wallet_payment = $this->model->wallet_payment('user_wallet', $isUser->id);
         $this->view('profile/user-wallet', compact('wallet_payment'));
     }
@@ -52,7 +52,7 @@ class account extends Controller
     public function my_courses()
     {
         $this->isUser();
-        $this->title = '';
+        $this->title = 'دوره های من';
         $my_courses = [];
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
         $my_courses_factors = $this->model->my_courses_factor($get_user->id);
@@ -69,7 +69,7 @@ class account extends Controller
     {
         $this->isUser();
         $this->scripts_path = ['vendor/lozad/lozad.min.js'];
-        $this->title = '';
+        $this->title = 'فاکتورها';
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
         $my_factors = $this->model->my_factors($get_user->id);
         $this->view('profile/user-factors', compact('my_factors'));
@@ -78,7 +78,7 @@ class account extends Controller
     public function tickets()
     {
         $this->isUser();
-        $this->title = 'مایندباکس‌ | تیکت‌ها';
+        $this->title = 'تیکت‌ها';
         $get_user = $this->model->find('user_email', $this->model->decrypt(Model::SessionGet('user')));
         $tickets_all = $this->model->tickets_all($get_user->id);
         $this->view('profile/user-tickets', compact('tickets_all'));
@@ -91,14 +91,14 @@ class account extends Controller
         $id = $this->model->security($id);
         $get_ticket = $this->model->where('tickets', 'id', $id);
         $chat_ticket = $this->model->chat_ticket($id);
-        $this->title = "مایندباکس | تیکت {$get_ticket->ticket_title}";
+        $this->title = " تیکت {$get_ticket->ticket_title}";
         $this->view('profile/user-ticket', compact('chat_ticket', 'get_ticket'));
     }
 
     public function add_ticket()
     {
         $this->isUser();
-        $this->title = 'مایندباکس‌ | ایجاد تیکت';
+        $this->title = 'ایجاد تیکت';
         $this->view('profile/user-add-ticket');
     }
 

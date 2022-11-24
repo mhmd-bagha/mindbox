@@ -30,7 +30,7 @@ class email
 
     public function send($email_address, $full_name, $subject, $body)
     {
-        $this->mail->setFrom(EMAIL_USERNAME, 'مایندباکس');
+        $this->mail->setFrom(EMAIL_USERNAME, 'بی بست');
         $this->mail->addAddress($email_address, $full_name);
         $this->mail->isHTML(true);
         $this->mail->Subject = $subject;

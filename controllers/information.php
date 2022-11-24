@@ -15,7 +15,7 @@ class information extends Controller
 
     public function index()
     {
-        $this->title = 'درباره ما | مایندباکس';
+        $this->title = 'درباره ما | بی بست';
         $about_me = $this->model->get('about_me');
         $benefits = $this->model->where_all('information', 'information_type', 'benefits');
         $this->view('information/about-me', compact('about_me', 'benefits'));
@@ -23,7 +23,7 @@ class information extends Controller
 
     public function rules()
     {
-        $this->title = 'قوانین | مایندباکس';
+        $this->title = 'قوانین | بی بست';
         $rules = $this->model->getAllUser('rules');
         $this->view('information/rules', compact('rules'));
     }
@@ -31,7 +31,7 @@ class information extends Controller
     public function contactUs()
     {
         $this->scripts_cdn = ['https://www.google.com/recaptcha/api.js'];
-        $this->title = 'تماس با ما | مایندباکس';
+        $this->title = 'تماس با ما | بی بست';
         $contact_us = $this->model->get('contact_us');
         $this->view('information/contact-us', compact('contact_us'));
     }
@@ -70,7 +70,7 @@ class information extends Controller
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)): echo response::Json(500, true, ['domain' => DOMAIN, 'message' => 'فرمت ایمیل نامعتبر است']);
             die(); endif;
         $template_email = helper::contactUs($full_name, $phone_mobile, $email, $message);
-        $send = $email_sender->send(EMAIL_CONTACT, 'مایندباکس', 'تماس با ما | مایندباکس', $template_email);
+        $send = $email_sender->send(EMAIL_CONTACT, 'بی بست', 'تماس با ما | بی بست', $template_email);
         echo $send ? response::Json(200, true, ['domain' => DOMAIN, 'message' => 'پیام شما ارسال شد', 'redirect' => DOMAIN]) : response::Json(500, true, ['domain' => DOMAIN, 'message' => 'خطا در ارسال پیام']);
     }
 }

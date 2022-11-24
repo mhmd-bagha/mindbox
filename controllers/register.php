@@ -17,7 +17,7 @@ class register extends Controller
     public function index()
     {
         $this->scripts_cdn = ['https://www.google.com/recaptcha/api.js'];
-        $this->title = 'ثبت نام | مایندباکس';
+        $this->title = 'ثبت نام | بی بست';
         $this->view('register/index', null, null, null);
     }
 
