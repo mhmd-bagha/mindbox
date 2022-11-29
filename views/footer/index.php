@@ -13,7 +13,7 @@ if ($get_footer):
     <div class="row align-items-center text-center mb-3">
         <!-- logo -->
         <div class="col-12 col-md-4 col-xl-6 col-xxl-4 order-1 order-md-1 order-xxl-0 mb-4 mb-md-0">
-            <a href="index.php"><img
+            <a href="<?= DOMAIN ?>"><img
                         src="<?php echo DL_DOMAIN ?>/public/images/public-images/logo/logo-footer.png/logo-footer.png"
                         alt="" class="img-fluid"></a>
         </div>
