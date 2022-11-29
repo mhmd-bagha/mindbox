@@ -32,10 +32,10 @@ class api extends Controller
 
     public function download_file_course($url, $file_name)
     {
-        header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . $file_name . '"');
-        header('Content-Length: ' . filesize($url));
+        header("Content-Transfer-Encoding: utf-8");
+        header("Content-disposition: attachment; filename=\"" . basename($url) . "\"");
+        readfile($url, true);
         flush();
         $download_file = readfile($url, true);
         return (bool)$download_file;

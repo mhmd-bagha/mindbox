@@ -157,17 +157,29 @@ class courses extends Controller
         $course_id = $this->model->decrypt($course_id);
         $user_id = $this->model->decrypt($user_id);
         $file_id = $this->model->decrypt($file_id);
-        $is_user_course = $api->exist_user_course($user_id, $course_id);
-        if ($is_user_course) {
-            $get_file = $this->model->where('course_files', 'id', $file_id);
-            if ($get_file) {
-                $url = DL_DOMAIN . "/public/course-files/{$this->model->encrypt($course_id)}/{$get_file->course_file}/{$get_file->course_file}";
-                $download_file = $api->download_file_course($url, $get_file->course_file);
-                if ($download_file) {
-                    $this->view('programs/scripts/win-close', '', '', '');
-                }
-            }
-        }
+        $get_file = $this->model->where('course_files', 'id', $file_id); // get information file
+        // download file for type
+        switch ($get_file->course_type):
+            case 'lock':
+                // money file
+                if ($api->exist_user_course($user_id, $course_id)): // existed course at my course user
+                    $this->downloadFile($course_id, $get_file); endif;
+                break;
+            case 'free':
+                // free file
+                $this->downloadFile($course_id, $get_file);
+                break;
+        endswitch;
+    }
+
+    private function downloadFile($course_id, $get_file)
+    {
+        $api = new api();
+        if ($get_file): // check exist file
+            $url = DL_DOMAIN . "/public/course-files/{$this->model->encrypt($course_id)}/{$get_file->course_file}/{$get_file->course_file}";
+            $download_file = $api->download_file_course($url, $get_file->course_file); // download file
+            if ($download_file) $this->view('programs/scripts/win-close', '', '', ''); // close window after start download
+        endif;
     }
 
     private function filter($type, $order, $discount, $level, $category)
